@@ -196,6 +196,17 @@ var INSIGHTS = (function() {
         ctx.stroke();
     }
 
+    function get_canvas_pixel_ratio(ctx) {
+        var dpr = window.devicePixelRatio || 1;
+        var bspr = (
+            ctx.webkitBackingStorePixelRatio ||
+            ctx.mozBackingStorePixelRatio ||
+            ctx.msBackingStorePixelRatio ||
+            ctx.oBackingStorePixelRatio ||
+            ctx.backingStorePixelRatio || 1);
+        return dpr / bspr;
+    }
+
     // returns style (string or gradient)
     // XXX pass in default?
     // XXX rotate gradient instead?
@@ -404,7 +415,6 @@ var INSIGHTS = (function() {
                 fadeon = Math.max(0, 1 - (tt - 3500)/500);
             }
 
-            //ctx.font = 'italic 600 123px lubalin';
             ctx.font = '700 123px helvneue';
             ctx.textAlign = 'center';
 
@@ -585,7 +595,6 @@ var INSIGHTS = (function() {
 
                     // text
                     ctx.fillStyle = bar.colors.text(time);
-                    //ctx.font = 'italic 600 '+font_size+'px lubalin';
                     ctx.font = '700 '+font_size+'px helvneue';
                     ctx.textAlign = 'center';
 
@@ -659,7 +668,6 @@ var INSIGHTS = (function() {
                 // FIXME : use point_to_coord() here
                 //
                 // y axis
-                //ctx.font = 'italic 300 60px lubalin';
                 ctx.font = '700 60px helvneue';
                 var max_i = 3;
                 for (var i = 1; i <= max_i; ++i) {
@@ -671,7 +679,6 @@ var INSIGHTS = (function() {
                 }
 
                 // x axis
-                //ctx.font = 'italic 600 60px lubalin';
                 ctx.font = '700 60px helvneue';
                 //ctx.fillStyle = '#dbe2e2';
                 ctx.globalAlpha = 0.5;
@@ -683,7 +690,7 @@ var INSIGHTS = (function() {
                     var tx = ((i-0.5)/max_i) * graph_w;
                     ctx.fillText(text, tx, ty);
                 }
-                ctx.font = '100 30px lubalin';
+                ctx.font = '300 30px lubalin';
                 ctx.fillText('Set', 13, graph_h + 68);
                 ctx.globalAlpha = 1.0;
                 ctx.lineCap = 'round';
@@ -889,7 +896,6 @@ var INSIGHTS = (function() {
                 draw_ball(time);
 
                 // text
-                //ctx.font = 'italic 600 250px lubalin';
                 ctx.font = '700 250px helvneue';
                 ctx.textAlign = 'center';
                 ctx.fillStyle = colors.text(time);
@@ -1019,7 +1025,6 @@ var INSIGHTS = (function() {
                 // text
                 scale = 1/250;
                 ctx.scale(scale, scale);
-                //ctx.font = 'italic 600 250px lubalin';
                 ctx.font = '700 245px helvneue';
                 ctx.textAlign = 'center';
                 ctx.fillStyle = colors.text(time);
@@ -1112,8 +1117,6 @@ var INSIGHTS = (function() {
                 // text
                 var Q = 600;
                 if (time > Q) {
-                    //ctx.font = 'italic 600 255px lubalin';
-                    //ctx.font = 'italic 600 255px lubalin';
                     ctx.font = '700 255px helvneue';
                     ctx.textAlign = 'center';
                     ctx.fillStyle = colors.text(time);
@@ -1183,8 +1186,6 @@ var INSIGHTS = (function() {
                 // text
                 if (time > 0) {
                     // XXX 3 digit values, use smaller font size
-                    //
-                    //ctx.font = 'italic 600 120px lubalin';
                     ctx.font = '700 130px helvneue';
                     ctx.textAlign = 'center';
                     ctx.fillStyle = colors.text(time);
@@ -1215,7 +1216,6 @@ var INSIGHTS = (function() {
                 ctx.save();
                 ctx.translate(cw/2, ch/2);
 
-                //ctx.font = 'italic 600 500px lubalin';
                 ctx.font = '700 500px helvneue';
                 ctx.textAlign = 'center';
                 ctx.fillStyle = colors.text(time);
@@ -1281,7 +1281,6 @@ var INSIGHTS = (function() {
                 ctx.translate(50, ch/2);
 
                 ctx.textAlign = 'center';
-                //ctx.font = 'italic 600 55px lubalin';
                 ctx.font = '700 55px helvneue';
 
                 _.each(rows, function(row, index) {
@@ -1345,17 +1344,6 @@ var INSIGHTS = (function() {
                     }
                 });
 
-                /*
-                // text
-                ctx.font = 'italic 600 250px lubalin';
-                ctx.textAlign = 'center';
-                ctx.fillStyle = colors.text(time);
-
-                var tt = Math.min(1, time/1000);
-                var N = ~~lerp(0, 16, Math.pow(tt, 0.25));
-                ctx.fillText(''+N, 0, 90);
-                */
-
                 ctx.restore();
             };
 
@@ -1387,17 +1375,24 @@ var INSIGHTS = (function() {
             return curve ? curve(t) : t;
         }
 
-        function draw(time) {
+        function draw(options) {
+            var time = options.time;
+            var background_only = options.background_only;
+
             ctx.save();
 
             var csize = Math.min(ctx.canvas.width, ctx.canvas.height);
             var cscale = csize/960;
-            if (cscale < 1) ctx.scale(cscale, cscale);
+            if (cscale !== 1) ctx.scale(cscale, cscale);
 
             // background
-            //ctx.fillStyle = '#ddd';
             ctx.fillStyle = background_color(time);
             ctx.fillRect(0, 0, cw, ch);
+
+            if (background_only) {
+                ctx.restore();
+                return;
+            }
 
             // title
             ctx.font = '600 62px lubalin';
@@ -1417,7 +1412,7 @@ var INSIGHTS = (function() {
             ctx.fillRect(50, 104, frac*(cw-100), 5);
 
             // subtitle
-            ctx.font = '200 32px lubalin';
+            ctx.font = '300 32px lubalin';
             ctx.fillStyle = subtitle_color(time);
             ctx.save();
             ctx.textAlign = 'center';
@@ -1548,91 +1543,8 @@ var INSIGHTS = (function() {
         };
     }
 
-    function init_tile_sample(ctx, data)
-    {
-        return function(time) {
-            var csize = Math.min(ctx.canvas.width, ctx.canvas.height);
-
-            ctx.save();
-            var scale = csize/1000;
-            ctx.scale(scale, scale);
-
-            // background gradient
-            var theta = 0.0001 * time;
-            var cos = Math.cos(theta);
-            var sin = Math.sin(theta);
-            var cm = 500;
-            var grad = ctx.createLinearGradient((1 + cos)*cm, (1 + sin)*cm, (1 - cos)*cm, (1 - sin)*cm);
-            grad.addColorStop(0, data.background[0]);
-            grad.addColorStop(1, data.background[1]);
-            ctx.fillStyle = grad;
-            ctx.fillRect(0, 0, 1000, 1000);
-
-            // title
-            ctx.fillStyle = '#fff';
-            ctx.font = '600 60px lubalin';
-            ctx.fillText(data.title, 50, 80);
-
-            // graphic
-            var t = Math.min(1, time/5000);
-            t = 3*t*t - 2*t*t*t;
-            var v = (t * data.value);
-            var theta = (v * 2*Math.PI/1000) - 0.5*Math.PI;
-
-            ctx.save();
-            ctx.translate(500, 500);
-
-            ctx.beginPath();
-            ctx.moveTo(0, 0);
-            ctx.lineTo(0, -255);
-            ctx.arc(0, 0, 255, -0.5*Math.PI, theta);
-            ctx.lineTo(255*Math.cos(theta), 255*Math.sin(theta));
-            ctx.closePath();
-            ctx.fillStyle = 'rgba(255,255,255, 0.2)';
-            ctx.fill();
-
-            ctx.beginPath();
-            ctx.arc(0, 0, 300, 0, 2*Math.PI);
-            ctx.closePath();
-
-            ctx.moveTo(0, 0);
-            ctx.lineTo(250*Math.cos(theta), 250*Math.sin(theta));
-            ctx.strokeStyle = '#fff';
-            ctx.lineWidth = 10;
-            ctx.lineCap = 'round';
-            ctx.stroke();
-
-            ctx.restore();
-
-            ctx.textAlign = 'center';
-            //ctx.font = '200 50px lubalin';
-            ctx.font = '700 50px helvneue';
-            ctx.fillStyle = '#fff';
-            ctx.fillText(''+~~v, 500, 900);
-
-            ctx.restore();
-        }
-    }
-
-    // crappy solution. check https://github.com/smnh/FontLoader
-    function preload_fonts() {
-        var canv = document.createElement('canvas');
-        var ctx = canv.getContext('2d');
-        var fonts = {
-            lubalin: ['200', '300', 'italic 300', '600', 'italic 600'],
-            helvneue: ['200', '700']
-        };
-        _.each(fonts, function(styles, family) {
-            _.each(styles, function(style) {
-                ctx.font = style + ' 20px ' + family;
-                ctx.fillText('abc123_', 0, 0);
-            });
-        });
-    }
-    preload_fonts();
-
-    function resize_canvas(canvas) {
-        var size = canvas.clientHeight;
+    function resize_canvas(canvas, ratio) {
+        var size = ~~(ratio * Math.min(canvas.clientWidth, canvas.clientHeight));
         if (canvas.width !== size) canvas.width = size;
         if (canvas.height !== size) canvas.height = size;
         return size;
@@ -1641,15 +1553,14 @@ var INSIGHTS = (function() {
     // this init function takes the data and returns the drawing function for that tile
     // so we can patch in other graphics here!
     function init(ctx, data) {
-        if (data.graphic)
-            return init_tile3(ctx, data).draw;
-        else
-            return init_tile_sample(ctx, data);
+        console.assert(data.graphic);
+        return init_tile3(ctx, data).draw;
     }
 
     var animate = (function() {
 
         var ctx = null;
+        var ratio = 1;
         var redraw = null;
         var start_time = 0;
 
@@ -1660,12 +1571,12 @@ var INSIGHTS = (function() {
             if (!start_time)
                 start_time = time;
 
-            resize_canvas(ctx.canvas);
-            redraw(time - start_time);
+            resize_canvas(ctx.canvas, ratio);
+            redraw({ time: time - start_time });
         }
 
-        return function(data, el) {
-            if (!data || !el) {
+        return function(data, canvas) {
+            if (!data || !canvas) {
                 // stop animation
                 ctx = null;
                 redraw = null;
@@ -1674,7 +1585,9 @@ var INSIGHTS = (function() {
 
             var startup = !ctx;
 
-            ctx = el.getContext('2d');
+            ctx = canvas.getContext('2d');
+            ratio = get_canvas_pixel_ratio(ctx);
+
             redraw = init(ctx, data);
             start_time = 0;
 
@@ -1684,6 +1597,17 @@ var INSIGHTS = (function() {
 
     }());
 
+
+    // queue of preview tasks due to unloaded fonts
+    var previews_todo = [];
+    function do_previews() {
+        previews_todo.forEach(function(o) {
+            var ctx = o.canvas.getContext('2d');
+            var preview_time = 5000;
+            init(ctx, o.data)({ time: preview_time });
+        });
+        previews_todo = null;
+    }
 
     return {
         preview: function(data, arg) {
@@ -1701,12 +1625,32 @@ var INSIGHTS = (function() {
             }
 
             var ctx = canvas.getContext('2d');
+
+            var ratio = get_canvas_pixel_ratio(ctx);
+            canvas.width = canvas.height = ~~(ratio * csize);
+
             var preview_time = 5000;
-            init(ctx, data)(preview_time);
+            init(ctx, data)({
+                time: preview_time,
+                background_only: !!previews_todo
+            });
+
+            canvas.style.width = csize+'px';
+            canvas.style.height = csize+'px';
+
+            if (previews_todo) {
+                previews_todo.push({
+                    canvas: canvas,
+                    data: data
+                });
+            }
+
             return canvas;
         },
 
         preview_base64: function(data, size) {
+            console.assert(!previews_todo, 'fonts not loaded');
+
             var canvas = this.preview(data, size);
             var data_url = canvas.toDataURL('png');
             var m = data_url.match(/^data:(.*?);base64,/);
@@ -1723,6 +1667,10 @@ var INSIGHTS = (function() {
 
         stop: function() {
             animate(null);
+        },
+
+        fonts_loaded: function() {
+            do_previews();
         }
     };
 

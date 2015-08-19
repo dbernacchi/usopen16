@@ -1,0 +1,31 @@
+/* LUBALIN */
+
+@font-face {
+    font-style: normal;
+    font-weight: 300;
+    font-family: lubalin;
+    src: url( ../fonts/LubalinIBM/LubalinforIBM-Book.otf ) format('opentype');
+}
+
+@font-face {
+    font-style: normal;
+    font-weight: 600;
+    font-family: lubalin;
+    src: url( ../fonts/LubalinIBM/LubalinforIBM-Demi.otf ) format('opentype');
+}
+
+/* HELVNEUE */
+
+@font-face {
+    font-style: normal;
+    font-weight: 200;
+    font-family: helvneue;
+    src: url( ../fonts/HelvNeueforIBM/HelvNeueforIBM-Light.otf ) format('opentype');
+}
+
+@font-face {
+    font-style: normal;
+    font-weight: 700;
+    font-family: helvneue;
+    src: url( ../fonts/HelvNeueforIBM/HelvNeueforIBM-Bold.otf ) format('opentype');
+}

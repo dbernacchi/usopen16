@@ -124,7 +124,8 @@ $(function() {
     }
 
     if (data.type == 'insight') {
-      $(INSIGHTS.preview(data.content, 400))
+      var PREVIEW_SIZE = 250;
+      $(INSIGHTS.preview(data.content, PREVIEW_SIZE))
         .appendTo($preview);
     }
 
