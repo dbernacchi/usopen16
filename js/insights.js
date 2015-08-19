@@ -207,23 +207,39 @@ var INSIGHTS = (function() {
         return dpr / bspr;
     }
 
+    // parse various color forms, returning an array:
+    // 'red' -> ['red']
+    // 'red transparent' -> ['red', 'transparent']
+    // ['fff, 'blue'] -> ['#fff', 'blue']
+    function parse_color_value(value) {
+        if (_.isString(value)) {
+            var bits = value.trim().split(/[\s,]+/);
+            return _.map(bits, function(bit) {
+                if (bit.match(/^[0-9a-f]{3,6}$/i)) {
+                    // add # for hex strings
+                    return '#' + bit;
+                } else
+                    return bit;
+            });
+        } else if (_.isArray(value)) {
+            return _.flatten(_.map(value, parse_color_value));
+        } else {
+            // red warns undefined
+            return [ '#f00' ];
+        }
+    }
+
     // returns style (string or gradient)
     // XXX pass in default?
     // XXX rotate gradient instead?
     // XXX gradient direction?
-    function parse_color(ctx, text, dy) {
-        if (!text) {
-            // white if undefined
-            return function() { return '#fff'};
-        }
-
+    function parse_color(ctx, value, dy) {
         if (typeof dy == 'undefined') dy = 960;
-
-        var colors = _.map(text.split(' '), function(c) { return '#'+c });
+        var colors = parse_color_value(value);
+        console.log(value, colors);
         var n = colors.length;
         if (n == 1) {
             var c = colors[0];
-            if (c == '#transparent') c = 'transparent'; // XXX
             return function() { return c };
         } else {
             return function(time, speed) {
