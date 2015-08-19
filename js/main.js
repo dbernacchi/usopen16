@@ -14,29 +14,26 @@ $(function() {
   $(document).ready(loadTiles);
   $(window).scroll(infiniteScroll);
 
-  if (true) {
+  var $fixedHeader = $header.clone(true),
+      isFixedHeaderActive = false;
 
-    var $fixedHeader = $header.clone(true),
-        isFixedHeaderActive = false;
+  $fixedHeader.addClass('fixed');
+  $fixedHeader.find('.about').removeClass('extended');
+  $fixedHeader.insertAfter($header);
 
-    $fixedHeader.addClass('fixed');
-    $fixedHeader.find('.about').removeClass('extended');
-    $fixedHeader.insertAfter($header);
+  $(window).scroll(function() {
+    var scrollTop = $(window).scrollTop();
 
-    $(window).scroll(function() {
-      var scrollTop = $(window).scrollTop();
+    if (scrollTop > 320 && !isFixedHeaderActive) {
+      isFixedHeaderActive = true;
+      $fixedHeader.addClass('active');
+    }
 
-      if (scrollTop > 320 && !isFixedHeaderActive) {
-        isFixedHeaderActive = true;
-        $fixedHeader.addClass('active');
-      }
-
-      if (scrollTop <= 320 && isFixedHeaderActive) {
-        isFixedHeaderActive = false;
-        $fixedHeader.removeClass('active');
-      }
-    });
-  }
+    if (scrollTop <= 320 && isFixedHeaderActive) {
+      isFixedHeaderActive = false;
+      $fixedHeader.removeClass('active');
+    }
+  });
 
   $('.about .title span').typed({
     strings: [
