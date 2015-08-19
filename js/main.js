@@ -4,12 +4,13 @@ $(function() {
 
   var $body = $('body'),
       $grid = $('.grid'),
-      $header = $('.header'),
+      $header = $('.sub-header'),
       $about = $('.about'),
       $activeTile,
       aboutExtended = true,
       loading,
       activeFilter = 0,
+      transitionEnd = 'transitionend webkitTransitionEnd oTransitionEnd',
       isMobile = isMobile();
 
   $(document).ready(loadTiles);
@@ -33,15 +34,17 @@ $(function() {
     $(window).scroll(function() {
       var scrollTop = $(window).scrollTop();
 
-      if (scrollTop > 0 && aboutExtended) {
+      if (scrollTop > 142 && aboutExtended) {
         $about.removeClass('extended');
-        $grid.css('margin-top', 177);
+        $header.addClass('fixed');
+        $grid.css('margin-top', 87);
         aboutExtended = false;
       }
 
-      if (scrollTop <= 0 && !aboutExtended) {
+      if (scrollTop <= 142 && !aboutExtended) {
         $about.addClass('extended');
-        $grid.css('margin-top', 298);
+        $header.removeClass('fixed');
+        $grid.css('margin-top', 0);
         aboutExtended = true;
       }
     });
