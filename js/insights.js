@@ -236,9 +236,7 @@ var INSIGHTS = (function() {
     function parse_color(ctx, value, dy) {
         if (typeof dy == 'undefined') dy = 960;
         var colors = parse_color_value(value);
-        console.log(value, colors);
-        var n = colors.length;
-        if (n == 1) {
+        if (colors.length == 1) {
             var c = colors[0];
             return function() { return c };
         } else {
