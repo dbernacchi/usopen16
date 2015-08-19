@@ -207,6 +207,16 @@ var INSIGHTS = (function() {
         return dpr / bspr;
     }
 
+    function get_canvas_context(canvas, w, h) {
+        canvas = canvas || document.createElement('canvas');
+        if (w) {
+            h = h || w;
+            canvas.width = w;
+            canvas.height = h;
+        }
+        return canvas.getContext('2d');
+    }
+
     // parse various color forms, returning an array:
     // 'red' -> ['red']
     // 'red transparent' -> ['red', 'transparent']
@@ -1611,19 +1621,41 @@ var INSIGHTS = (function() {
 
     }());
 
+    // clock time of preview frame
+    var preview_time = 5000;
 
     // queue of preview tasks due to unloaded fonts
     var previews_todo = [];
     function do_previews() {
         previews_todo.forEach(function(o) {
             var ctx = o.canvas.getContext('2d');
-            var preview_time = 5000;
             init(ctx, o.data)({ time: preview_time });
         });
         previews_todo = null;
     }
 
     return {
+        shareable: function(data) {
+            var tile = (function() {
+                var ctx = get_canvas_context(null, 600);
+                init(ctx, data)({ time: preview_time });
+                return ctx.canvas;
+            }());
+
+            var ctx = get_canvas_context(null, 1200, 600);
+            ctx.fillStyle = '#fff';
+            ctx.fillRect(0, 0, 1200, 600);
+            ctx.drawImage(tile, 300, 0);
+            return ctx.canvas;
+        },
+
+        shareable_base64: function(data) {
+            var image = this.shareable(data);
+            var data_url = image.toDataURL('png');
+            var m = data_url.match(/^data:(.*?);base64,/);
+            return data_url.substr(m[0].length);
+        },
+
         preview: function(data, arg) {
             var canvas;
             var csize;
@@ -1685,6 +1717,19 @@ var INSIGHTS = (function() {
 
         fonts_loaded: function() {
             do_previews();
+        },
+
+        load_fonts: function(callback) {
+            WebFont.load({
+                custom: {
+                    families: [ 'lubalin:n3,n6', 'helvneue:n2,n7' ],
+                    urls: [ 'css/fonts.css' ]
+                },
+                active: function() {
+                    INSIGHTS.fonts_loaded();
+                    callback();
+                }
+            });
         }
     };
 

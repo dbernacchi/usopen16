@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>US Open | Render Shares</title>
+</head>
+<body>
+    <div class="status" style="font: 24px monospace;"></div>
+
+    <script src='js/vendor/jquery-2.1.3.min.js'></script>
+    <script src='js/vendor/lodash.min.js'></script>
+    <script src="js/vendor/jszip.min.js"></script>
+    <script src="js/vendor/filesaver.min.js"></script>
+    <script src="js/vendor/webfont.js"></script>
+    <script src="js/insights.js"></script>
+
+    <script>
+
+        function status(text) { $('.status').text(text); }
+
+        // load the fonts and the manifest first
+        INSIGHTS.load_fonts(function() {
+            $.getJSON('manifest.json', render_shares);
+        });
+
+        function render_shares(manifest) {
+            var tiles = _.filter(manifest.tiles, { type: 'insight' });
+            var n_tiles = tiles.length;
+
+            var zip = new JSZip();
+            var shares = zip.folder('insights-shares');
+
+            _.each(tiles, function(tile, tile_index) {
+                status('rendering ' + (tile_index + 1) + '/' + n_tiles);
+
+                var filename = 'insights-shares-' + tile_index + '.png';
+                var filedata = INSIGHTS.shareable_base64(tile.content);
+                shares.file(filename, filedata, { base64: true });
+            });
+
+            var filename = 'insights-shares.zip';
+            saveAs(zip.generate({ type: 'blob' }), filename);
+
+            status('OK');
+        }
+
+    </script>
+</body>
+</html>
