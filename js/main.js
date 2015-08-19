@@ -7,14 +7,36 @@ $(function() {
       $header = $('.sub-header'),
       $about = $('.about'),
       $activeTile,
-      aboutExtended = true,
       loading,
       activeFilter = 0,
-      transitionEnd = 'transitionend webkitTransitionEnd oTransitionEnd',
       isMobile = isMobile();
 
   $(document).ready(loadTiles);
   $(window).scroll(infiniteScroll);
+
+  if (!isMobile) {
+
+    var $fixedHeader = $header.clone(true),
+        isFixedHeaderActive = false;
+
+    $fixedHeader.addClass('fixed');
+    $fixedHeader.find('.about').removeClass('extended');
+    $fixedHeader.insertAfter($header);
+
+    $(window).scroll(function() {
+      var scrollTop = $(window).scrollTop();
+
+      if (scrollTop > 320 && !isFixedHeaderActive) {
+        isFixedHeaderActive = true;
+        $fixedHeader.addClass('active');
+      }
+
+      if (scrollTop <= 320 && isFixedHeaderActive) {
+        isFixedHeaderActive = false;
+        $fixedHeader.removeClass('active');
+      }
+    });
+  }
 
   $('.about .title span').typed({
     strings: [
@@ -29,26 +51,6 @@ $(function() {
     loop: true,
     showCursor: false
   });
-
-  if (!isMobile) {
-    $(window).scroll(function() {
-      var scrollTop = $(window).scrollTop();
-
-      if (scrollTop > 142 && aboutExtended) {
-        $about.removeClass('extended');
-        $header.addClass('fixed');
-        $grid.css('margin-top', 87);
-        aboutExtended = false;
-      }
-
-      if (scrollTop <= 142 && !aboutExtended) {
-        $about.addClass('extended');
-        $header.removeClass('fixed');
-        $grid.css('margin-top', 0);
-        aboutExtended = true;
-      }
-    });
-  }
 
   $body.on('click', function(e) {
     if (e.target === this && $activeTile) {
@@ -87,7 +89,7 @@ $(function() {
   function scrollToContent() {
     var $content = $activeTile.find('.content'),
         windowHeight = $(window).height(),
-        headerHeight = $header.height();
+        headerHeight = 166;
         contentHeight = $content.height(),
         contentOffset = $content.offset().top,
         scrollTop = contentOffset - (windowHeight - contentHeight + headerHeight) / 2;
@@ -127,7 +129,11 @@ $(function() {
     }
 
     if (data.type == 'insight') {
-      var PREVIEW_SIZE = 250;
+      if (isMobile) {
+        var PREVIEW_SIZE = screen.width - 20;
+      } else {
+        var PREVIEW_SIZE = 250;
+      }
       $(INSIGHTS.preview(data.content, PREVIEW_SIZE))
         .appendTo($preview);
     }
