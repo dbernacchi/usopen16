@@ -21,11 +21,16 @@ body {
   top: 79px;
   z-index: 20;
   width: 1000px;
-  transform: translateY(-100%);
-  transition: all 1s;
+  -webkit-transform: translateY(-100%);
+      -ms-transform: translateY(-100%);
+          transform: translateY(-100%);
+  -webkit-transition: all 1s;
+          transition: all 1s;
 }
 .sub-header.fixed.active {
-  transform: translateY(0);
+  -webkit-transform: translateY(0);
+      -ms-transform: translateY(0);
+          transform: translateY(0);
 }
 
 /* about */
@@ -49,6 +54,7 @@ body {
 .about .title span:after {
   content: '.';
   opacity: 0;
+  filter: alpha(opacity=0);
 }
 .about.extended .title {
   margin-bottom: 12px;
@@ -79,12 +85,10 @@ body {
   padding: 0;
   overflow: hidden;
   list-style: none;
-  background: #01254c; /* Old browsers */
-  background: -moz-linear-gradient(top,  #0f000e 0%, #01254c 40%); /* FF3.6+ */
+  background: #01254c; /* Old browsers */ /* FF3.6+ */
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#0f000e), color-stop(40%,#01254c)); /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(top,  #0f000e 0%,#01254c 40%); /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(top,  #0f000e 0%,#01254c 40%); /* Opera 11.10+ */
-  background: -ms-linear-gradient(top,  #0f000e 0%,#01254c 40%); /* IE10+ */
+  background: -webkit-linear-gradient(top,  #0f000e 0%,#01254c 40%); /* Chrome10+,Safari5.1+ */ /* Opera 11.10+ */ /* IE10+ */
+  background: -webkit-linear-gradient(top, #0f000e 0%, #01254c 40%);
   background: linear-gradient(to bottom,  #0f000e 0%,#01254c 40%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0f000e', endColorstr='#01254c',GradientType=0 ); /* IE6-9 */
 
@@ -185,7 +189,7 @@ body {
 
 /* thumbnail overlay */
 
-.grid li .preview:hover::before {
+.grid li .preview:hover:before {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -393,7 +397,7 @@ body {
   .grid li.active { margin-bottom: 0; }
   .grid li.active .preview:after { display: none; }
 
-  .grid li .preview:hover::before { display: none; }
+  .grid li .preview:hover:before { display: none; }
 
   .share-buttons {
     top: 50%;
