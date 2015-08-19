@@ -14,7 +14,7 @@ $(function() {
   $(document).ready(loadTiles);
   $(window).scroll(infiniteScroll);
 
-  if (!isMobile) {
+  if (true) {
 
     var $fixedHeader = $header.clone(true),
         isFixedHeaderActive = false;

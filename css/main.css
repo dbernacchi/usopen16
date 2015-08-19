@@ -31,7 +31,6 @@ body {
 /* about */
 
 .about {
-  /*transition: all 0.6s;*/
   position: relative;
   padding: 16px 14px 8px 14px;
   background: url(../img/about_background.jpg);
@@ -43,28 +42,27 @@ body {
 .about.extended {
   padding: 35px 40px 30px;
 }
-.about .title {
-  /*transition: all 0.6s;*/
-}
 .about .title span {
   font-weight: bold;
   color: #c9ff2e;
+}
+.about .title span:after {
+  content: '.';
+  opacity: 0;
 }
 .about.extended .title {
   margin-bottom: 12px;
 }
 .about .extra {
-  /*transition: all 0.6s;*/
+  display: none;
   overflow: hidden;
-  width: 700px;
-  height: 0;
+  width: 75%;
   font-size: 14px;
 }
 .about.extended .extra {
-  height: 68px;
+  display: block;
 }
 .about .logo-ibm {
-  /*transition: all 0.6s;*/
   width: 60px;
   position: absolute;
   top: 16px;
@@ -73,7 +71,6 @@ body {
 .about.extended .logo-ibm {
   width: 74px;
 }
-.about-mobile { display: none !important; }
 
 /* filters */
 
@@ -315,21 +312,38 @@ body {
     width: 100%;
   }
 
-  .header {
-    position: static;
+  .sub-header.fixed {
     width: 100%;
+    top: 0;
   }
-  .header img.mobile { display: block; }
-  .header img.desktop { display: none; }
 
-  .about { display: none; }
-  .about-mobile {
-    display: block !important;
-    background: #363636;
-    color: #fff;
-    text-align: center;
-    padding: 30px;
-    line-height: 24px;
+  .about {
+    padding: 8px 8px 3px;
+    background-image: url(../img/about_background_mobile.jpg);
+    background-position: bottom right;
+    background-size: 100% auto;
+  }
+  .about.extended {
+    padding: 15px 15px 25px;
+  }
+  .about .title {
+    font-size: 18px;
+  }
+  .about.extended .title {
+    font-size: 28px;
+  }
+  .about .title span {
+    display: block;
+  }
+  .about .logo-ibm {
+    width: 45px;
+    top: auto;
+    bottom: 18px;
+  }
+  .about.extended .logo-ibm {
+    width: 50px;
+    top: auto;
+    bottom: 10px;
   }
 
   .filters { display: none; }
