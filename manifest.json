@@ -1,0 +1,692 @@
+{
+  "tiles": [
+    {
+      "type": "image",
+      "tags": [4],
+      "preview": "content/tile_1.png",
+      "content": {
+        "image": "content/tile_1.png"
+      }
+    },
+    {
+      "type": "image",
+      "tags": [4],
+      "preview": "content/tile_2.png",
+      "content": {
+        "image": "content/tile_2.png"
+      }
+    },
+    {
+      "type": "image",
+      "tags": [5],
+      "preview": "content/tile_3.png",
+      "content": {
+        "image": "content/tile_3.png"
+      }
+    },
+    {
+      "type": "image",
+      "tags": [5],
+      "preview": "content/tile_4.png",
+      "content": {
+        "image": "content/tile_4.png"
+      }
+    },
+    {
+      "type": "video",
+      "tags": [1],
+      "preview": "content/video_preview.png",
+      "content": {
+        "id": "rB7VkrUYCAg"
+      }
+    },
+    {
+      "type": "insight",
+      "tags": [
+        2
+      ],
+      "content": {
+        "id": "A",
+        "background": {
+          "color": "4d7d9e 569b5e"
+        },
+        "title": {
+          "text": "FIRST SERVE POINTS WON",
+          "colors": {
+            "text": "ffffff",
+            "underline": "eee2cd"
+          }
+        },
+        "players": [
+          {
+            "name": "Carballés Baena",
+            "code": "ESP",
+            "color": "00c650"
+          },
+          {
+            "name": "Muñoz de la Nava",
+            "code": "ESP",
+            "color": "1f1f84",
+            "checked": true
+          }
+        ],
+        "graphic": {
+          "type": "chart-pie",
+          "data": [
+            {
+              "value": "48/76",
+              "colors": {
+                "fore": "227a69",
+                "back": "e8e1c9",
+                "hole": "016d5d",
+                "text": "ffffff"
+              }
+            },
+            {
+              "value": "52/66",
+              "colors": {
+                "fore": "252462 048d74",
+                "back": "f7f3e3",
+                "hole": "262262",
+                "text": "ffffff"
+              }
+            }
+          ]
+        },
+        "scorecard": {
+          "length": 5,
+          "rows": [
+            {
+              "colors": { "back": "00c650", "text": "ffffff" },
+              "values": [4, 4, 4]
+            },
+            {
+              "colors": { "back": "1f1f84", "text": "ffffff" },
+              "values": [6, 6, 6],
+              "checked": true
+            }
+          ]
+        },
+        "subtitle": {
+          "text": "Men's Singles - 1st Round",
+          "color": "ece5d1"
+        }
+      }
+    },
+    {
+      "type": "insight",
+      "tags": [
+        2
+      ],
+      "content": {
+        "id": "B",
+        "background": {
+          "color": "4288bd 3f5b8f"
+        },
+        "title": {
+          "text": "FIRST SERVE POINTS WON",
+          "colors": {
+            "text": "ffffff",
+            "underline": "e9b501"
+          }
+        },
+        "players": [
+          {
+            "name": "Hernández-Fernández",
+            "code": "DOM",
+            "color": "292d36"
+          }
+        ],
+        "graphic": {
+          "type": "chart-pie",
+          "data": [
+            {
+              "value": "75%",
+              "colors": {
+                "back": "292d36",
+                "fore": "8a98b7",
+                "hole": "transparent",
+                "text": "292d36"
+              }
+            }
+          ]
+        },
+        "subtitle": {
+          "text": "Men's Singles - 2nd Round",
+          "color": "292d36"
+        }
+      }
+    },
+    {
+      "type": "insight",
+      "tags": [
+        2
+      ],
+      "content": {
+        "id": "C",
+        "background": {
+          "color": "92928f eae3cb"
+        },
+        "title": {
+          "text": "TOTAL ACES",
+          "colors": {
+            "text": "292d36",
+            "underline": "ee4500"
+          }
+        },
+        "players": [
+          {
+            "name": "Djokovic",
+            "code": "SRB",
+            "color": "008e75",
+            "checked": true
+          },
+          {
+            "name": "Saavedra-Corvalán",
+            "code": "CHI",
+            "color": "f9f3e3"
+          }
+        ],
+        "graphic": {
+          "type": "chart-bar",
+          "data": [
+            {
+              "value": "13",
+              "colors": {
+                "tail": "455a64 038c75",
+                "head": "286165",
+                "text": "ffffff"
+              }
+            },
+            {
+              "value": "10",
+              "colors": {
+                "tail": "495d67 d1d3d4",
+                "head": "bcc1c3 e2e1db",
+                "text": "0c0c0c"
+              }
+            }
+          ]
+        },
+        "scorecard": {
+          "length": 5,
+          "rows": [
+            {
+              "colors": { "back": "008e75", "text": "ffffff" },
+              "values": [6, 6, 6],
+              "checked": true
+            },
+            {
+              "colors": { "back": "f9f3e3", "text": "0c0c0c" },
+              "values": [4, 4, 4]
+            }
+          ]
+        },
+        "subtitle": {
+          "text": "Men's Singles - Round of 16",
+          "color": "0c0c0c"
+        }
+      }
+    },
+    {
+      "type": "insight",
+      "tags": [
+        2
+      ],
+      "content": {
+        "id": "D",
+        "background": {
+          "color": "c7c8ca b8bdb4"
+        },
+        "title": {
+          "text": "WINNERS",
+          "colors": {
+            "text": "292d36",
+            "underline": "d9f41c"
+          }
+        },
+        "players": [
+          {
+            "name": "Nadal",
+            "code": "ESP",
+            "color": "286165"
+          }
+        ],
+        "graphic": {
+          "type": "chart-bar",
+          "data": [
+            {
+              "value": "10",
+              "label": "BACKHAND WINNERS",
+              "colors": {
+                "tail": "457c64 06b974",
+                "head": "286165",
+                "text": "ffffff",
+                "label": "ffffff"
+              }
+            },
+            {
+              "value": "15",
+              "label": "FOREHAND WINNERS",
+              "colors": {
+                "tail": "4a5e66 d1d3aa",
+                "head": "dfdfc0 edebd4",
+                "text": "0c0c0c",
+                "label": "ffffff"
+              }
+            },
+            {
+              "value": "29",
+              "label": "TOTAL WINNERS",
+              "colors": {
+                "tail": "464564 785176",
+                "head": "3c293b",
+                "text": "ffffff",
+                "label": "ffffff"
+              }
+            }
+          ]
+        },
+        "subtitle": {
+          "text": "Men's Singles - Round of 16",
+          "color": "0c0c0c"
+        }
+      }
+    },
+    {
+      "type": "insight",
+      "tags": [
+        2
+      ],
+      "content": {
+        "id": "E",
+        "background": {
+          "color": "cac8d7 b5b4df"
+        },
+        "title": {
+          "text": "FOREHAND POINTS WON",
+          "colors": {
+            "text": "292d36",
+            "underline": "cd00ff"
+          }
+        },
+        "players": [
+          {
+            "name": "Djokovic",
+            "code": "SRB",
+            "color": "ffffff"
+          }
+        ],
+        "graphic": {
+          "type": "icon-court",
+          "data": {
+            "value": "16",
+            "colors": {
+              "floor": "0e4caf",
+              "lines": "b5b4df",
+              "ball": "ffffff",
+              "text": "ffffff"
+            }
+          }
+        },
+        "subtitle": {
+          "text": "Men's Singles - Quarterfinals",
+          "color": "ffffff"
+        }
+      }
+    },
+    {
+      "type": "insight",
+      "tags": [
+        2
+      ],
+      "content": {
+        "id": "F",
+        "background": {
+          "color": "227a69 69aebf"
+        },
+        "title": {
+          "text": "TOTAL ACES",
+          "colors": {
+            "text": "f5f6f7",
+            "underline": "f9f200"
+          }
+        },
+        "players": [
+          {
+            "name": "Federer",
+            "code": "SUI",
+            "color": "3c2415"
+          }
+        ],
+        "graphic": {
+          "type": "icon-ball",
+          "data": {
+            "value": "13",
+            "colors": {
+              "felt": "bcda7b 94bd51",
+              "line": "ffffff",
+              "border": "726658 292424",
+              "text": "292424 726658"
+            }
+          }
+        },
+        "subtitle": {
+          "text": "Men's Singles - Quarterfinals",
+          "color": "ffffff"
+        }
+      }
+    },
+    {
+      "type": "insight",
+      "tags": [
+        2
+      ],
+      "content": {
+        "id": "G",
+        "background": {
+          "color": "b1c0c9 8fa1c9"
+        },
+        "title": {
+          "text": "NET POINTS WON",
+          "colors": {
+            "text": "f5f6f7",
+            "underline": "adeaad"
+          }
+        },
+        "players": [
+          {
+            "name": "Williams",
+            "code": "USA",
+            "color": "062c3d"
+          }
+        ],
+        "graphic": {
+          "type": "icon-net",
+          "data": {
+            "value": "16",
+            "colors": {
+              "posts": "13316d",
+              "border": "27aae1",
+              "lines": "a4b4c9",
+              "fabric": "ace1ef",
+              "text": "13316d"
+            }
+          }
+        },
+        "subtitle": {
+          "text": "Women's Singles - Semifinals",
+          "color": "f5f6f7"
+        }
+      }
+    },
+    {
+      "type": "insight",
+      "tags": [
+        2
+      ],
+      "content": {
+        "id": "H",
+        "background": {
+          "color": "b1c0c9 8fa1c9"
+        },
+        "title": {
+          "text": "NET POINTS WON",
+          "colors": {
+            "text": "f5f6f7",
+            "underline": "adeaad"
+          }
+        },
+        "players": [
+          {
+            "name": "Williams",
+            "code": "USA",
+            "color": "062c3d"
+          }
+        ],
+        "graphic": {
+          "type": "icon-text",
+          "data": {
+            "value": "49",
+            "colors": {
+              "text": "286165 007c69"
+            }
+          }
+        },
+        "subtitle": {
+          "text": "Women's Singles - Semifinals",
+          "color": "f5f6f7"
+        }
+      }
+    },
+    {
+      "type": "insight",
+      "tags": [
+        2
+      ],
+      "content": {
+        "id": "I",
+        "background": {
+          "color": "455a64 53697a"
+        },
+        "title": {
+          "text": "TOTAL ACES",
+          "colors": {
+            "text": "f5f6f7",
+            "underline": "e600ff"
+          }
+        },
+        "players": [
+          {
+            "name": "Sharapova",
+            "code": "RUS",
+            "color": "dddbd5"
+          }
+        ],
+        "graphic": {
+          "type": "icon-racket",
+          "data": {
+            "value": "11",
+            "colors": {
+              "handle": "6dd0f2",
+              "frame": "338db5",
+              "text": "d8d8d8"
+            }
+          }
+        },
+        "subtitle": {
+          "text": "Women's Singles - Quarterfinals",
+          "color": "d8d8d8"
+        }
+      }
+    },
+    {
+      "type": "insight",
+      "tags": [
+        2
+      ],
+      "content": {
+        "id": "J",
+        "background": {
+          "color": "385d5d dadada"
+        },
+        "title": {
+          "text": "BREAK POINTS WON",
+          "colors": {
+            "text": "98cab7",
+            "underline": "f90606"
+          }
+        },
+        "players": [
+          {
+            "name": "Federer",
+            "code": "SUI",
+            "color": "eff2f2"
+          },
+          {
+            "name": "Djokovic",
+            "code": "SRB",
+            "color": "5d3852",
+            "checked": true
+          }
+        ],
+        "graphic": {
+          "type": "chart-line",
+          "data": {
+            "axes": {
+              "x": {
+                "values": [ 1, 2, 3, 4, 5 ],
+                "label": "Set"
+              },
+              "y": {
+                "values": [ 1, 2, 3 ]
+              }
+            },
+            "data": [
+              {
+                "color": "ffffff",
+                "points": [ 1, 3, 2, 2, 3, 3, 4, 2, 5, 2 ]
+              },
+              {
+                "color": "5d3852",
+                "points": [ 1, 2, 2, 2.5, 3, 1.2, 4, 3, 5, 1 ]
+              }
+            ]
+          }
+        },
+        "scorecard": {
+          "length": 5,
+          "rows": [
+            {
+              "colors": { "back": "eff2f2", "text": "0c0c0c" },
+              "values": [4, 4, 4]
+            },
+            {
+              "colors": { "back": "5d3852", "text": "ffffff" },
+              "values": [6, 6, 6],
+              "checked": true
+            }
+          ]
+        },
+        "subtitle": {
+          "text": "Men's Singles - Final",
+          "color": "d8d8d8"
+        }
+      }
+    },
+    {
+      "type": "insight",
+      "tags": [
+        2
+      ],
+      "content": {
+        "id": "K",
+        "background": {
+          "color": "c7c8ca b8bdb4"
+        },
+        "title": {
+          "text": "BACKHAND SHOTS WON",
+          "colors": {
+            "text": "257383",
+            "underline": "f28f0c"
+          }
+        },
+        "players": [
+          {
+            "name": "Djokovic",
+            "code": "SRB",
+            "color": "5d3852"
+          }
+        ],
+        "graphic": {
+          "type": "chart-line",
+          "data": {
+            "axes": {
+              "x": {
+                "values": [ 1, 2, 3, 4, 5 ],
+                "label": "Set"
+              },
+              "y": {
+                "values": [ 1, 2, 3 ]
+              }
+            },
+            "data": [
+              {
+                "color": "5d3852",
+                "points": [ 1, 2, 2, 2.5, 3, 1, 4, 3, 5, 1 ]
+              }
+            ]
+          }
+        },
+        "subtitle": {
+          "text": "Men's Singles - Final",
+          "color": "1e1e1d"
+        }
+      }
+    },
+    {
+      "type": "image",
+      "tags": [6],
+      "preview": "content/2.03_FughetaboutIt_600.gif",
+      "content": {
+        "image": "content/2.03_FughetaboutIt_600.gif"
+      }
+    },
+    {
+      "type": "image",
+      "tags": [3],
+      "preview": "content/historic_demo.png",
+      "content": {
+        "image": "content/historic_demo.png"
+      }
+    },
+    {
+      "type": "image",
+      "tags": [6],
+      "preview": "content/2.07_Slice_600.gif",
+      "content": {
+        "image": "content/2.07_Slice_600.gif"
+      }
+    },
+    {
+      "type": "image",
+      "tags": [6],
+      "preview": "content/2.08_10Blocks_081715rr_600.gif",
+      "content": {
+        "image": "content/2.08_10Blocks_081715rr_600.gif"
+      }
+    },
+    {
+      "type": "image",
+      "tags": [6],
+      "preview": "content/2.09_BlackDress3rr_600.gif",
+      "content": {
+        "image": "content/2.09_BlackDress3rr_600.gif"
+      }
+    },
+    {
+      "type": "image",
+      "tags": [6],
+      "preview": "content/2.13_Pizza_081415_600.gif",
+      "content": {
+        "image": "content/2.13_Pizza_081415_600.gif"
+      }
+    },
+    {
+      "type": "image",
+      "tags": [6],
+      "preview": "content/2.16_LetterTrain2_600.gif",
+      "content": {
+        "image": "content/2.16_LetterTrain2_600.gif"
+      }
+    },
+    {
+      "type": "image",
+      "tags": [6],
+      "preview": "content/2.19_GreatEvil1_600.gif",
+      "content": {
+        "image": "content/2.19_GreatEvil1_600.gif"
+      }
+    }
+  ]
+}

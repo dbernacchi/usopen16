@@ -1,0 +1,57 @@
+@font-face {
+    font-family: helvneue;
+    font-style: regular;
+    font-weight: 400;
+    src: url( ../fonts/HelvNeueforIBM/HelvNeueforIBM.otf ) format('opentype');
+}
+
+@font-face {
+    font-family: helvneue;
+    font-style: italic;
+    font-weight: 400;
+    src: url( ../fonts/HelvNeueforIBM/HelvNeueforIBM-Italic.otf ) format('opentype');
+}
+
+@font-face {
+    font-family: helvneue;
+    font-style: regular;
+    font-weight: 200;
+    src: url( ../fonts/HelvNeueforIBM/HelvNeueforIBM-Light.otf ) format('opentype');
+}
+
+@font-face {
+    font-family: helvneue;
+    font-style: italic;
+    font-weight: 200;
+    src: url( ../fonts/HelvNeueforIBM/HelvNeueforIBM-LightItalic.otf ) format('opentype');
+}
+
+@font-face {
+    font-family: helvneue;
+    font-style: regular;
+    font-weight: 700;
+    src: url( ../fonts/HelvNeueforIBM/HelvNeueforIBM-Bold.otf ) format('opentype');
+}
+
+@font-face {
+    font-family: helvneue;
+    font-style: italic;
+    font-weight: 700;
+    src: url( ../fonts/HelvNeueforIBM/HelvNeueforIBM-BoldItalic.otf ) format('opentype');
+}
+
+
+@font-face {
+    font-family: helvneue-cond;
+    font-style: regular;
+    font-weight: 400;
+    src: url( ../fonts/HelvNeueforIBM/HelvNeueforIBM-Cond.otf ) format('opentype');
+}
+
+@font-face {
+    font-family: helvneue-cond;
+    font-style: italic;
+    font-weight: 400;
+    src: url( ../fonts/HelvNeueforIBM/HelvNeueforIBM-CondItalic.otf ) format('opentype');
+}
+
