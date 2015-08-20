@@ -91,7 +91,7 @@ $(function() {
         contentOffset = $content.offset().top,
         scrollTop = contentOffset - (windowHeight - contentHeight + headerHeight) / 2;
 
-    $body.animate({ scrollTop : scrollTop }, 350);
+    $('body,html').animate({ scrollTop : scrollTop }, 350);
   }
 
   function loadTiles() {
@@ -166,7 +166,10 @@ $(function() {
         showContent($this);
       }
     } else {
-      if ($(event.target).hasClass('play')) {
+      // on mobile only the share button opens the overlay
+      if ($(event.target).hasClass('share')) {
+        showContent($this);
+      } else {
         var data = $this.data('data');
 
         if (data.type == 'video') {
@@ -177,10 +180,6 @@ $(function() {
         if (data.type == 'insight') {
           INSIGHTS.play(data.content, $this.find('canvas')[0]);
         }
-      }
-      // on mobile only the share button opens the overlay
-      if ($(event.target).hasClass('share')) {
-        showContent($this);
       }
     }
   }

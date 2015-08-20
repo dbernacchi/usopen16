@@ -32,13 +32,19 @@ body {
       -ms-transform: translateY(0);
           transform: translateY(0);
 }
+@media screen and (max-width: 1024px) {
+  .sub-header.fixed { top: 0; }
+}
 
 /* about */
 
 .about {
   position: relative;
   padding: 16px 14px 8px 14px;
-  background: url(../img/about_background.jpg);
+  background-color: #1f9757;
+  background-image: url(../img/about_background.png);
+  background-position: top right;
+  background-repeat: no-repeat;
   font-family: 'lubalin';
   font-size: 24px;
   font-weight: 300;
