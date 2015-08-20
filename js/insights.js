@@ -5,6 +5,7 @@ var INSIGHTS = (function() {
         console.warn('INSIGHTS: canvas not supported.');
 
         return {
+            is_supported: false,
             preview: function(data, arg) { return new Image() },
             play: function(data, canvas) { return new Image() },
             stop: function() {},
@@ -1648,6 +1649,8 @@ var INSIGHTS = (function() {
     }
 
     return {
+        is_supported: true,
+
         shareable: function(data) {
             var tile = (function() {
                 var ctx = get_canvas_context(null, 600);
