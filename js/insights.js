@@ -239,9 +239,20 @@ var INSIGHTS = (function() {
         if (_.isString(value)) {
             var bits = value.trim().split(/[\s]+/);
             return _.map(bits, function(bit) {
-                if (bit.match(/^[0-9a-f]{3,6}$/i)) {
-                    // add # for hex strings
-                    return '#' + bit;
+                if (bit.match(/^[0-9a-f]{3,8}$/i)) {
+                    if (bit.length == 8) {
+                        return (
+                            'rgba(' +
+                                parseInt(bit.substr(0,2), 16) + ',' +
+                                parseInt(bit.substr(2,2), 16) + ',' +
+                                parseInt(bit.substr(4,2), 16) + ',' +
+                                (parseInt(bit.substr(6,2), 16)/255) +
+                            ')'
+                        );
+                    } else {
+                        // add # for hex strings
+                        return '#' + bit;
+                    }
                 } else
                     return bit;
             });
