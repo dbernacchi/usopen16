@@ -1,5 +1,18 @@
 var INSIGHTS = (function() {
 
+    if (typeof CanvasRenderingContext2D == 'undefined') {
+        // canvas unsupported: bail
+        console.warn('INSIGHTS: canvas not supported.');
+
+        return {
+            preview: function(data, arg) { return new Image() },
+            play: function(data, canvas) { return new Image() },
+            stop: function() {},
+            fonts_loaded: function() {},
+            load_fonts: function(callback) {}
+        };
+    }
+
     // maths
 
     var PI = Math.PI;
@@ -223,7 +236,7 @@ var INSIGHTS = (function() {
     // ['fff, 'blue'] -> ['#fff', 'blue']
     function parse_color_value(value) {
         if (_.isString(value)) {
-            var bits = value.trim().split(/[\s,]+/);
+            var bits = value.trim().split(/[\s]+/);
             return _.map(bits, function(bit) {
                 if (bit.match(/^[0-9a-f]{3,6}$/i)) {
                     // add # for hex strings
