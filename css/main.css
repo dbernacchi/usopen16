@@ -476,3 +476,6 @@ body {
 .lt-ie9 .sponsor-logos .logo-us-open {
   background-image: url(../img/logo_us_open.png);
 }
+
+
+#mobileContent { margin: 0 !important; }
