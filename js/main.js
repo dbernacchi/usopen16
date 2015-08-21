@@ -282,7 +282,7 @@ $(function() {
     var $logos = $('<div class="sponsor-logos"></div>');
 
     $('<a href="#" class="logo-us-open">' ).appendTo($logos);
-    $('<a href="#" class="logo-ibm">' ).appendTo($logos);
+    $('<a href="http://www.ibm.com/" target="_blank" class="logo-ibm">' ).appendTo($logos);
 
     return $logos;
   }
