@@ -967,7 +967,7 @@ var INSIGHTS = (function() {
                 ctx.fillStyle = colors.text(time);
 
                 var tt = Math.min(1, time/1000);
-                var N = ~~lerp(0, 16, Math.pow(tt, 0.25));
+                var N = ~~lerp(0, value, Math.pow(tt, 0.25));
                 ctx.fillText(''+N, 0, 90);
 
                 ctx.restore();
@@ -1095,7 +1095,7 @@ var INSIGHTS = (function() {
                 ctx.textAlign = 'center';
                 ctx.fillStyle = colors.text(time);
 
-                var N = ~~lerp(0, 16, Math.pow(tt, 0.3));
+                var N = ~~lerp(0, value, Math.pow(tt, 0.3));
                 ctx.fillText(''+N, 0, 90);
 
                 ctx.restore(); // restore scale
@@ -1191,7 +1191,6 @@ var INSIGHTS = (function() {
                     ctx.fillStyle = colors.text(time);
                     var tt = Math.min(1, (time-Q)/1000);
                     var N = ~~lerp(0, value, Math.pow(tt, 0.25));
-                    //ctx.fillText(''+N, 0, 115);
                     ctx.fillText(''+N, 0, 115);
                 }
 
@@ -1259,7 +1258,7 @@ var INSIGHTS = (function() {
                     ctx.textAlign = 'center';
                     ctx.fillStyle = colors.text(time);
                     var tt = Math.min(1, time/1000);
-                    var N = ~~lerp(0, 16, Math.pow(tt, 0.25));
+                    var N = ~~lerp(0, value, Math.pow(tt, 0.25));
                     ctx.rotate(RAD_PER_DEG*45);
                     ctx.fillText(''+N, 0, 43);
                 }
@@ -1290,7 +1289,7 @@ var INSIGHTS = (function() {
                 ctx.fillStyle = colors.text(time);
 
                 var tt = Math.min(1, time/1000);
-                var N = ~~lerp(0, 16, Math.pow(tt, 0.25));
+                var N = ~~lerp(0, value, Math.pow(tt, 0.25));
                 ctx.fillText(''+N, 0, 180);
 
                 ctx.restore();
