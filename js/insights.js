@@ -796,6 +796,9 @@ var INSIGHTS = (function() {
                 text: parse_color(ctx, data.colors.text)
             };
 
+            // make lines "transparent":
+            colors.lines = background_color;
+
             var value = parseInt(data.value);
 
             // ball dynamics
@@ -1103,6 +1106,9 @@ var INSIGHTS = (function() {
                 text: parse_color(ctx, data.colors.text)
             };
 
+            // make lines "transparent":
+            colors.lines = background_color;
+
             var value = parseInt(data.value);
             var cw = 960, ch = 960;
 
@@ -1402,10 +1408,14 @@ var INSIGHTS = (function() {
 
     }());
 
+    // XXX messy
+    var background_color;
+
     function init_tile3(ctx_, data)
     {
         var ctx = ctx_;
-        var background_color = parse_color(ctx, data.background.color);
+        //var background_color = parse_color(ctx, data.background.color);
+        background_color = parse_color(ctx, data.background.color);
         var title_color_text = parse_color(ctx, data.title.colors.text);
         var title_color_underline = parse_color(ctx, data.title.colors.underline);
         var subtitle_color = parse_color(ctx, data.subtitle.color);
