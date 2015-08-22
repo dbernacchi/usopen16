@@ -250,22 +250,22 @@ $(function() {
     var $share = $('<div class="share-buttons"></div>'),
         url = encodeURIComponent(data.url);
 
-    $('<a class="share-facebook">')
+    $('<a class="share-facebook" />')
       .attr('href', 'https://www.facebook.com/sharer/sharer.php?u=' + url)
       .on('click', popupwindow)
       .appendTo($share);
 
-    $('<a class="share-twitter">')
+    $('<a class="share-twitter" />')
       .attr('href', 'https://twitter.com/home?status=' + url)
       .on('click', popupwindow)
       .appendTo($share);
 
-    $('<a class="share-google">')
+    $('<a class="share-google" />')
       .attr('href', 'https://plus.google.com/share?url=' + url)
       .on('click', popupwindow)
       .appendTo($share);
 
-    $('<a class="share-linkedin">')
+    $('<a class="share-linkedin" />')
       .attr('href', 'https://www.linkedin.com/shareArticle?mini=true&url=' + url)
       .on('click', popupwindow)
       .appendTo($share);
@@ -288,8 +288,8 @@ $(function() {
   function createSponsorLogos(data) {
     var $logos = $('<div class="sponsor-logos"></div>');
 
-    $('<a href="#" class="logo-us-open">' ).appendTo($logos);
-    $('<a href="http://www.ibm.com/" target="_blank" class="logo-ibm">' ).appendTo($logos);
+    $('<a href="#" class="logo-us-open" />' ).appendTo($logos);
+    $('<a href="http://www.ibm.com/" target="_blank" class="logo-ibm" />' ).appendTo($logos);
 
     return $logos;
   }
