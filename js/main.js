@@ -1,3 +1,11 @@
+var IE = (!! window.ActiveXObject && +(/msie\s(\d+)/i.exec(navigator.userAgent)[1])) || NaN;
+if (IE < 9) {
+  document.documentElement.className += ' lt-ie9' + ' ie' + IE;
+}
+if (IE < 8) {
+  alert('Your browser needs to be updated to view this website');
+}
+
 // polyfill for Array.indexOf (unsupported by IE8)
 // https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf
 if (!Array.prototype.indexOf) {
@@ -17,7 +25,6 @@ if (!Array.prototype.indexOf) {
     return -1;
   };
 }
-
 
 
 $(function() {
