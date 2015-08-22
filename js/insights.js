@@ -253,8 +253,10 @@ var INSIGHTS = (function() {
                         // add # for hex strings
                         return '#' + bit;
                     }
-                } else
+                } else {
+                    console.log('INSIGHTS: non-hex color:', bit);
                     return bit;
+                }
             });
         } else if (_.isArray(value)) {
             return _.flatten(_.map(value, parse_color_value));
