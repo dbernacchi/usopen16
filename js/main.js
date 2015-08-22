@@ -250,7 +250,7 @@ $(function() {
     var $share = $('<div class="share-buttons"></div>'),
         url = encodeURIComponent(data.url);
 
-    $('<a class="share-facebook">' )
+    $('<a class="share-facebook">')
       .attr('href', 'https://www.facebook.com/sharer/sharer.php?u=' + url)
       .on('click', popupwindow)
       .appendTo($share);
