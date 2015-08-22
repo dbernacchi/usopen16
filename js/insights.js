@@ -664,32 +664,52 @@ var INSIGHTS = (function() {
     graphics['chart-line'] = (function() {
 
         return function init_lines(ctx, data) {
-            // read the axes
-            // read the data
-            // plot the data
+            // graph -> canvas
+            var M = {
+                sx: 1, sy: 1,
+                tx: 0, ty: 0
+            };
+
+            // get min/max value
+            function get_range(values) {
+                var min = Infinity, max = -min;
+                values.forEach(function(v) {
+                    min = Math.min(min, v);
+                    max = Math.max(max, v);
+                });
+                return [min, max];
+            }
+
+            // axes / graph coords calculation
+            
+            var xvalues = data.axes.x.values;
+            var xrange = get_range(xvalues);
+            xrange[0] -= 0.5;
+            xrange[1] += 0.5;
+
+            var yvalues = data.axes.y.values;
+            var yrange = get_range(yvalues);
+            yrange[0] -= 0.35;
+            yrange[1] += 0.35;
 
             var cw = 960;
             var ch = 960;
             var graph_w = 0.790 * cw;
             var graph_h = 0.400 * ch;
 
-            var max_x = 5;
-            var max_y = 3;
-
-            // convert data point to coord
-            function point_to_coord(out, x, y) {
-                out[0] = ((x-0.5)/max_x) * graph_w;
-                //out[1] = (1-(y/max_y)) * graph_h;
-                out[1] = (1-((y-0.5)/max_y)) * graph_h;
-            }
+            M.sx = graph_w / (xrange[1] - xrange[0]);
+            M.sy = -graph_h / (yrange[1] - yrange[0]);
+            M.tx = -xrange[0];
+            M.ty = -yrange[1];
 
             var series = [];
             _.each(data.data, function(data) {
                 var points = [];
                 var v = [0, 0];
                 for (var i = 0; i < data.points.length; i += 2) {
-                    point_to_coord(v, data.points[i + 0], data.points[i + 1]);
-                    points.push(v[0], v[1]);
+                    points.push(
+                        (data.points[i + 0] + M.tx) * M.sx,
+                        (data.points[i + 1] + M.ty) * M.sy);
                 }
 
                 series.push({
@@ -715,30 +735,24 @@ var INSIGHTS = (function() {
                 ctx.textAlign = 'center';
                 ctx.fillStyle = '#fff';
 
-                // FIXME : use data for axes!
-                // FIXME : use point_to_coord() here
-                //
                 // y axis
                 ctx.font = '700 60px helvneue';
-                var max_i = 3;
-                for (var i = 1; i <= max_i; ++i) {
-                    var text = ''+i;
+                for (var i = 0; i < yvalues.length; ++i) {
+                    var y = yvalues[i];
                     var tx = -65;
-
-                    var ty = (1-((i-0.5)/max_i)) * graph_h;
-                    ctx.fillText(text, tx, ty);
+                    var ty = (y + M.ty) * M.sy;
+                    var text = ''+y;
+                    ctx.fillText(text, tx, ty + 20);
                 }
 
                 // x axis
                 ctx.font = '700 60px helvneue';
-                //ctx.fillStyle = '#dbe2e2';
                 ctx.globalAlpha = 0.5;
-                var max_i = 5;
-                for (var i = 1; i <= max_i; ++i) {
-                    var text = ''+i;
+                for (var i = 0; i < xvalues.length; ++i) {
+                    var x = xvalues[i];
                     var ty = graph_h + 70;
-
-                    var tx = ((i-0.5)/max_i) * graph_w;
+                    var tx = (x + M.tx) * M.sx;
+                    var text = ''+x;
                     ctx.fillText(text, tx, ty);
                 }
                 ctx.font = '300 30px lubalin';
@@ -746,8 +760,6 @@ var INSIGHTS = (function() {
                 ctx.globalAlpha = 1.0;
                 ctx.lineCap = 'round';
 
-
-                // HOW TO ANIMATE??
                 _.each(series, function(data, index) {
                     var time_offset = index * 0.3;
                     var tt = clamp(time/2000 - time_offset, 0, 1);
