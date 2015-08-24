@@ -106,10 +106,19 @@ body {
   text-transform: uppercase;
   color: #fff;
 }
+.filters li.filters2 {
+  cursor: default;
+}
+
 .filters li.active,
 .filters li:hover {
   color: #ffd21e;
 }
+
+.filters li.filters2:hover {
+  color: #fff;
+}
+
 .filters2-dropdown { display: none; }
 .filters2 li {
   float: left;
