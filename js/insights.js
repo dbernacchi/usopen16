@@ -1476,11 +1476,9 @@ var INSIGHTS = (function() {
             ctx.globalAlpha = 1;
 
             // title.underline
-            ctx.font = '600 62px lubalin';
-            ctx.fillStyle = title_color_underline(time);
-
             var frac = clamp(time/300, 0, 1);
             frac = Math.pow(frac, 3);
+            ctx.fillStyle = title_color_underline(time);
             ctx.fillRect(50, 104, frac*(cw-100), 5);
 
             // subtitle
