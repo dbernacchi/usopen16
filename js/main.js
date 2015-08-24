@@ -288,15 +288,20 @@ $(function() {
 
 	function createShareButtons(data) {
 		
-		var $share = $('<div class="share-buttons"></div>'), url = encodeURIComponent(data.url);
+		var $share = $('<div class="share-buttons"></div>');
+		
+		var facebook_url = encodeURIComponent(data.facebook_url);
+		var twitter_url = encodeURIComponent(data.twitter_url);
+		var linkedin_url = encodeURIComponent(data.linkedin_url);
+		var google_url = encodeURIComponent(data.google_url);
 
-		$('<a class="share-facebook" />').attr('href', 'https://www.facebook.com/sharer/sharer.php?u=' + url).on('click', popupwindow).appendTo($share);
+		$('<a class="share-facebook" />').attr('href', 'https://www.facebook.com/sharer/sharer.php?u=' + facebook_url).on('click', popupwindow).appendTo($share);
 
-		$('<a class="share-twitter" />').attr('href', 'https://twitter.com/home?status=' + url).on('click', popupwindow).appendTo($share);
+		$('<a class="share-twitter" />').attr('href', 'https://twitter.com/home?status=' + twitter_url).on('click', popupwindow).appendTo($share);
 
-		$('<a class="share-google" />').attr('href', 'https://plus.google.com/share?url=' + url).on('click', popupwindow).appendTo($share);
+		$('<a class="share-google" />').attr('href', 'https://plus.google.com/share?url=' + google_url).on('click', popupwindow).appendTo($share);
 
-		$('<a class="share-linkedin" />').attr('href', 'https://www.linkedin.com/shareArticle?mini=true&url=' + url).on('click', popupwindow).appendTo($share);
+		$('<a class="share-linkedin" />').attr('href', 'https://www.linkedin.com/shareArticle?mini=true&url=' + linkedin_url).on('click', popupwindow).appendTo($share);
 
 		return $share;
 	}
