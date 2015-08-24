@@ -61,7 +61,7 @@ $(function() {
 	});
 
 	$('.about .title .animated span').typed({
-		strings : [' excitement.', ' stories.', 'fun.', ' than the score.'],
+		strings : [' excitement.', ' stories.', ' fun.', ' than the score.'],
 		typeSpeed : 20,
 		startDelay : 200,
 		backDelay : 1000,
