@@ -60,8 +60,8 @@ $(function() {
 		}
 	});
 
-	$('.about .title span').typed({
-		strings : ['More excitement.', 'More stories.', 'More fun.', 'More than the score.'],
+	$('.about .title .animated span').typed({
+		strings : [' excitement.', ' stories.', 'fun.', ' than the score.'],
 		typeSpeed : 20,
 		startDelay : 200,
 		backDelay : 1000,
