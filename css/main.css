@@ -69,7 +69,8 @@ body {
   display: none;
   overflow: hidden;
   width: 75%;
-  font-size: 14px;
+  font-family: 'helvneue';	
+  font-size: 15px;
 }
 .about.extended .extra {
   display: block;
@@ -91,12 +92,7 @@ body {
   padding: 0;
   overflow: hidden;
   list-style: none;
-  background: #01254c; /* Old browsers */ /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#0f000e), color-stop(40%,#01254c)); /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(top,  #0f000e 0%,#01254c 40%); /* Chrome10+,Safari5.1+ */ /* Opera 11.10+ */ /* IE10+ */
-  background: -webkit-linear-gradient(top, #0f000e 0%, #01254c 40%);
-  background: linear-gradient(to bottom,  #0f000e 0%,#01254c 40%); /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0f000e', endColorstr='#01254c',GradientType=0 ); /* IE6-9 */
+  background: #005f9a; /* Old browsers */ /* FF3.6+ */
 
 }
 .filters-dropdown { display: none; }
@@ -113,6 +109,16 @@ body {
 .filters li.active,
 .filters li:hover {
   color: #ffd21e;
+}
+.filters2-dropdown { display: none; }
+.filters2 li {
+  float: left;
+  margin-right: 10px;
+  padding: 10px 10px;
+  font-size: 12px;
+  text-align: center;
+  text-transform: uppercase;
+  color: #fff;
 }
 
 /* grid */
@@ -165,6 +171,7 @@ body {
   background-repeat: no-repeat;
   background-position: center;
   background-size: 30px 20px;
+  opacity: 0.7;
 }
 .grid li .preview .play {
   position: absolute;
@@ -176,6 +183,7 @@ body {
   background-repeat: no-repeat;
   background-position: center;
   background-size: 30px 20px;
+  opacity: 0.7;
 }
 
 /* thumbnail caret */
@@ -216,7 +224,7 @@ body {
   z-index: 10;
   width: 1000px;
   height: 400px;
-  background: #222;
+  background: #000000;
   text-align: center;
 }
 .grid li.active .content {
@@ -257,10 +265,10 @@ body {
 .share-buttons a {
   display: block;
   float: left;
-  width: 40px;
-  height: 40px;
+  width: 43px;
+  height: 43px;
   margin-left: 10px;
-  background-size: 40px 40px;
+  background-size: 43px 43px;
   background-repeat: no-repeat;
 }
 
@@ -300,10 +308,10 @@ body {
 .sponsor-logos a {
   display: block;
   float: left;
-  width: 50px;
-  height: 50px;
+  width: 55px;
+  height: 55px;
   margin-left: 10px;
-  background-size: 50px 50px;
+  background-size: 55px 55px;
   background-repeat: no-repeat;
 }
 
@@ -365,7 +373,7 @@ body {
     width: 100%;
     margin: 0;
     padding: 10px 10px;
-    background: #071e34;
+    background: 005f9a;
     border: none;
     border-radius: 0;
     font-size: 18px;
