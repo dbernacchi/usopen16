@@ -2,9 +2,7 @@ var IE = (!!window.ActiveXObject && +(/msie\s(\d+)/i.exec(navigator.userAgent)[1
 if (IE < 9) {
 	document.documentElement.className += ' lt-ie9' + ' ie' + IE;
 }
-if (IE < 8) {
-	alert('Your browser needs to be updated to view this website');
-}
+
 
 // polyfill for Array.indexOf (unsupported by IE8)
 // https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf
@@ -279,9 +277,15 @@ $(function() {
 		}
 
 		if (!isMobile && data.type === 'insight') {
-			var canvas = INSIGHTS.play(data.content);
-			$(canvas).appendTo($content);
-		}
+			
+			if(IE != 8){
+				var canvas = INSIGHTS.play(data.content);
+				$(canvas).appendTo($content);
+			} else {
+				
+				$('<img>').attr('src', 'assets/preview_image/' + data.preview_image).appendTo($content);
+			}
+		} 
 
 		return $content;
 	}
@@ -350,6 +354,8 @@ $(function() {
 		if (tag != 0) {
 			$grid.find('li').each(function() {
 				var $this = $(this), data = $this.data('data');
+				
+				
 				if (data && data.tags.indexOf(tag) === -1) {
 					$this.hide();
 				}
