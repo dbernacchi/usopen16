@@ -2,9 +2,7 @@ var IE = (!!window.ActiveXObject && +(/msie\s(\d+)/i.exec(navigator.userAgent)[1
 if (IE < 9) {
 	document.documentElement.className += ' lt-ie9' + ' ie' + IE;
 }
-if (IE < 8) {
-	alert('Your browser needs to be updated to view this website');
-}
+
 
 // polyfill for Array.indexOf (unsupported by IE8)
 // https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf
@@ -116,12 +114,12 @@ $(function() {
 
 	function loadTiles() {
 		loading = true;
-		
+
 		var d = new Date();
 		var t = d.getTime();
 
 		$.ajax("manifest.json?" + t).always(function(build) {
-			
+
 			getPage(build.responseText, 1);
 		});
 	}
@@ -202,7 +200,7 @@ $(function() {
 
 
 		if (data.type == 'insight' && IE != 8) {
-		
+
 			if (isMobile) {
 				var PREVIEW_SIZE = screen.width - 20;
 			} else {
@@ -260,7 +258,7 @@ $(function() {
 	}
 
 	function createContent(data) {
-	
+
 		var $content = $('<div class="content">'), $close = $('<div class="close">').appendTo($content);
 
 		createShareButtons(data).appendTo($content);
@@ -279,17 +277,23 @@ $(function() {
 		}
 
 		if (!isMobile && data.type === 'insight') {
-			var canvas = INSIGHTS.play(data.content);
-			$(canvas).appendTo($content);
+
+			if(IE != 8){
+				var canvas = INSIGHTS.play(data.content);
+				$(canvas).appendTo($content);
+			} else {
+
+				$('<img>').attr('src', 'assets/preview_image/' + data.preview_image).appendTo($content);
+			}
 		}
 
 		return $content;
 	}
 
 	function createShareButtons(data) {
-		
+
 		var $share = $('<div class="share-buttons"></div>');
-		
+
 		var facebook_url = encodeURIComponent(data.facebook_url);
 		var twitter_url = encodeURIComponent(data.twitter_url);
 		var linkedin_url = encodeURIComponent(data.linkedin_url);
@@ -318,7 +322,7 @@ $(function() {
 	function createSponsorLogos(data) {
 		var $logos = $('<div class="sponsor-logos"></div>');
 
-		$('<a href="#" class="logo-us-open" />').appendTo($logos);
+		$('<a class="logo-us-open" />').appendTo($logos);
 		$('<a href="http://www.ibm.com/" target="_blank" class="logo-ibm" />').appendTo($logos);
 
 		return $logos;
@@ -350,6 +354,8 @@ $(function() {
 		if (tag != 0) {
 			$grid.find('li').each(function() {
 				var $this = $(this), data = $this.data('data');
+
+
 				if (data && data.tags.indexOf(tag) === -1) {
 					$this.hide();
 				}

@@ -69,7 +69,7 @@ body {
   display: none;
   overflow: hidden;
   width: 75%;
-  font-family: 'helvneue';	
+  font-family: 'helvneue';
   font-size: 15px;
 }
 .about.extended .extra {
@@ -331,6 +331,18 @@ body {
   background-image: url(../img/logo_us_open@2x.png);
 }
 
+/* legal */
+
+.legal {
+  margin: 0;
+  padding: 20px;
+  color: #ccc;
+  background: #01254c;
+  text-align: center;
+  font-size: 13px;
+  font-style: italic;
+}
+
 /* mobile */
 
 @media screen and (max-width: 700px) {
@@ -445,7 +457,22 @@ body {
   .sponsor-logos {
     display: none;
   }
+}
 
+@media screen and (max-width: 700px) and (orientation:landscape) {
+  .turn-device {
+    position:fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 1000;
+    background-color: #01254c;
+    background-image: url(../img/turn_device.png);
+    background-repeat: no-repeat;
+    background-size: auto 80%;
+    background-position: center;
+  }
 }
 
 #mobileContent { margin: 0 !important; }
