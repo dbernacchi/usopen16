@@ -331,6 +331,18 @@ body {
   background-image: url(../img/logo_us_open@2x.png);
 }
 
+/* legal */
+
+.legal {
+  margin: 0;
+  padding: 20px;
+  color: #ccc;
+  background: #01254c;
+  text-align: center;
+  font-size: 13px;
+  font-style: italic;
+}
+
 /* mobile */
 
 @media screen and (max-width: 700px) {
