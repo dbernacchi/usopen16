@@ -622,8 +622,8 @@ var INSIGHTS = (function() {
                     var vv = bar.value * tt;
                     var frac = tt*bar.value/max_value;
 
-                    var x0 = 50 + radius;;
-                    var x1 = x0 + frac * (960 - 100 - 2*radius);
+                    var x0 = 72 + radius;;
+                    var x1 = x0 + frac * (960 - 144 - 2*radius);
 
                     // label
                     if (bar.label) {
@@ -694,7 +694,7 @@ var INSIGHTS = (function() {
 
             var cw = 960;
             var ch = 960;
-            var graph_w = 0.790 * cw;
+            var graph_w = 0.760 * cw;
             var graph_h = 0.400 * ch;
 
             M.sx = graph_w / (xrange[1] - xrange[0]);
@@ -869,7 +869,7 @@ var INSIGHTS = (function() {
             }
 
             function draw_court(time) {
-                var w = 842;
+                var w = 812;
                 var h = 410;
 
                 // court background
@@ -1131,7 +1131,7 @@ var INSIGHTS = (function() {
                 // post width
                 var tt = Math.min(1, time/500);
                 tt = smoothstep(tt);
-                var w = lerp(0, 410, tt);
+                var w = lerp(0, 388, tt);
 
                 // bounce
                 var ttt = Math.pow(Math.min(1, time/1500), 0.5);
@@ -1216,11 +1216,21 @@ var INSIGHTS = (function() {
             var cw = 960, ch = 960;
 
             return function(ctx, time) {
+                /*
+                var bw = 200, bh = 175;
+                ctx.strokeStyle = '#ff0';
+                ctx.lineWidth = 2;
+                ctx.strokeRect((cw-bw)/2, (ch-bh)/2, bw, bh);
+                ctx.fillRect(cw/2, (ch-bh)/2, 1, bh);
+                */
+
                 ctx.save();
-                ctx.translate(0.90*cw, 0.625*ch);
+                ctx.translate(1.045*cw, 0.515*ch);
+
+                var end_theta = -57;
 
                 var frac = Math.min(1, time/1000);
-                var theta = RAD_PER_DEG * lerp( 175, -45, spring(frac));
+                var theta = RAD_PER_DEG * lerp( 175, end_theta, spring(frac));
 
                 frac = Math.min(1, time/750);
                 frac = smoothstep(frac); //Math.pow(frac, 0.25);
@@ -1259,7 +1269,7 @@ var INSIGHTS = (function() {
                     ctx.fillStyle = colors.text(time);
                     var tt = Math.min(1, time/1000);
                     var N = ~~lerp(0, value, Math.pow(tt, 0.25));
-                    ctx.rotate(RAD_PER_DEG*45);
+                    ctx.rotate(-RAD_PER_DEG*end_theta);
                     ctx.fillText(''+N, 0, 43);
                 }
 
@@ -1472,14 +1482,14 @@ var INSIGHTS = (function() {
             var text = data.title.text.toUpperCase();
             var frac = clamp(time/500, 0, 1);
             ctx.globalAlpha = frac;
-            ctx.fillText(text, 50, 90);
+            ctx.fillText(text, 70, 99);
             ctx.globalAlpha = 1;
 
             // title.underline
             var frac = clamp(time/300, 0, 1);
             frac = Math.pow(frac, 3);
             ctx.fillStyle = title_color_underline(time);
-            ctx.fillRect(50, 104, frac*(cw-100), 5);
+            ctx.fillRect(70, 112, frac*(cw-140), 5);
 
             // subtitle
             ctx.font = '300 32px lubalin';
@@ -1488,13 +1498,13 @@ var INSIGHTS = (function() {
             ctx.textAlign = 'center';
 
             ctx.globalAlpha = animcurve(time, 1500, 1000);
-            ctx.fillText(data.subtitle.text, cw/2, ch-100);
+            ctx.fillText(data.subtitle.text, cw/2, ch-115);
             ctx.restore();
 
             // players
             _.each(data.players, function(player, index) {
-                var ty = 180 + index * 72;
-                var tx = lerp(cw, 50, animcurve(time, 200*(index+1), 500, spring));
+                var ty = 188 + index * 72;
+                var tx = lerp(cw, 70, animcurve(time, 200*(index+1), 500, spring));
 
                 ctx.fillStyle = player_colors[index](time);
 
@@ -1680,6 +1690,12 @@ var INSIGHTS = (function() {
         previews_todo = null;
     }
 
+    var shareable_logo = (function() {
+        var img = new Image();
+        img.src = 'img/logo_bar_only.png';
+        return img;
+    }());
+
     return {
         is_supported: true,
 
@@ -1694,6 +1710,13 @@ var INSIGHTS = (function() {
             ctx.fillStyle = '#fff';
             ctx.fillRect(0, 0, 1200, 600);
             ctx.drawImage(tile, 300, 0);
+
+            if (shareable_logo.complete)
+                ctx.drawImage(shareable_logo, 300, 600-shareable_logo.height);
+            else
+                console.warn('INSIGHTS: logo not ready');
+
+           
             return ctx.canvas;
         },
 
