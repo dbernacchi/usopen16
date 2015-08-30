@@ -1458,7 +1458,9 @@ var INSIGHTS = (function() {
         }
 
         function draw(options) {
-            var time = options.time;
+            var preview = !!options.preview;
+            var PREVIEW_TIME = 4125;
+            var time = preview ? PREVIEW_TIME : options.time;
             var background_only = options.background_only;
 
             ctx.save();
@@ -1677,15 +1679,12 @@ var INSIGHTS = (function() {
 
     }());
 
-    // clock time of preview frame
-    var preview_time = 5000;
-
     // queue of preview tasks due to unloaded fonts
     var previews_todo = [];
     function do_previews() {
         previews_todo.forEach(function(o) {
             var ctx = o.canvas.getContext('2d');
-            init(ctx, o.data)({ time: preview_time });
+            init(ctx, o.data)({ preview: true });
         });
         previews_todo = null;
     }
@@ -1702,7 +1701,7 @@ var INSIGHTS = (function() {
         shareable: function(data) {
             var tile = (function() {
                 var ctx = get_canvas_context(null, 600);
-                init(ctx, data)({ time: preview_time });
+                init(ctx, data)({ preview: true });
                 return ctx.canvas;
             }());
 
@@ -1746,9 +1745,8 @@ var INSIGHTS = (function() {
             var ratio = get_canvas_pixel_ratio(ctx);
             canvas.width = canvas.height = ~~(ratio * csize);
 
-            var preview_time = 5000;
             init(ctx, data)({
-                time: preview_time,
+                preview: true,
                 background_only: !!previews_todo
             });
 
