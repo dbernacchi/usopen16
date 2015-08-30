@@ -1459,7 +1459,7 @@ var INSIGHTS = (function() {
 
         function draw(options) {
             var preview = !!options.preview;
-            var PREVIEW_TIME = 4125;
+            var PREVIEW_TIME = 4125 * 1.5;
             var time = preview ? PREVIEW_TIME : options.time;
             var background_only = options.background_only;
 
