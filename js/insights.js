@@ -809,7 +809,7 @@ var INSIGHTS = (function() {
             };
 
             // make lines "transparent":
-            colors.lines = background_color;
+            colors.lines = g_background_color;
 
             var value = parseInt(data.value);
 
@@ -1119,7 +1119,7 @@ var INSIGHTS = (function() {
             };
 
             // make lines "transparent":
-            colors.lines = background_color;
+            colors.lines = g_background_color;
 
             var value = parseInt(data.value);
             var cw = 960, ch = 960;
@@ -1430,17 +1430,19 @@ var INSIGHTS = (function() {
     }());
 
     // XXX messy
-    var background_color;
+    var g_background_color;
 
     function init_tile3(ctx_, data)
     {
         var ctx = ctx_;
-        //var background_color = parse_color(ctx, data.background.color);
-        background_color = parse_color(ctx, data.background.color);
+        var background_color = parse_color(ctx, data.background.color);
         var title_color_text = parse_color(ctx, data.title.colors.text);
         var title_color_underline = parse_color(ctx, data.title.colors.underline);
         var subtitle_color = parse_color(ctx, data.subtitle.color);
         var player_colors = _.map(data.players, function(player) { return parse_color(ctx, player.color) });
+
+        // XXX messy global: communicate background color to net & court
+        g_background_color = background_color;
 
         var draw_graphic = function(ctx, time) {};
         var cw = 960, ch = 960;
