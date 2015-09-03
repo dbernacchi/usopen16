@@ -1365,7 +1365,7 @@ var INSIGHTS = (function() {
                     var ty = -40 + index * 165;
 
                     for (var i = 0; i < num_columns; ++i) {
-                        var tx = 65 + 160 * i;
+                        var tx = 87 + 155 * i;
 
                         ctx.save();
 
@@ -1399,7 +1399,7 @@ var INSIGHTS = (function() {
                         //var scale = 0.25;
 
                         ctx.save();
-                        ctx.translate(tx + 115, ty);
+                        ctx.translate(tx + 106, ty);
                         ctx.scale(scale, scale);
 
                         ctx.beginPath();
@@ -1462,6 +1462,7 @@ var INSIGHTS = (function() {
         function draw(options) {
             var preview = !!options.preview;
             var PREVIEW_TIME = 4125 * 1.5;
+            //var PREVIEW_TIME = 9000;
             var time = preview ? PREVIEW_TIME : options.time;
             var background_only = options.background_only;
 
@@ -1480,21 +1481,6 @@ var INSIGHTS = (function() {
                 return;
             }
 
-            // title
-            ctx.font = '600 62px lubalin';
-            ctx.fillStyle = title_color_text(time);
-            var text = data.title.text.toUpperCase();
-            var frac = clamp(time/500, 0, 1);
-            ctx.globalAlpha = frac;
-            ctx.fillText(text, 70, 99);
-            ctx.globalAlpha = 1;
-
-            // title.underline
-            var frac = clamp(time/300, 0, 1);
-            frac = Math.pow(frac, 3);
-            ctx.fillStyle = title_color_underline(time);
-            ctx.fillRect(70, 112, frac*(cw-140), 5);
-
             // subtitle
             ctx.font = '300 32px lubalin';
             ctx.fillStyle = subtitle_color(time);
@@ -1505,50 +1491,8 @@ var INSIGHTS = (function() {
             ctx.fillText(data.subtitle.text, cw/2, ch-115);
             ctx.restore();
 
-            // players
-            _.each(data.players, function(player, index) {
-                var ty = 188 + index * 72;
-                var tx = lerp(cw, 70, animcurve(time, 200*(index+1), 500, spring));
-
-                ctx.fillStyle = player_colors[index](time);
-
-                ctx.font = '700 60px helvneue';
-                ctx.fillText(player.name, tx, ty);
-                var tw = ctx.measureText(player.name).width;
-                tx += tw + 20;
-
-                ctx.font = '200 45px helvneue';
-                ctx.fillText('('+player.code+')', tx, ty);
-
-                var tw = ctx.measureText(player.code).width;
-                tx += tw + 70;
-
-                if (player.checked) {
-                    var scale = lerp(0, 0.25, animcurve(time, 2000, 500, spring));
-
-                    ctx.save();
-                    ctx.translate(tx, ty - 15);
-                    //ctx.scale(0.25, 0.25);
-                    ctx.scale(scale, scale);
-
-                    ctx.beginPath();
-                    ctx.arc(0, 0, 100, 0, TWO_PI);
-                    ctx.closePath();
-                    ctx.fill();
-
-                    ctx.strokeStyle = '#fff';
-                    ctx.lineWidth = 23;
-                    ctx.lineCap = 'round';
-                    ctx.lineJoin = 'round';
-                    ctx.beginPath();
-                    ctx.moveTo(-35, 13);
-                    ctx.lineTo(-5, 37);
-                    ctx.lineTo(35, -40);
-                    ctx.stroke();
-
-                    ctx.restore();
-                }
-            });
+            var title_text = data.title.text.toUpperCase();
+            var title_time = time;
 
             var gtime = time - 700;
             if (gtime > 0) {
@@ -1575,9 +1519,14 @@ var INSIGHTS = (function() {
                     if (period & 1) {
                         //if (gtime > 3000) gtime = 5750 -gtime;
                         draw_scorecard(ctx, gtime);
+                        title_text = 'FINAL SCORE';
 
                     } else {
                         draw_graphic(ctx, gtime);
+                    }
+
+                    if (period > 0) {
+                        title_time = gtime;
                     }
 
                     if (tx) {
@@ -1616,6 +1565,65 @@ var INSIGHTS = (function() {
                 ctx.fillRect(0, 392, cw, 1);
                 ctx.fillRect(0, 572, cw, 1);
             }
+
+            // title
+            ctx.font = '600 62px lubalin';
+            ctx.fillStyle = title_color_text(title_time);
+            var frac = clamp(title_time/500, 0, 1);
+            ctx.globalAlpha = frac;
+            ctx.fillText(title_text, 70, 99);
+            ctx.globalAlpha = 1;
+
+            // title.underline
+            var frac = clamp(title_time/300, 0, 1);
+            frac = Math.pow(frac, 3);
+            ctx.fillStyle = title_color_underline(title_time);
+            ctx.fillRect(70, 112, frac*(cw-140), 5);
+
+            // players
+            _.each(data.players, function(player, index) {
+                var ty = 188 + index * 72;
+                var tx = lerp(cw, 70, animcurve(title_time, 200*(index+1), 500, spring));
+
+                ctx.fillStyle = player_colors[index](title_time);
+
+                ctx.font = '700 60px helvneue';
+                ctx.fillText(player.name, tx, ty);
+                var tw = ctx.measureText(player.name).width;
+                tx += tw + 20;
+
+                ctx.font = '200 45px helvneue';
+                ctx.fillText('('+player.code+')', tx, ty);
+
+                var tw = ctx.measureText(player.code).width;
+                tx += tw + 70;
+
+                if (player.checked) {
+                    var scale = lerp(0, 0.25, animcurve(title_time, 2000, 500, spring));
+
+                    ctx.save();
+                    ctx.translate(tx, ty - 15);
+                    //ctx.scale(0.25, 0.25);
+                    ctx.scale(scale, scale);
+
+                    ctx.beginPath();
+                    ctx.arc(0, 0, 100, 0, TWO_PI);
+                    ctx.closePath();
+                    ctx.fill();
+
+                    ctx.strokeStyle = '#fff';
+                    ctx.lineWidth = 23;
+                    ctx.lineCap = 'round';
+                    ctx.lineJoin = 'round';
+                    ctx.beginPath();
+                    ctx.moveTo(-35, 13);
+                    ctx.lineTo(-5, 37);
+                    ctx.lineTo(35, -40);
+                    ctx.stroke();
+
+                    ctx.restore();
+                }
+            });
 
             ctx.restore();
         }
