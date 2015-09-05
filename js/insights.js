@@ -304,7 +304,66 @@ var INSIGHTS = (function() {
         }
     }
 
-    // ellipse polyfill
+    // word-wrapped text
+    function TextRenderer(ctx, options) {
+        var text = options.text.trim();
+        var rect = options.rect;
+        var line_height = options.line_height;
+
+        var tx0 = rect.x;
+        var tx1 = tx0 + rect.w;
+        var ty0 = rect.y;
+        var ty1 = ty0 + rect.h;
+
+        var blocks = [];
+
+        var re_wordsep = /(\s+|[^\s\w]*\w+[^0-9\W]-(?=\w+[^0-9\W]))/;
+        var chunks = text.split(re_wordsep);
+
+        var tx = tx0;
+        var ty = ty0;
+
+        _.each(chunks, function(chunk) {
+            var newlines = 0;
+            _.each(chunk, function(c) { if (c == '\n') ++newlines });
+            if (newlines) {
+                ty += newlines * line_height;
+                tx = tx0;
+                return;
+            }
+
+            var tw = ctx.measureText(chunk).width;
+
+            if (tx > tx0 && (tx + tw > tx1)) {
+                ty += line_height;
+                tx = tx0;
+            }
+
+            blocks.push({
+                text: chunk.trim(),
+                x: tx,
+                y: ty
+            });
+
+            tx += tw;
+        });
+
+        this.blocks = blocks;
+        //this.bottom = (tx == tx0) ? ty : (ty + line_height);
+        this.bottom = ty;
+    }
+
+    TextRenderer.prototype.render = function(ctx, opacity) {
+        ctx.save();
+        ctx.globalAlpha = saturate(opacity);
+        var blocks = this.blocks;
+        var n_blocks = blocks.length;
+        for (var i = 0; i < n_blocks; ++i) {
+            var block = blocks[i];
+            ctx.fillText(block.text, block.x, block.y);
+        }
+        ctx.restore();
+    };
 
     // ( from VelocityJS )
     /* Runge-Kutta spring physics function generator. Adapted from Framer.js, copyright Koen Bok. MIT License: http://en.wikipedia.org/wiki/MIT_License */
@@ -1532,6 +1591,60 @@ var INSIGHTS = (function() {
             });
         }
 
+        var draw_intro = (function() {
+
+            if (!data.intro)
+                return null;
+
+            function get_text_obj(data, font_desc) {
+                var scale = data.scale || 1;
+                var font_size = ~~(font_desc.size * scale);
+                var line_height = font_size;
+
+                return {
+                    color: parse_color(ctx, data.color),
+                    font: (font_desc.weight + ' ' + (~~font_size) + 'px ' + font_desc.family),
+                    line_height: 1.1*font_size,
+                    text: null,
+                };
+            }
+
+            var headline = get_text_obj(data.intro.headline, { weight: 700, size: 136, family: 'helvneue' });
+            var statement = get_text_obj(data.intro.statement, { weight: 400, size: 63, family: 'helvneue' });
+
+            // margins before/after headline
+            headline.after = 40 * (data.intro.headline.after || 1);
+            headline.before = 0.90 * headline.line_height * (data.intro.headline.before || 1);
+
+            return function(time) {
+                ctx.font = headline.font;
+                ctx.fillStyle = headline.color(time);
+
+                if (!headline.text)
+                    headline.text = new TextRenderer(ctx, {
+                        text: data.intro.headline.text,
+                        rect: { x: 70, y: 140 + headline.before, w: 820, h: 1000 },
+                        line_height: headline.line_height
+                    });
+                headline.text.render(ctx, time/250);
+
+                // statement
+                ctx.font = statement.font;
+                ctx.fillStyle = statement.color(time);
+
+                if (!statement.text) {
+                    var y = headline.text.bottom + statement.line_height + headline.after;
+                    statement.text = new TextRenderer(ctx, {
+                        text: data.intro.statement.text,
+                        rect: { x: 70, y: y, w: 820, h: 1000 },
+                        line_height: statement.line_height
+                    });
+                }
+                statement.text.render(ctx, (time-250)/1000);
+            };
+
+        }());
+
         function draw(options) {
             var preview = !!options.preview;
             var PREVIEW_TIME = 4125 * 1.5;
@@ -1578,16 +1691,42 @@ var INSIGHTS = (function() {
                         ctx.translate(tx, 0);
                     }
 
-                    if (period & 1) {
-                        //if (gtime > 3000) gtime = 5750 -gtime;
-                        draw_scorecard(ctx, gtime);
-                        title_text = 'FINAL SCORE';
-                    } else {
-                        draw_graphic(ctx, gtime);
-                    }
-
                     if (period > 0) {
                         title_time = gtime;
+                    }
+
+                    if (draw_intro) {
+
+                        period = period % 3;
+                        switch (period) {
+                            case 0:
+                                draw_intro(gtime);
+                                break;
+
+                            case 1:
+                                draw_players(title_time);
+                                draw_graphic(ctx, gtime);
+                                break;
+
+                            case 2:
+                                draw_players(title_time);
+                                draw_scorecard(ctx, gtime);
+                                title_text = 'FINAL SCORE';
+                                break;
+                        };
+
+                    } else {
+
+                        if (period & 1) {
+                            //if (gtime > 3000) gtime = 5750 -gtime;
+                            draw_players(title_time);
+                            draw_scorecard(ctx, gtime);
+                            title_text = 'FINAL SCORE';
+                        } else {
+                            draw_players(title_time);
+                            draw_graphic(ctx, gtime);
+                        }
+
                     }
 
                     if (tx) {
@@ -1613,12 +1752,12 @@ var INSIGHTS = (function() {
                     if (gtime >= 0)
                         draw_graphic(ctx, gtime);
 
+                    draw_players(title_time);
                 }
             }
 
             // title, subtitle and players
             draw_titles(title_time, title_text);
-            draw_players(title_time);
 
             // temp rulers to help with alignment
             if (0) {
@@ -1807,7 +1946,7 @@ var INSIGHTS = (function() {
         load_fonts: function(callback) {
             WebFont.load({
                 custom: {
-                    families: [ 'lubalin:n3,n6', 'helvneue:n2,n7' ],
+                    families: [ 'lubalin:n3,n6', 'helvneue:n2,n4,n7' ],
                     urls: [ 'css/fonts.css' ]
                 },
                 active: function() {
