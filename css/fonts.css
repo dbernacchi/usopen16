@@ -25,6 +25,13 @@
 
 @font-face {
     font-style: normal;
+    font-weight: 400;
+    font-family: helvneue;
+    src: url( ../fonts/HelvNeueforIBM/HelvNeueforIBM-Medium.otf ) format('opentype');
+}
+
+@font-face {
+    font-style: normal;
     font-weight: 700;
     font-family: helvneue;
     src: url( ../fonts/HelvNeueforIBM/HelvNeueforIBM-Bold.otf ) format('opentype');
