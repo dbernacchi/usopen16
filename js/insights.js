@@ -1591,10 +1591,26 @@ var INSIGHTS = (function() {
             });
         }
 
+        var intro_text = (function() {
+            // default to second half of subtitle text
+            var bits = data.subtitle.text.split('-');
+            var text;
+            if (bits.length == 2)
+                text = bits[1].trim();
+            else
+                text = bits[0];
+            return text.toUpperCase();
+        }())
+
         var draw_intro = (function() {
 
             if (!data.intro)
                 return null;
+
+            if (data.intro.title) {
+                // override intro title
+                intro_text = data.intro.title;
+            }
 
             function get_text_obj(data, font_desc) {
                 var scale = data.scale || 1;
@@ -1701,6 +1717,7 @@ var INSIGHTS = (function() {
                         switch (period) {
                             case 0:
                                 draw_intro(gtime);
+                                title_text = intro_text;
                                 break;
 
                             case 1:
@@ -1753,6 +1770,11 @@ var INSIGHTS = (function() {
                         draw_graphic(ctx, gtime);
 
                     draw_players(title_time);
+                }
+            } else {
+                if (draw_intro && draw_scorecard) {
+                    // pre-intro: intro title comes first
+                    title_text = intro_text;
                 }
             }
 
