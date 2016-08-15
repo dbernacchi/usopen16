@@ -15,9 +15,16 @@
             background-color: #333;
         }
 
-        .thumbnails { display: flex; flex-wrap: wrap; }
+        .thumbnails {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
         .thumbnails.dimmed { opacity: 0.25; }
-        //.thumbnails canvas { margin: 1px; box-shadow: 1px 1px 2px #000; }
+        .thumbnails canvas {
+            margin: 3px;
+            box-shadow: 1px 1px 2px #000;
+        }
 
         .player {
             display: none;
@@ -27,10 +34,10 @@
 
             left: 50%;
             top: 50%;
-            margin-left: -333px;
-            margin-top: -333px;
-            width: 666px;
-            height: 666px;
+            margin-left: -300px;
+            margin-top: -250px;
+            width: 600px;
+            height: 500px;
         }
 
         .player canvas {
@@ -94,18 +101,19 @@
             function render_thumbnails(tiles) {
                 tiles.forEach(function(tile) {
                     if (!tile) return;
+
                     var canv = INSIGHTS.preview(tile.content, THUMBNAIL_SIZE);
                     var ctx = canv.getContext('2d');
 
                     // account for retina
-                    var scale = canv.width / 600;
+                    var scale = canv.width / THUMBNAIL_SIZE;
                     ctx.scale(scale, scale);
 
                     if (0) {
                         // border
                         ctx.beginPath();
-                        ctx.rect(0, 0, 600, 545);
-                        ctx.rect(45, 35, 510, 510);
+                        ctx.rect(0, 0, 600, 500);
+                        ctx.rect(45, 35, 510, 410);
                         //ctx.mozFillRule = 'evenodd';
                         ctx.fillStyle = 'rgba(0,0,0, 0.5)';
                         ctx.fill('evenodd');
@@ -118,7 +126,7 @@
                 });
             }
 
-            var THUMBNAIL_SIZE = 600;
+            var THUMBNAIL_SIZE = 300;
             var $thumbnails = $('.thumbnails');
             var $player = $('.player');
 
@@ -152,9 +160,7 @@
                         }
                     };
 
-                    console.log(JSON.stringify(tile.content, null, 4));
                     return tile;
-
                 });
 
                 debug.print('Loading fonts...');
