@@ -1,5 +1,28 @@
 var INSIGHTS = (function() {
 
+    var TILE_ASPECT = 300/250;
+    var TILE_W = 960 * TILE_ASPECT;
+    var TILE_H = 960;
+
+    var COLORS = {
+        court_blue: '064BA6',
+        blue: '0663C9',
+        teal: '1FD5DF',
+        pink: 'FF50A0',
+        grass: 'ADE222',
+        green: '35D87F',
+        yellow: 'EFB40F'
+    };
+
+    var PALETTES = [
+        { bg: COLORS.blue, fg: COLORS.yellow },
+        { bg: COLORS.teal, fg: COLORS.yellow },
+        { bg: COLORS.pink, fg: COLORS.green },
+        { bg: COLORS.grass, fg: COLORS.pink },
+        { bg: COLORS.green, fg: COLORS.pink },
+        { bg: COLORS.yellow, fg: COLORS.teal }
+    ];
+
     if (typeof CanvasRenderingContext2D == 'undefined') {
         // canvas unsupported: bail
         console.warn('INSIGHTS: canvas not supported.');
@@ -271,7 +294,7 @@ var INSIGHTS = (function() {
     // XXX rotate gradient instead?
     // XXX gradient direction?
     function parse_color(ctx, value, dy) {
-        if (typeof dy == 'undefined') dy = 960;
+        if (typeof dy == 'undefined') dy = TILE_W;
         var colors = parse_color_value(value);
         if (colors.length == 1) {
             var c = colors[0];
@@ -544,7 +567,7 @@ var INSIGHTS = (function() {
             ctx.globalAlpha = 1.0;
         };
 
-        var cw = 960, ch = 960;
+        var cw = TILE_W, ch = TILE_H;
 
         var radius = 500;
         function fill_arc(ctx, frac, color) {
@@ -682,11 +705,11 @@ var INSIGHTS = (function() {
                     var frac = tt*bar.value/max_value;
 
                     var x0 = 72 + radius;;
-                    var x1 = x0 + frac * (960 - 144 - 2*radius);
+                    var x1 = x0 + frac * (TILE_W - 144 - 2*radius);
 
                     // label
                     if (bar.label) {
-                        ctx.font = '300 33px lubalin';
+                        ctx.font = '300 33px helvneue';
                         ctx.textAlign = 'left';
                         ctx.fillStyle = bar.colors.label(time);
                         ctx.globalAlpha = tt;
@@ -751,8 +774,8 @@ var INSIGHTS = (function() {
             yrange[0] -= 0.35;
             yrange[1] += 0.35;
 
-            var cw = 960;
-            var ch = 960;
+            var cw = TILE_W;
+            var ch = TILE_H;
             var graph_w = 0.760 * cw;
             var graph_h = 0.400 * ch;
 
@@ -1010,8 +1033,8 @@ var INSIGHTS = (function() {
             }
 
             return function(ctx, time) {
-                var cw = 960;
-                var ch = 960;
+                var cw = TILE_W;
+                var ch = TILE_H;
 
                 ctx.save();
                 //ctx.translate(cw/2 + 10, ch/2 - 10);
@@ -1087,7 +1110,7 @@ var INSIGHTS = (function() {
             };
 
             var value = parseInt(data.value);
-            var cw = 960, ch = 960;
+            var cw = TILE_W, ch = TILE_H;
 
             var anim_scale = animation_curve({ from: 0, to: 250, duration: 500, curve: 'spring' });
 
@@ -1181,7 +1204,7 @@ var INSIGHTS = (function() {
             colors.lines = g_background_color;
 
             var value = parseInt(data.value);
-            var cw = 960, ch = 960;
+            var cw = TILE_W, ch = TILE_H;
 
             return function(ctx, time) {
                 ctx.save();
@@ -1272,7 +1295,7 @@ var INSIGHTS = (function() {
             };
 
             var value = parseInt(data.value);
-            var cw = 960, ch = 960;
+            var cw = TILE_W, ch = TILE_H;
 
             return function(ctx, time) {
                 /*
@@ -1347,7 +1370,7 @@ var INSIGHTS = (function() {
             };
 
             var value = parseInt(data.value);
-            var cw = 960, ch = 960;
+            var cw = TILE_W, ch = TILE_H;
 
             return function(ctx, time) {
                 ctx.save();
@@ -1411,8 +1434,8 @@ var INSIGHTS = (function() {
             }
 
             return function(ctx, time, hold) {
-                var cw = 960;
-                var ch = 960;
+                var cw = TILE_W;
+                var ch = TILE_H;
 
                 ctx.save();
                 ctx.translate(50, ch/2);
@@ -1491,8 +1514,100 @@ var INSIGHTS = (function() {
     // XXX messy
     var g_background_color;
 
+    function override_colors_with_palette(data) {
+        var palette = _.sample(PALETTES);
+        data.background.color = palette.bg;
+        data.title.colors = {
+            text: 'fff',
+            underline: palette.fg
+        };
+        _.each(data.players, function(p) {
+            p.color = 'fff';
+        });
+        data.subtitle.color = 'fff';
+
+        if (data.graphic) {
+            switch (data.graphic.type) {
+                case 'icon-racket':
+                    data.graphic.data.colors = {
+                        handle: 'fff',
+                        frame: palette.fg,
+                        text: 'fff'
+                    };
+                    break;
+
+                case 'icon-court':
+                    data.graphic.data.colors = {
+                        floor: COLORS.court_blue,
+                        lines: 'fff',
+                        ball: palette.fg,
+                        text: 'fff'
+                    };
+                    break;
+
+                case 'icon-ball':
+                    data.graphic.data.colors = {
+                        felt: palette.fg,
+                        line: 'fff',
+                        border: 'fff',
+                        text: 'fff'
+                    };
+                    break;
+
+                case 'icon-net':
+                    data.graphic.data.colors = {
+                          posts: 'fff',
+                          border: 'transparent',
+                          lines: 'fff',
+                          fabric: palette.fg,
+                          text: 'fff'
+                    };
+                    break;
+
+                case 'icon-text':
+                    data.graphic.data.colors = {
+                      text: 'fff'
+                    };
+                    break;
+
+                case 'chart-line':
+                    // XXX color coded on players???
+                    _.each(data.graphic.data.data, function(d) {
+                        d.color = palette.fg;
+                    });
+                    break;
+
+                case 'chart-pie':
+                    // XXX color coded on players???
+                    _.each(data.graphic.data, function(d) {
+                        d.colors = {
+                            fore: palette.fg,
+                            back: COLORS.court_blue,
+                            hole: 'transparent',
+                            text: 'fff',
+                        };
+                    });
+                    break;
+
+                case 'chart-bar':
+                    // XXX color coded on players???
+                    _.each(data.graphic.data, function(d) {
+                        d.colors = {
+                            tail: palette.fg,
+                            head: COLORS.court_blue,
+                            text: 'fff',
+                            label: 'fff'
+                        };
+                    });
+                    break;
+            }
+        }
+    }
+
     function init_tile3(ctx_, data)
     {
+        override_colors_with_palette(data);
+
         var ctx = ctx_;
         var background_color = parse_color(ctx, data.background.color);
         var title_color_text = parse_color(ctx, data.title.colors.text);
@@ -1504,7 +1619,7 @@ var INSIGHTS = (function() {
         g_background_color = background_color;
 
         var draw_graphic = function(ctx, time) {};
-        var cw = 960, ch = 960;
+        var cw = TILE_W, ch = TILE_H;
 
         var factory = graphics[data.graphic.type];
         var draw_graphic = factory(ctx, data.graphic.data);
@@ -1669,9 +1784,7 @@ var INSIGHTS = (function() {
 
             ctx.save();
 
-            var csize = Math.min(ctx.canvas.width, ctx.canvas.height);
-            var cscale = csize/960;
-            if (cscale !== 1) ctx.scale(cscale, cscale);
+            ctx.scale(ctx.canvas.width/TILE_W, ctx.canvas.height/TILE_H);
 
             // background
             ctx.fillStyle = background_color(time);
@@ -1903,33 +2016,27 @@ var INSIGHTS = (function() {
             return data_url.substr(m[0].length);
         },
 
-        preview: function(data, arg) {
-            var canvas;
-            var csize;
-
-            //if (arg instanceof HTMLCanvasElement) {
-            if (arg.width && arg.height) {
-                canvas = arg;
-                csize = Math.min(canvas.width, canvas.height);
-            } else {
-                csize = arg;    // must be number
-                canvas = document.createElement('canvas');
-                canvas.width = canvas.height = csize;
-            }
-
+        preview: function(data, width) {
+            var canvas = document.createElement('canvas');
             var ctx = canvas.getContext('2d');
-
             var ratio = get_canvas_pixel_ratio(ctx);
-            canvas.width = canvas.height = ~~(ratio * csize);
+
+            // calculate logical tile size and set element dimensions
+            var cw = width;
+            var ch = Math.floor(width / TILE_ASPECT);
+            canvas.style.width = cw + 'px';
+            canvas.style.height = ch + 'px';
+
+            // set physical tile size accounting for pixel ratio
+            canvas.width = Math.floor(ratio * cw);
+            canvas.height = Math.floor(ratio * ch);
 
             init(ctx, data)({
                 preview: true,
                 background_only: !!previews_todo
             });
 
-            canvas.style.width = csize+'px';
-            canvas.style.height = csize+'px';
-
+            // is this correct? what about ratio?
             if (previews_todo) {
                 previews_todo.push({
                     canvas: canvas,
