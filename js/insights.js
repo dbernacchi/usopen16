@@ -814,7 +814,7 @@ var INSIGHTS = (function() {
                     var text = ''+x;
                     ctx.fillText(text, tx, ty);
                 }
-                ctx.font = '300 30px lubalin';
+                ctx.font = '300 30px helvneue';
                 ctx.fillText('Set', 13, graph_h + 68);
                 ctx.globalAlpha = 1.0;
                 ctx.lineCap = 'round';
@@ -1520,7 +1520,7 @@ var INSIGHTS = (function() {
 
         function draw_titles(time, title_text) {
             // title
-            ctx.font = '600 62px lubalin';
+            ctx.font = '600 62px helvneue';
             ctx.fillStyle = title_color_text(time);
             var frac = clamp(time/500, 0, 1);
             ctx.globalAlpha = frac;
@@ -1534,7 +1534,7 @@ var INSIGHTS = (function() {
             ctx.fillRect(70, 112, frac*(cw-140), 5);
 
             // subtitle
-            ctx.font = '300 32px lubalin';
+            ctx.font = '300 32px helvneue';
             ctx.fillStyle = subtitle_color(time);
             ctx.save();
             ctx.textAlign = 'center';
@@ -1968,7 +1968,7 @@ var INSIGHTS = (function() {
         load_fonts: function(callback) {
             WebFont.load({
                 custom: {
-                    families: [ 'lubalin:n3,n6', 'helvneue:n2,n4,n7' ],
+                    families: [ 'helvneue:n2,n4,n7' ],
                     urls: [ 'css/fonts.css' ]
                 },
                 active: function() {
