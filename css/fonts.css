@@ -1,17 +1,10 @@
-/* LUBALIN */
-
-@font-face {
-    font-style: normal;
-    font-weight: 300;
-    font-family: lubalin;
-    src: url( ../fonts/LubalinIBM/LubalinforIBM-Book.otf ) format('opentype');
-}
+/* TUNGSTEN */
 
 @font-face {
     font-style: normal;
     font-weight: 600;
-    font-family: lubalin;
-    src: url( ../fonts/LubalinIBM/LubalinforIBM-Demi.otf ) format('opentype');
+    font-family: tungsten;
+    src: url( ../fonts/Tungsten/Tungsten-Semibold.otf ) format('opentype');
 }
 
 /* HELVNEUE */

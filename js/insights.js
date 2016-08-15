@@ -2075,7 +2075,10 @@ var INSIGHTS = (function() {
         load_fonts: function(callback) {
             WebFont.load({
                 custom: {
-                    families: [ 'helvneue:n2,n4,n7' ],
+                    families: [
+                        'helvneue:n2,n4,n7',
+                        'tungsten:n6'
+                    ],
                     urls: [ 'css/fonts.css' ]
                 },
                 active: function() {
