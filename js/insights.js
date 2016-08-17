@@ -1925,8 +1925,15 @@ var INSIGHTS = (function() {
     // this init function takes the data and returns the drawing function for that tile
     // so we can patch in other graphics here!
     function init(ctx, data) {
-        console.assert(data.graphic);
-        return init_tile3(ctx, data).draw;
+            //console.assert(data.graphic);
+            //return init_tile3(ctx, data).draw;
+        if (data.version == '2016') {
+            // patch new version
+            return INSIGHTS_2016.init_tile(ctx, data).draw;
+        } else {
+            console.assert(data.graphic);
+            return init_tile3(ctx, data).draw;
+        }
     }
 
     var animate = (function() {
