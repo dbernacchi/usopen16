@@ -41,7 +41,20 @@ var INSIGHTS_2016 = (function() {
         darkblue2: '#1956c6'
     };
 
-    COLORS.racket = COLORS.lime2;
+    var GIF_COLORS = {
+        blue2: COLORS.blue2,
+        green2: COLORS.green2,
+        lime2: COLORS.lime2,
+        racket: COLORS.lime2,
+        pink1: COLORS.pink1,
+        yellow2: COLORS.yellow2,
+        '01-ace-blue': COLORS.blue2,
+        '01-ace-pink': COLORS.pink1,
+        '03-rebound-green': COLORS.green2,
+        '03-rebound-pink': COLORS.pink1,
+        '08-unforcederrors-lime': COLORS.lime2,
+        '08-unforcederrors-yellow': COLORS.yellow2
+    };
 
     var PI = Math.PI;
     var TWO_PI = 2 * Math.PI;
@@ -74,23 +87,26 @@ var INSIGHTS_2016 = (function() {
             return 'media/' + background;
     }
 
+    var get_gif_player = _.memoize(url => new giflib.Player(url));
+
     function init_tile(ctx, data) {
 
         data = data.data;
 
         var gif = null;
+        var bg_color = 'red';
 
         if (data.background) {
             var gif_url = get_gif_url(data.background);
             if (gif_url) {
                 // FIXME don't start play every time (non-preview)
                 // FIXME cache the gifs
-                gif = new giflib.Player(gif_url);
+                gif = get_gif_player(gif_url);
                 //gif.play();
+                bg_color = GIF_COLORS[data.background.split('.')[0]];
+            } else {
+                bg_color = data.background;
             }
-            var bg_color = get_color(data.background.split('.')[0]);
-        } else {
-            var bg_color = 'red';
         }
 
         var accent = get_color(data.accent);

@@ -1,7 +1,7 @@
 [
     {
         "type": "template-1",
-        "background": "blue2.gif",
+        "background": "01-ace-blue.gif",
         "accent": "lime1",
         "title": "aces in match",
         "subtitle": "fourth round",
@@ -18,7 +18,7 @@
     },
     {
         "type": "template-1",
-        "background": "yellow2.gif",
+        "background": "08-unforcederrors-yellow.gif",
         "accent": "blue1",
         "title": "double faults",
         "subtitle": "fourth round / first set",
@@ -35,7 +35,7 @@
     },
     {
         "type": "template-1",
-        "background": "pink1.gif",
+        "background": "01-ace-pink.gif",
         "accent": "green1",
         "title": "aces",
         "subtitle": "fourth round / first set",
@@ -52,7 +52,7 @@
     },
     {
         "type": "template-1",
-        "background": "lime2.gif",
+        "background": "08-unforcederrors-lime.gif",
         "accent": "pink1",
         "title": "double faults",
         "subtitle": "fourth round / first set",
@@ -69,7 +69,7 @@
     },
     {
         "type": "template-1",
-        "background": "green2.gif",
+        "background": "03-rebound-green.gif",
         "accent": "yellow1",
         "title": "double faults",
         "subtitle": "fourth round / first set",
@@ -293,13 +293,13 @@
     },
     {
         "type": "template-4",
-        "background": "pink1.gif",
+        "background": "03-rebound-pink.gif",
         "accent": "green1",
         "text": "Bigger, faster and stronger players = shorter rallies. On average, a point in men's 2015 Grand Slam matches lasted 4.89 strokes."
     },
     {
         "type": "template-4",
-        "background": "yellow2.gif",
+        "background": "08-unforcederrors-yellow.gif",
         "accent": "blue1",
         "text": "Bigger, faster and stronger players = shorter rallies. On average, a point in men's 2015 Grand Slam matches lasted 4.89 strokes."
     },
@@ -311,7 +311,7 @@
     },
     {
         "type": "template-4",
-        "background": "blue2.gif",
+        "background": "01-ace-blue.gif",
         "accent": "lime1",
         "text": "Bigger, faster and stronger players = shorter rallies. On average, a point in men's 2015 Grand Slam matches lasted 4.89 strokes."
     },
