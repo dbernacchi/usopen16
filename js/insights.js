@@ -2093,7 +2093,9 @@ var INSIGHTS = (function() {
                     callback();
                 }
             });
-        }
+        },
+
+        TextRenderer: TextRenderer
     };
 
 }());

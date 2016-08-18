@@ -1,0 +1,359 @@
+[
+    {
+        "type": "template-1",
+        "background": "blue2.gif",
+        "accent": "lime1",
+        "title": "aces in match",
+        "subtitle": "fourth round",
+        "players": [
+            {
+                "name": "djokovic",
+                "value": 8
+            },
+            {
+                "name": "nadal",
+                "value": 12
+            }
+        ]
+    },
+    {
+        "type": "template-1",
+        "background": "yellow2.gif",
+        "accent": "blue1",
+        "title": "double faults",
+        "subtitle": "fourth round / first set",
+        "players": [
+            {
+                "name": "djokovic",
+                "value": 15
+            },
+            {
+                "name": "nadal",
+                "value": 3
+            }
+        ]
+    },
+    {
+        "type": "template-1",
+        "background": "pink1.gif",
+        "accent": "green1",
+        "title": "aces",
+        "subtitle": "fourth round / first set",
+        "players": [
+            {
+                "name": "djokovic",
+                "value": 10
+            },
+            {
+                "name": "nadal",
+                "value": 6
+            }
+        ]
+    },
+    {
+        "type": "template-1",
+        "background": "lime2.gif",
+        "accent": "pink1",
+        "title": "double faults",
+        "subtitle": "fourth round / first set",
+        "players": [
+            {
+                "name": "djokovic",
+                "value": 2
+            },
+            {
+                "name": "nadal",
+                "value": 3
+            }
+        ]
+    },
+    {
+        "type": "template-1",
+        "background": "green2.gif",
+        "accent": "yellow1",
+        "title": "double faults",
+        "subtitle": "fourth round / first set",
+        "players": [
+            {
+                "name": "djokovic",
+                "value": 14
+            },
+            {
+                "name": "nadal",
+                "value": 3
+            }
+        ]
+    },
+    {
+        "type": "template-2",
+        "background": "pink1.gif",
+        "accent": "green1",
+        "title": "win % on 2nd serve",
+        "subtitle": "fourth round / first set",
+        "players": [
+            {
+                "name": "djokovic",
+                "value": "100%"
+            },
+            {
+                "name": "nadal",
+                "value": "50%"
+            }
+        ]
+    },
+    {
+        "type": "template-2",
+        "background": "lime2.gif",
+        "accent": "pink1",
+        "title": "net points won",
+        "subtitle": "fourth round",
+        "players": [
+            {
+                "name": "djokovic",
+                "value": "100%"
+            },
+            {
+                "name": "nadal",
+                "value": "50%"
+            }
+        ]
+    },
+    {
+        "type": "template-2",
+        "background": "yellow2.gif",
+        "accent": "blue1",
+        "title": "break pt conversions",
+        "subtitle": "fourth round / first set",
+        "players": [
+            {
+                "name": "djokovic",
+                "value": "100%"
+            },
+            {
+                "name": "nadal",
+                "value": "50%"
+            }
+        ]
+    },
+    {
+        "type": "template-2",
+        "background": "blue2.gif",
+        "accent": "lime1",
+        "title": "win % on 1st serve",
+        "subtitle": "fourth round / first set",
+        "players": [
+            {
+                "name": "djokovic",
+                "value": "100%"
+            },
+            {
+                "name": "nadal",
+                "value": "50%"
+            }
+        ]
+    },
+    {
+        "type": "template-2",
+        "background": "green2.gif",
+        "accent": "yellow1",
+        "title": "first serve %",
+        "subtitle": "fourth round / first set",
+        "players": [
+            {
+                "name": "djokovic",
+                "value": "100%"
+            },
+            {
+                "name": "nadal",
+                "value": "50%"
+            }
+        ]
+    },
+    {
+        "type": "template-3",
+        "background": "pink1.gif",
+        "accent": "lime2",
+        "title": "winners",
+        "subtitle": "fourth round / first set",
+        "detail": "fh/bh",
+        "headings": ["fh", "bh", "total"],
+        "players": [
+            {
+                "name": "n. djokovic",
+                "values": [10, 30, 40]
+            },
+            {
+                "name": "a. murray",
+                "values": [40, 60, 100]
+            }
+        ]
+    },
+    {
+        "type": "template-3",
+        "background": "blue2.gif",
+        "accent": "yellow2",
+        "title": "unforced errors",
+        "detail": "fh/bh",
+        "subtitle": "fourth round / first set",
+        "headings": ["fh", "bh", "total"],
+        "players": [
+            {
+                "name": "n. djokovic",
+                "values": [120, 106, 113]
+            },
+            {
+                "name": "a. murray",
+                "values": [120, 106, 113]
+            }
+        ]
+    },
+
+
+    {
+        "type": "template-3",
+        "background": "green2.gif",
+        "accent": "pink1",
+        "title": "avg serve speed",
+        "detail": "mph",
+        "subtitle": "fourth round",
+        "headings": ["1st", "2nd", "avg"],
+        "players": [
+            {
+                "name": "n. djokovic",
+                "values": [120, 106, 113]
+            },
+            {
+                "name": "a. murray",
+                "values": [120, 106, 113]
+            }
+        ]
+    },
+    {
+        "type": "template-3",
+        "background": "yellow2.gif",
+        "accent": "blue2",
+        "title": "winners",
+        "detail": "fh/bh",
+        "subtitle": "fourth round / first set",
+        "headings": ["fh", "bh", "total"],
+        "players": [
+            {
+                "name": "n. djokovic",
+                "values": [15, 15, 30]
+            },
+            {
+                "name": "a. murray",
+                "values": [20, 20, 40]
+            }
+        ]
+    },
+    {
+        "type": "template-3",
+        "background": "lime2.gif",
+        "accent": "pink1",
+        "title": "total pts won",
+        "subtitle": "fourth round / first set",
+        "detail": "fh/bh",
+        "headings": ["fh", "bh", "total"],
+        "players": [
+            {
+                "name": "n. djokovic",
+                "values": [120, 106, 113]
+            },
+            {
+                "name": "a. murray",
+                "values": [120, 106, 113]
+            }
+        ]
+    },
+    {
+        "type": "template-3",
+        "background": "green2.gif",
+        "accent": "pink1",
+        "title": "fastest serve speed",
+        "subtitle": "fourth round",
+        "detail": "mph",
+        "headings": ["1st", "2nd"],
+        "players": [
+            {
+                "name": "n. djokovic",
+                "values": [120, 106]
+            },
+            {
+                "name": "a. murray",
+                "values": [120, 106]
+            }
+        ]
+    },
+    {
+        "type": "template-4",
+        "background": "green2.gif",
+        "accent": "yellow1",
+        "text": "Bigger, faster and stronger players = shorter rallies. On average, a point in men's 2015 Grand Slam matches lasted 4.89 strokes."
+    },
+    {
+        "type": "template-4",
+        "background": "pink1.gif",
+        "accent": "green1",
+        "text": "Bigger, faster and stronger players = shorter rallies. On average, a point in men's 2015 Grand Slam matches lasted 4.89 strokes."
+    },
+    {
+        "type": "template-4",
+        "background": "yellow2.gif",
+        "accent": "blue1",
+        "text": "Bigger, faster and stronger players = shorter rallies. On average, a point in men's 2015 Grand Slam matches lasted 4.89 strokes."
+    },
+    {
+        "type": "template-4",
+        "background": "lime2.gif",
+        "accent": "pink1",
+        "text": "Bigger, faster and stronger players = shorter rallies. On average, a point in men's 2015 Grand Slam matches lasted 4.89 strokes."
+    },
+    {
+        "type": "template-4",
+        "background": "blue2.gif",
+        "accent": "lime1",
+        "text": "Bigger, faster and stronger players = shorter rallies. On average, a point in men's 2015 Grand Slam matches lasted 4.89 strokes."
+    },
+    {
+        "type": "template-4",
+        "background": "racket.gif",
+        "accent": "pink1",
+        "text": "Bigger, faster and stronger players = shorter rallies. On average, a point in men's 2015 Grand Slam matches lasted 4.89 strokes."
+    },
+
+    {
+        "type": "personality-summary",
+        "background": "darkblue1",
+        "player": {
+            "name": "serena williams",
+            "username": "@serena"
+        },
+        "score": 0.79
+    },
+
+    {
+        "type": "personality-details",
+        "background": "darkblue2",
+        "traits": [
+            ["cautious", "curious"],
+            ["organized", "easy going"],
+            ["outgoing", "reserved"],
+            ["sensitive", "confident"],
+            ["resolutive", "analytical"]
+        ],
+        "players": [
+            {
+                "username": "@akiko",
+                "scores": [ -1, 1, -1, -1, -1 ]
+            },
+            {
+                "username": "@serena",
+                "scores": [ 1, -1, 1, 1, 1 ]
+            }
+        ],
+        "user": {
+            "scores": [ -0.1, 0.4, 0.6, -0.2, 0.2 ]
+        }
+    }
+]

@@ -394,7 +394,7 @@
         this.width = 0;
         this.height = 0;
         this.loaded = false;
-        this.frame_index = 0;
+        this.frame_index = -1;
 
         fetch_data(url, function(data) {
             var stream = new Stream(data);
@@ -437,9 +437,19 @@
     };
 
     Player.prototype.draw_frame = function(frame_index) {
-        var ctx = this.ctx;
+        if (frame_index < 0)
+            frame_index = 0;
+        if (frame_index >= this.frames.length)
+            frame_index = this.frames.length - 1;
+        if (frame_index == this.frame_index)
+            return;
+        this.frame_index = frame_index;
+
+
         var frame = this.frames[frame_index];
         var rect = frame.rect;
+
+        var ctx = this.ctx;
         var image = ctx.getImageData(rect[0], rect[1], rect[2], rect[3]);
         var dst = image.data, dp = 0;
         var src = frame.pixels, sp = 0, sp_end = src.length;
