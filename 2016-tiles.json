@@ -323,37 +323,37 @@
     },
 
     {
-        "type": "personality-summary",
-        "background": "darkblue1",
-        "player": {
-            "name": "serena williams",
-            "username": "@serena"
-        },
-        "score": 0.79
-    },
-
-    {
-        "type": "personality-details",
-        "background": "darkblue2",
-        "traits": [
-            ["cautious", "curious"],
-            ["organized", "easy going"],
-            ["outgoing", "reserved"],
-            ["sensitive", "confident"],
-            ["resolutive", "analytical"]
-        ],
-        "players": [
-            {
-                "username": "@akiko",
-                "scores": [ -1, 1, -1, -1, -1 ]
+        "type": "personality",
+        
+        "summary": {
+            "player": {
+                "name": "serena williams",
+                "username": "@serena"
             },
-            {
-                "username": "@serena",
-                "scores": [ 1, -1, 1, 1, 1 ]
+            "score": 0.79
+        },
+
+        "details": {
+            "traits": [
+                ["cautious", "curious"],
+                ["organized", "easy going"],
+                ["outgoing", "reserved"],
+                ["sensitive", "confident"],
+                ["resolutive", "analytical"]
+            ],
+            "players": [
+                {
+                    "username": "@akiko",
+                    "scores": [ -1, 1, -1, -1, -1 ]
+                },
+                {
+                    "username": "@serena",
+                    "scores": [ 1, -1, 1, 1, 1 ]
+                }
+            ],
+            "user": {
+                "scores": [ -0.1, 0.4, 0.6, -0.2, 0.2 ]
             }
-        ],
-        "user": {
-            "scores": [ -0.1, 0.4, 0.6, -0.2, 0.2 ]
         }
     }
 ]

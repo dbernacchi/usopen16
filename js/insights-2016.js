@@ -79,14 +79,19 @@ var INSIGHTS_2016 = (function() {
         data = data.data;
 
         var gif = null;
-        var gif_url = get_gif_url(data.background);
-        if (gif_url) {
-            // FIXME don't start play every time (non-preview)
-            // FIXME cache the gifs
-            gif = new giflib.Player(gif_url);
-            //gif.play();
+
+        if (data.background) {
+            var gif_url = get_gif_url(data.background);
+            if (gif_url) {
+                // FIXME don't start play every time (non-preview)
+                // FIXME cache the gifs
+                gif = new giflib.Player(gif_url);
+                //gif.play();
+            }
+            var bg_color = get_color(data.background.split('.')[0]);
+        } else {
+            var bg_color = 'red';
         }
-        var bg_color = get_color(data.background.split('.')[0]);
 
         var accent = get_color(data.accent);
 
@@ -347,10 +352,13 @@ var INSIGHTS_2016 = (function() {
         }
 
         function draw_personality_summary(ctx, time) {
-            var d = data;
+            var d = data.summary;
             var tt = Math.min(1, time/1000);
             var cw = TILE_W;
             var ch = TILE_H;
+
+            ctx.fillStyle = COLORS.darkblue1;
+            ctx.fillRect(0, 0, cw, ch);
 
             ctx.fillStyle = COLORS.pink1;
             ctx.fillRect(0, 0, cw, 250);
@@ -410,10 +418,13 @@ var INSIGHTS_2016 = (function() {
         }
 
         function draw_personality_details(ctx, time) {
-            var d = data;
+            var d = data.details;
             var tt = Math.min(1, time/1000);
             var cw = TILE_W;
             var ch = TILE_H;
+
+            ctx.fillStyle = COLORS.darkblue2;
+            ctx.fillRect(0, 0, cw, ch);
 
             ctx.save();
             ctx.translate(cw/2 - 12, 155);
@@ -498,6 +509,13 @@ var INSIGHTS_2016 = (function() {
             ctx.restore();
         }
 
+        function draw_personality(ctx, time, loop_index) {
+            if (loop_index & 1)
+                draw_personality_details(ctx, time);
+            else
+                draw_personality_summary(ctx, time);
+        }
+
         function draw(options) {
             var preview = !!options.preview;
             var PREVIEW_TIME = 4125 * 1.5;
@@ -507,6 +525,7 @@ var INSIGHTS_2016 = (function() {
             // loop 5 secs
             var t = time / 5000;
             time = (t - Math.floor(t)) * 5000;
+            var loop_index = ~~t;
 
             ctx.save();
             ctx.scale(ctx.canvas.width/TILE_W, ctx.canvas.height/TILE_H);
@@ -543,12 +562,8 @@ var INSIGHTS_2016 = (function() {
                 draw_template4(ctx, time);
                 break;
 
-            case 'personality-summary':
-                draw_personality_summary(ctx, time);
-                break;
-
-            case 'personality-details':
-                draw_personality_details(ctx, time);
+            case 'personality':
+                draw_personality(ctx, time, loop_index);
                 break;
 
             default:
