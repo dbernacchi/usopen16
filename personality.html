@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+
+    <style>
+        body {
+            margin: 5px;
+            background-color: #333;
+        }
+
+        .player {
+            display: none;
+            position: fixed;
+            box-shadow: 4px 4px 4px #333;
+            padding: 5px;
+
+            left: 50%;
+            top: 50%;
+            margin-left: -300px;
+            margin-top: -250px;
+            width: 600px;
+            height: 500px;
+        }
+
+        .player canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+
+    <script>
+        if (location.hostname == 'localhost') {
+            document.write(
+                '<script src="http://' +
+                (location.host || 'localhost').split(':')[0] +
+                ':35729/livereload.js"></' +
+                'script>');
+        }
+    </script>
+</head>
+<body>
+    <div class="player"></div>
+
+    <script src="js/vendor/jquery-2.1.3.min.js"></script>
+    <script src="js/vendor/lodash.min.js"></script>
+    <script src="js/vendor/webfont.js"></script>
+    <script src="js/giflib.js"></script>
+    <script src="js/insights.js"></script>
+    <script src="js/insights-2016.js"></script>
+
+    <script>
+        // personality tile data
+        var tile_data ={
+            "type": "personality",
+
+            "summary": {
+                "player": {
+                    "name": "serena williams",
+                    "username": "@serena"
+                },
+                "score": 0.79
+            },
+
+            "details": {
+                "traits": [
+                    ["cautious", "curious"],
+                    ["organized", "easy going"],
+                    ["outgoing", "reserved"],
+                    ["sensitive", "confident"],
+                    ["resolutive", "analytical"]
+                ],
+                "players": [
+                {
+                    "username": "@akiko",
+                    "scores": [ -1, 1, -1, -1, -1 ]
+                },
+                {
+                    "username": "@serena",
+                    "scores": [ 1, -1, 1, 1, 1 ]
+                }
+                ],
+                "user": {
+                    "scores": [ -0.1, 0.4, 0.6, -0.2, 0.2 ]
+                }
+            }
+        };
+
+        // the data wrapper from the cms (2015 format)
+        var cms_data = {
+            type: 'insight',
+            url: 'http://www.usopen.org/index.html',
+            tags: [ 2 ],
+            content: {
+                id: 'A',
+                version: '2016',
+                data: tile_data
+            }
+        };
+
+        function play_tile() {
+            var el = INSIGHTS.play(cms_data.content);
+            $('.player').html(el).show();
+        }
+
+        // ensure fonts loaded and play the tile animation
+        INSIGHTS.load_fonts(play_tile);
+    </script>
+</body>
+</html>
