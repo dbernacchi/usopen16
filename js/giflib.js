@@ -385,7 +385,7 @@
         req.send();
     }
 
-    function Player(url) {
+    function Player(url, on_first_frame) {
         var canvas = this.el = document.createElement('canvas');
         this.ctx = canvas.getContext('2d');
 
@@ -395,6 +395,9 @@
         this.height = 0;
         this.loaded = false;
         this.frame_index = -1;
+
+        // listeners will be fired when first frame is ready
+        this.on_first_frame_callbacks = [];
 
         fetch_data(url, function(data) {
             var stream = new Stream(data);
@@ -418,6 +421,10 @@
                         rect: [img.leftPos, img.topPos, img.width, img.height]
                     };
                     self.push_frame(frame);
+
+                    if (self.frames.length == 1) {
+                        self.fire_on_first_frame_callbacks();
+                    }
                 },
                 eof() {
                     self.loaded = true;
@@ -427,6 +434,18 @@
             parse(stream, handler);
         });
     }
+
+    Player.prototype.on_first_frame = function(callback) {
+        if (this.frames.length)
+            callback();
+        else
+            this.on_first_frame_callbacks.push(callback);
+    };
+
+    Player.prototype.fire_on_first_frame_callbacks = function() {
+        var self = this;
+        _.each(this.on_first_frame_callbacks, function(callback) { callback(self) });
+    };
 
     Player.prototype.push_frame = function(frame) {
         this.frames.push(frame);

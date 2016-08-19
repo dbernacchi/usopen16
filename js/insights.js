@@ -1915,11 +1915,12 @@ var INSIGHTS = (function() {
         };
     }
 
+    // FIXME
     function resize_canvas(canvas, ratio) {
-        var size = ~~(ratio * Math.min(canvas.clientWidth, canvas.clientHeight));
-        if (canvas.width !== size) canvas.width = size;
-        if (canvas.height !== size) canvas.height = size;
-        return size;
+        var w = ~~(ratio * canvas.clientWidth);
+        var h = ~~(ratio * canvas.clientHeight);
+        if (canvas.width !== w) canvas.width = w;
+        if (canvas.height !== h) canvas.height = h;
     }
 
     // this init function takes the data and returns the drawing function for that tile
@@ -1943,6 +1944,10 @@ var INSIGHTS = (function() {
         var redraw = null;
         var start_time = 0;
 
+        // this is the original content of the canvas at the start of playback
+        // which we will restore on stopping.
+        var saved_image;
+
         function animation_callback(time) {
             if (!ctx) return;
             requestAnimationFrame(animation_callback);
@@ -1957,15 +1962,32 @@ var INSIGHTS = (function() {
         return function(data, canvas) {
             if (!data || !canvas) {
                 // stop animation
+                
+                // 1. restore image
+                ctx.putImageData(saved_image, 0, 0);
+                saved_image = null;
+
+                // 2. stop the loop
                 ctx = null;
                 redraw = null;
                 return;
             }
 
-            var startup = !ctx;
+            console.assert(canvas);
 
+            if (ctx && ctx.canvas !== canvas) {
+                // new canvas: restore old
+                ctx.putImageData(saved_image, 0, 0);
+                saved_image = null;
+            }
+
+            var startup = !ctx;
             ctx = canvas.getContext('2d');
             ratio = get_canvas_pixel_ratio(ctx);
+
+
+            // save canvas content
+            saved_image = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
             redraw = init(ctx, data);
             start_time = 0;

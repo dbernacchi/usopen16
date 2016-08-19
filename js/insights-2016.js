@@ -89,9 +89,9 @@ var INSIGHTS_2016 = (function() {
 
     var get_gif_player = _.memoize(url => new giflib.Player(url));
 
-    function init_tile(ctx, data) {
+    function init_tile(ctx, _data) {
 
-        data = data.data;
+        data = _data.data;
 
         var gif = null;
         var bg_color = 'red';
@@ -104,6 +104,16 @@ var INSIGHTS_2016 = (function() {
                 gif = get_gif_player(gif_url);
                 //gif.play();
                 bg_color = GIF_COLORS[data.background.split('.')[0]];
+
+                if (!gif.frames[0]) {
+                    gif.on_first_frame(function() {
+                        // revisit the tile and redraw when first frame is available
+                        var draw = init_tile(ctx, _data).draw;
+                        draw({ preview: true });
+                    });
+                    // continue drawing with bg color...
+                    //return { draw: function() {} };
+                }
             } else {
                 bg_color = data.background;
             }
@@ -556,8 +566,14 @@ var INSIGHTS_2016 = (function() {
                 gif.draw_frame(frame_index);
                 ctx.drawImage(gif.el, 0, 0, cw, ch);
             } else {
-                ctx.fillStyle = bg_color;
-                ctx.fillRect(0, 0, cw, ch);
+                if (gif && gif.frames[0]) {
+                    console.log('frame0');
+                    gif.draw_frame(0);
+                    ctx.drawImage(gif.el, 0, 0, cw, ch);
+                } else {
+                    ctx.fillStyle = bg_color;
+                    ctx.fillRect(0, 0, cw, ch);
+                }
             }
 
             ctx.save();
@@ -603,11 +619,7 @@ var INSIGHTS_2016 = (function() {
             ctx.restore();
         }
 
-        return {
-            id: data.id,
-            data: data,
-            draw: draw
-        };
+        return { draw: draw };
     }
 
     return {

@@ -130,7 +130,9 @@
                     ctx.drawImage(logo_bar, 0, 0);
 
                     insight_tiles.push(tile);
-                    $thumbnails.append( canv );
+
+                    var $el = $(canv).addClass('thumbnail');
+                    $thumbnails.append($el);
                 });
             }
 
@@ -173,12 +175,16 @@
                 });
             });
 
+            var playing = false;
+
             // click on thumbnail to open animation in player
             $thumbnails.on('click', 'canvas', function(e) {
                 var tile = insight_tiles[ $(this).index() ];
                 var el = INSIGHTS.play(tile.content);
                 $player.html(el).show();
                 $thumbnails.addClass('dimmed');
+                playing = true;
+                //e.preventDefault();
                 return false;
             });
 
@@ -187,7 +193,28 @@
                 INSIGHTS.stop();
                 $player.hide();
                 $thumbnails.removeClass('dimmed');
+                playing = false;
             });
+
+            // hover/rollover to animate
+            $('.thumbnails').on('mouseenter mouseleave', '.thumbnail', function(e) {
+                var tile_index = $(this).index();
+                console.log(tile_index, e.type, playing);
+
+                if (playing) {
+                    // no rollover animation when playing
+                    return;
+                }
+
+                if (e.type == 'mouseenter') {
+                    var tile_data = insight_tiles[tile_index];
+                    INSIGHTS.play(tile_data.content, this);
+                } else if (e.type == 'mouseleave') {
+                    INSIGHTS.stop();
+                }
+            });
+
+            // good but needs to return to preview image...
         }
 
         $( main );
