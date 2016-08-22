@@ -79,6 +79,7 @@ var INSIGHTS_2016 = (function() {
     function init_tile(ctx, _data) {
 
         data = _data.data;
+        var format = INSIGHTS.parse_format(data.format);
 
         var gif = null;
         var bg_color = 'red';
@@ -528,35 +529,8 @@ var INSIGHTS_2016 = (function() {
         }
 
         function draw_personality(ctx, time, loop_index) {
-            // determine format
-            var cw = ctx.canvas.width;
-            var ch = ctx.canvas.height;
-
-            var format_aspect = cw / (ch * TILE_ASPECT);
-            var format_code = Math.round(format_aspect * 2);
-            var rows, cols;
-
-            switch (format_code) {
-            case 1: // 1x2
-                cols = 1
-                rows = 2;
-                break;
-
-            case 2: // 1x1
-                cols = 1
-                rows = 1;
-                break;
-
-            case 4: // 2x1
-                cols = 2
-                rows = 1;
-                break;
-
-            case 6: // 3x2
-                cols = 3
-                rows = 1;
-                break;
-            }
+            var cols = format[0];
+            var rows = format[1];
 
             ctx.save();
             ctx.setTransform(1, 0, 0, 1, 0, 0);
@@ -565,26 +539,26 @@ var INSIGHTS_2016 = (function() {
             var cw = TILE_W;
             var ch = TILE_H;
 
-            if (format_code == 2) {
+            if (cols == 1 && rows == 1) {
                 if (loop_index & 1)
                     draw_personality_details(ctx, time);
                 else
                     draw_personality_summary(ctx, time);
             }
 
-            if (format_code == 4) {
+            if (cols == 2 && rows == 1) {
                 draw_personality_summary(ctx, time);
                 ctx.translate(cw, 0);
                 draw_personality_details(ctx, time);
             }
 
-            if (format_code == 1) {
+            if (cols == 1 && rows == 2) {
                 draw_personality_summary(ctx, time);
                 ctx.translate(0, ch);
                 draw_personality_details(ctx, time);
             }
 
-            if (format_code == 6) {
+            if (cols == 3 && rows == 1) {
                 draw_personality_summary(ctx, time);
                 ctx.translate(cw, 0);
                 draw_personality_details(ctx, time, 2);

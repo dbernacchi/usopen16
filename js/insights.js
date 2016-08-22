@@ -1,5 +1,13 @@
 var INSIGHTS = (function() {
 
+    function parse_format(format) {
+        if (!format) return [1, 1];
+        var bits = format.split(':');
+        var cols = +bits[0];
+        var rows = +bits[1];
+        return [cols, rows];
+    }
+
     var TILE_ASPECT = 300/250;
     var TILE_W = 960 * TILE_ASPECT;
     var TILE_H = 960;
@@ -2057,12 +2065,9 @@ var INSIGHTS = (function() {
             var ch = Math.floor(width / TILE_ASPECT);
 
             if (data.data.format) {
-                // format stuff for personality
-                var bits = data.data.format.split(':');
-                var cols = +bits[0];
-                var rows = +bits[1];
-                cw *= cols;
-                ch *= rows;
+                var f = parse_format(data.data.format);
+                cw *= f[0];
+                ch *= f[1];
             }
 
             canvas.style.width = cw + 'px';
@@ -2130,7 +2135,8 @@ var INSIGHTS = (function() {
         },
 
         TextRenderer: TextRenderer,
-        get_canvas_pixel_ratio: get_canvas_pixel_ratio
+        get_canvas_pixel_ratio: get_canvas_pixel_ratio,
+        parse_format: parse_format
     };
 
 }());

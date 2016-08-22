@@ -44,12 +44,10 @@
             display: flex;
             box-sizing: border-box;
             box-shadow: 4px 4px 4px #333;
-            width: 600px;
-            height: 500px;
         }
 
         .player canvas {
-            flex: 1
+            flex: 1;
         }
 
         .debug {
@@ -175,13 +173,27 @@
                 var tile = insight_tiles[ $(this).index() ];
                 var el = INSIGHTS.play(tile.content);
 
-                // make player tile 2x
+                // make player tile 2x, but respect window size
                 var tile_w = 2 * $(this).width();
                 var tile_h = 2 * $(this).height();
+                var tile_aspect = tile_w / tile_h;
+
+                if (tile_w > window.innerWidth) {
+                    tile_w = window.innerWidth;
+                    tile_h = tile_w / tile_aspect;
+                }
+
+                if (tile_h > window.innerHeight) {
+                    tile_h = window.innerHeight;
+                    tile_w = tile_h * tile_aspect;
+                }
 
                 $player
                     .html(el)
-                    .css({ width: tile_w + 'px', height: tile_h + 'px' })
+                    .css({
+                        width: tile_w + 'px',
+                        height: tile_h + 'px'
+                    })
                     .show();
 
                 $thumbnails.addClass('dimmed');
