@@ -72,7 +72,9 @@ var INSIGHTS_2016 = (function() {
             return 'media/' + background;
     }
 
-    var get_gif_player = _.memoize(url => new giflib.Player(url));
+    var get_gif_player = _.memoize(function(url) {
+        return new giflib.Player(url);
+    });
 
     function init_tile(ctx, _data) {
 

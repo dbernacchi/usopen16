@@ -138,16 +138,18 @@
 
             function get_insight_tiles() {
                 return $.getJSON('2016-tiles.json').then(function(data) {
-                    return _.map(data, d => ({
-                        type: 'insight',
-                        url: 'http://www.usopen.org/index.html',
-                        tags: [ 2 ],
-                        content: {
-                            id: 'A',
-                            version: '2016',
-                            data: d
-                        }
-                    }));
+                    return _.map(data, function(d) {
+                        return {
+                            type: 'insight',
+                            url: 'http://www.usopen.org/index.html',
+                            tags: [ 2 ],
+                            content: {
+                                id: 'A',
+                                version: '2016',
+                                data: d
+                            }
+                        };
+                    });
                 });
             }
 
