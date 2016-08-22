@@ -558,8 +558,6 @@ var INSIGHTS_2016 = (function() {
                 break;
             }
 
-            console.log(cw, ch, format_aspect, format_code, cols, rows);
-
             ctx.save();
             ctx.setTransform(1, 0, 0, 1, 0, 0);
             ctx.scale((ctx.canvas.width/cols)/TILE_W, (ctx.canvas.height/rows)/TILE_H);
