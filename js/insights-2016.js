@@ -4,21 +4,6 @@ var INSIGHTS_2016 = (function() {
         return s.substr(0,1).toUpperCase() + s.substr(1);
     }
 
-    function load_guide(name) {
-        var img = new Image;
-        img.src = `guide/${name}.png`;
-        return img;
-    }
-
-    var guides = {};
-    [1, 2, 3, 4].forEach(n => {
-        var t = 'template-' + n;
-        guides[t] = load_guide(t);
-    });
-
-    //guides['personality-summary'] = load_guide('personality-summary');
-    //guides['personality-details'] = load_guide('personality-details');
-
     var TILE_ASPECT = 6/5;
     var TILE_H = 1000;
     var TILE_W = TILE_H * TILE_ASPECT
@@ -668,18 +653,6 @@ var INSIGHTS_2016 = (function() {
                 break;
             }
             ctx.restore();
-
-            // draw the guide
-            //if (data.type != 'template-1' && data.type != 'template-2' && data.type != 'template-3' && data.type != 'template-4')
-            if (0)
-            {
-                var guide = guides[data.type];
-                if (guide) {
-                    ctx.globalCompositeOperation = 'source-over';
-                    ctx.globalAlpha = 0.5;
-                    ctx.drawImage(guide, 0, 0, cw, ch);
-                }
-            }
 
             ctx.restore();
         }
