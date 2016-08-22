@@ -446,10 +446,12 @@ var INSIGHTS_2016 = (function() {
             ctx.restore();
         }
 
-        function draw_personality_details(ctx, time) {
+        function draw_personality_details(ctx, time, cols) {
+            cols = cols || 1;
             var d = data.details;
             var tt = Math.min(1, time/1000);
-            var cw = TILE_W;
+            //var cw = TILE_W;
+            var cw = cols * TILE_W;
             var ch = TILE_H;
 
             ctx.fillStyle = COLORS.darkblue2;
@@ -500,7 +502,7 @@ var INSIGHTS_2016 = (function() {
             ctx.fillStyle = COLORS.type_light;
 
             _.each(d.traits, function(names, index) {
-                var w = 230;
+                var w = 230 + ((cols-1) * 420);
                 var tw = w + 90;
 
                 ctx.beginPath();
@@ -539,10 +541,71 @@ var INSIGHTS_2016 = (function() {
         }
 
         function draw_personality(ctx, time, loop_index) {
-            if (loop_index & 1)
-                draw_personality_details(ctx, time);
-            else
+            // determine format
+            var cw = ctx.canvas.width;
+            var ch = ctx.canvas.height;
+
+            var format_aspect = cw / (ch * TILE_ASPECT);
+            var format_code = Math.round(format_aspect * 2);
+            var rows, cols;
+
+            switch (format_code) {
+            case 1: // 1x2
+                cols = 1
+                rows = 2;
+                break;
+
+            case 2: // 1x1
+                cols = 1
+                rows = 1;
+                break;
+
+            case 4: // 2x1
+                cols = 2
+                rows = 1;
+                break;
+
+            case 6: // 3x2
+                cols = 3
+                rows = 1;
+                break;
+            }
+
+            console.log(cw, ch, format_aspect, format_code, cols, rows);
+
+            ctx.save();
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            ctx.scale((ctx.canvas.width/cols)/TILE_W, (ctx.canvas.height/rows)/TILE_H);
+
+            var cw = TILE_W;
+            var ch = TILE_H;
+
+            if (format_code == 2) {
+                if (loop_index & 1)
+                    draw_personality_details(ctx, time);
+                else
+                    draw_personality_summary(ctx, time);
+            }
+
+            if (format_code == 4) {
                 draw_personality_summary(ctx, time);
+                ctx.translate(cw, 0);
+                draw_personality_details(ctx, time);
+            }
+
+            if (format_code == 1) {
+                draw_personality_summary(ctx, time);
+                ctx.translate(0, ch);
+                draw_personality_details(ctx, time);
+            }
+
+            if (format_code == 6) {
+                draw_personality_summary(ctx, time);
+                ctx.translate(cw, 0);
+                draw_personality_details(ctx, time, 2);
+            }
+
+            ctx.restore();
         }
 
         function draw(options) {

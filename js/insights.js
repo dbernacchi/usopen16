@@ -1964,11 +1964,13 @@ var INSIGHTS = (function() {
                 // stop animation
                 
                 // 1. restore image
-                ctx.putImageData(saved_image, 0, 0);
-                saved_image = null;
+                if (ctx) {
+                    ctx.putImageData(saved_image, 0, 0);
+                    ctx = null;
+                    saved_image = null;
+                }
 
                 // 2. stop the loop
-                ctx = null;
                 redraw = null;
                 return;
             }
@@ -2053,6 +2055,16 @@ var INSIGHTS = (function() {
             // calculate logical tile size and set element dimensions
             var cw = width;
             var ch = Math.floor(width / TILE_ASPECT);
+
+            if (data.data.format) {
+                // format stuff for personality
+                var bits = data.data.format.split(':');
+                var cols = +bits[0];
+                var rows = +bits[1];
+                cw *= cols;
+                ch *= rows;
+            }
+
             canvas.style.width = cw + 'px';
             canvas.style.height = ch + 'px';
 

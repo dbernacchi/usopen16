@@ -324,6 +324,117 @@
 
     {
         "type": "personality",
+
+        "summary": {
+            "player": {
+                "name": "serena williams",
+                "username": "@serena"
+            },
+            "score": 0.79
+        },
+
+        "details": {
+            "traits": [
+                ["cautious", "curious"],
+                ["organized", "easy going"],
+                ["outgoing", "reserved"],
+                ["sensitive", "confident"],
+                ["resolutive", "analytical"]
+            ],
+            "players": [
+                {
+                    "username": "@akiko",
+                    "scores": [ -1, 1, -1, -1, -1 ]
+                },
+                {
+                    "username": "@serena",
+                    "scores": [ 1, -1, 1, 1, 1 ]
+                }
+            ],
+            "user": {
+                "scores": [ -0.1, 0.4, 0.6, -0.2, 0.2 ]
+            }
+        }
+    },
+
+    {
+        "type": "personality",
+        
+        "format": "2:1",
+        
+        "summary": {
+            "player": {
+                "name": "serena williams",
+                "username": "@serena"
+            },
+            "score": 0.79
+        },
+
+        "details": {
+            "traits": [
+                ["cautious", "curious"],
+                ["organized", "easy going"],
+                ["outgoing", "reserved"],
+                ["sensitive", "confident"],
+                ["resolutive", "analytical"]
+            ],
+            "players": [
+                {
+                    "username": "@akiko",
+                    "scores": [ -1, 1, -1, -1, -1 ]
+                },
+                {
+                    "username": "@serena",
+                    "scores": [ 1, -1, 1, 1, 1 ]
+                }
+            ],
+            "user": {
+                "scores": [ -0.1, 0.4, 0.6, -0.2, 0.2 ]
+            }
+        }
+    },
+
+    {
+        "type": "personality",
+        
+        "format": "3:1",
+        
+        "summary": {
+            "player": {
+                "name": "serena williams",
+                "username": "@serena"
+            },
+            "score": 0.79
+        },
+
+        "details": {
+            "traits": [
+                ["cautious", "curious"],
+                ["organized", "easy going"],
+                ["outgoing", "reserved"],
+                ["sensitive", "confident"],
+                ["resolutive", "analytical"]
+            ],
+            "players": [
+                {
+                    "username": "@akiko",
+                    "scores": [ -1, 1, -1, -1, -1 ]
+                },
+                {
+                    "username": "@serena",
+                    "scores": [ 1, -1, 1, 1, 1 ]
+                }
+            ],
+            "user": {
+                "scores": [ -0.1, 0.4, 0.6, -0.2, 0.2 ]
+            }
+        }
+    },
+
+    {
+        "type": "personality",
+        
+        "format": "1:2",
         
         "summary": {
             "player": {
