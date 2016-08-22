@@ -2117,7 +2117,8 @@ var INSIGHTS = (function() {
             });
         },
 
-        TextRenderer: TextRenderer
+        TextRenderer: TextRenderer,
+        get_canvas_pixel_ratio: get_canvas_pixel_ratio
     };
 
 }());

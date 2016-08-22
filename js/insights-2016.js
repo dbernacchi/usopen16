@@ -109,6 +109,9 @@ var INSIGHTS_2016 = (function() {
                     gif.on_first_frame(function() {
                         // revisit the tile and redraw when first frame is available
                         var draw = init_tile(ctx, _data).draw;
+                        // need to scale to avoid retina issues
+                        // XXX why is this context in a weird transform state?
+                        ctx.setTransform(1, 0, 0, 1, 0, 0);
                         draw({ preview: true });
                     });
                     // continue drawing with bg color...
@@ -567,7 +570,6 @@ var INSIGHTS_2016 = (function() {
                 ctx.drawImage(gif.el, 0, 0, cw, ch);
             } else {
                 if (gif && gif.frames[0]) {
-                    console.log('frame0');
                     gif.draw_frame(0);
                     ctx.drawImage(gif.el, 0, 0, cw, ch);
                 } else {
