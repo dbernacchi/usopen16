@@ -325,10 +325,12 @@
     {
         "type": "personality",
 
+        "format": "1:1",
+
         "summary": {
             "player": {
                 "name": "serena williams",
-                "username": "@serena"
+                "username": "@SERENAXXXXXXXXXX"
             },
             "score": 0.79
         },
@@ -343,11 +345,11 @@
             ],
             "players": [
                 {
-                    "username": "@akiko",
+                    "username": "@SERENAXXXXXXXXXX",
                     "scores": [ -1, 1, -1, -1, -1 ]
                 },
                 {
-                    "username": "@serena",
+                    "username": "S.WILLIAMSXXXXXXX",
                     "scores": [ 1, -1, 1, 1, 1 ]
                 }
             ],
@@ -365,7 +367,7 @@
         "summary": {
             "player": {
                 "name": "serena williams",
-                "username": "@serena"
+                "username": "@SERENAXXXXXXXXXX"
             },
             "score": 0.79
         },
@@ -380,11 +382,11 @@
             ],
             "players": [
                 {
-                    "username": "@akiko",
+                    "username": "S.WILLIAMSXXXXXXX",
                     "scores": [ -1, 1, -1, -1, -1 ]
                 },
                 {
-                    "username": "@serena",
+                    "username": "@SERENAXXXXXXXXXX",
                     "scores": [ 1, -1, 1, 1, 1 ]
                 }
             ],
@@ -402,7 +404,7 @@
         "summary": {
             "player": {
                 "name": "serena williams",
-                "username": "@serena"
+                "username": "@SERENAXXXXXXXXXX"
             },
             "score": 0.79
         },
@@ -417,11 +419,11 @@
             ],
             "players": [
                 {
-                    "username": "@akiko",
+                    "username": "S.WILLIAMSXXXXXXX",
                     "scores": [ -1, 1, -1, -1, -1 ]
                 },
                 {
-                    "username": "@serena",
+                    "username": "@SERENAXXXXXXXXXX",
                     "scores": [ 1, -1, 1, 1, 1 ]
                 }
             ],
@@ -439,7 +441,7 @@
         "summary": {
             "player": {
                 "name": "serena williams",
-                "username": "@serena"
+                "username": "@SERENAXXXXXXXXXX"
             },
             "score": 0.79
         },
@@ -454,11 +456,11 @@
             ],
             "players": [
                 {
-                    "username": "@akiko",
+                    "username": "S.WILLIAMSXXXXXXX",
                     "scores": [ -1, 1, -1, -1, -1 ]
                 },
                 {
-                    "username": "@serena",
+                    "username": "@SERENAXXXXXXXXXX",
                     "scores": [ 1, -1, 1, 1, 1 ]
                 }
             ],
