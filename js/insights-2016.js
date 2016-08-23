@@ -2,7 +2,7 @@ var INSIGHTS_2016 = (function() {
 
     var dip_sizes = {
         std: [300, 250],
-        p11: [300, 300],
+        p11: [300, 250],
         p21: [620, 330],
         p31: [940, 372],
         p12: [300, 600]
@@ -32,9 +32,14 @@ var INSIGHTS_2016 = (function() {
     var images = {
         by_watson: load_image('img/by-watson.png'),
         pp_cta: load_image('img/pp-cta-600x500.png'),
+
+        // guide images
         //p21: load_image('guides/pp_2x1.png'),
         //p31: load_image('guides/pp_3x1.png'),
         //p12: load_image('guides/pp_1x2.png')
+        //p11a: load_image('guides/pp_1x1a_320x250.png'),
+        //p11b: load_image('guides/pp_1x1b_320x250.png'),
+        //p11c: load_image('guides/pp_1x1c_320x250.png'),
     };
 
     function titlecase(s) {
@@ -448,14 +453,28 @@ var INSIGHTS_2016 = (function() {
 
                 ctx.textAlign = 'right';
 
-                ctx.translate(cw - 115, pink_height + 480);
-                ctx.font = '600 340px tungsten';
+                var ty = 480;
+                if (format == 'p11') {
+                    ty = 370;
+                }
+
+                ctx.translate(cw - 115, pink_height + ty);
+
+                if (format == 'p11')
+                    ctx.font = '600 290px tungsten';
+                else
+                    ctx.font = '600 340px tungsten';
+
                 ctx.fillStyle = COLORS.type_light;
                 ctx.fillText('%', 0, 0);
 
                 // percent
                 var w = ctx.measureText('%').width;
-                ctx.font = '600 600px tungsten';
+
+                if (format == 'p11')
+                    ctx.font = '600 500px tungsten';
+                else
+                    ctx.font = '600 600px tungsten';
 
                 // value
                 var N = ~~lerp(0, 100 * d.score, Math.pow(tt, 0.25));
@@ -465,13 +484,25 @@ var INSIGHTS_2016 = (function() {
                 ctx.translate(0, 50);
                 ctx.fillStyle = COLORS.pink1;
                 tt = 1;
-                var len = lerp(0, 690, smoothstep(tt));
+
+                var line_len = 690;
+                if (format == 'p11')
+                    line_len = 590;
+
+                var len = lerp(0, line_len, smoothstep(tt));
                 ctx.fillRect(-len, 0, len, 50);
 
                 // of your personality traits are similar.
                 ctx.fillStyle = COLORS.type_light;
-                ctx.translate(0, 150);
-                ctx.font = '700 63px helvneue';
+
+                if (format == 'p11') {
+                    ctx.translate(0, 120);
+                    ctx.font = '700 53px helvneue';
+                } else {
+                    ctx.translate(0, 150);
+                    ctx.font = '700 63px helvneue';
+                }
+
                 ctx.fillStyle = COLORS.type_light;
                 ctx.fillText('of your personality', 0, 0);
                 ctx.fillText('traits are similar.', 0, 70);
@@ -482,15 +513,23 @@ var INSIGHTS_2016 = (function() {
             ctx.save();
 
                 var tx = 50;
+                var ty = 40;
+
                 if (format == 'p21')
                     tx += 25;
                 else if (format == 'p31')
                     tx += 60;
+                
+                if (format == 'p11') {
+                    ty -= 30;
+                    ctx.font = '700 51px helvneue';
+                } else {
+                    ctx.font = '700 64px helvneue';
+                }
 
-                ctx.translate(tx, pink_height + 40);
+                ctx.translate(tx, pink_height + ty);
                 ctx.rotate(0.5*Math.PI);
 
-                ctx.font = '700 64px helvneue';
                 ctx.fillStyle = COLORS.type_light;
                 ctx.fillText(d.player.username.toUpperCase(), 0, 0);
 
@@ -511,6 +550,8 @@ var INSIGHTS_2016 = (function() {
                 ty += 60;
             else if (format == 'p31')
                 ty += 150;
+            else if (format == 'p11')
+                ty -= 80;
 
             ctx.translate(cw/2 - 12, ty);
 
@@ -540,7 +581,10 @@ var INSIGHTS_2016 = (function() {
             ctx.restore();
 
 
-            ctx.translate(0, 180);
+            if (format == 'p11')
+                ctx.translate(0, 150);
+            else
+                ctx.translate(0, 180);
 
             var trait_colors = [
                 COLORS.blue1,
@@ -597,9 +641,13 @@ var INSIGHTS_2016 = (function() {
             });
 
             ctx.save();
+                var ty = 0;
+                if (format == 'p11')
+                    ty -= 25;
+
                 var s = 1.20;
                 ctx.scale(s, s);
-                ctx.drawImage(images.by_watson, -images.by_watson.width/2, 0);
+                ctx.drawImage(images.by_watson, -images.by_watson.width/2, ty);
             ctx.restore();
 
             ctx.restore();
@@ -614,7 +662,7 @@ var INSIGHTS_2016 = (function() {
             function draw_guide(name, dy) {
                 var img = images[name];
                 ctx.save();
-                ctx.scale(DESIGN_RATIO, DESIGN_RATIO);
+                ctx.scale(0.5*DESIGN_RATIO, 0.5*DESIGN_RATIO);
                 ctx.globalAlpha = 0.50;
                 ctx.globalCompositeOperation = 'darker';
                 ctx.drawImage(img, 0, dy || 0);
@@ -649,10 +697,9 @@ var INSIGHTS_2016 = (function() {
             ctx.restore();
 
             // guides
-
             if (0) {
                 if (format == 'p11') {
-                    draw_guide('p12', -300);
+                    draw_guide('p11b', 0);
                 } else {
                     draw_guide(format);
                 }
