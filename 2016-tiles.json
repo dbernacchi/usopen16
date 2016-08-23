@@ -176,15 +176,15 @@
         "title": "winners",
         "subtitle": "fourth round / first set",
         "detail": "fh/bh",
-        "headings": ["fh", "bh", "total"],
+        "headings": ["tot", "fh", "bh"],
         "players": [
             {
                 "name": "n. djokovic",
-                "values": [10, 30, 40]
+                "values": [40, 10, 30]
             },
             {
                 "name": "a. murray",
-                "values": [40, 60, 100]
+                "values": [100, 40, 60]
             }
         ]
     },
@@ -195,15 +195,15 @@
         "title": "unforced errors",
         "detail": "fh/bh",
         "subtitle": "fourth round / first set",
-        "headings": ["fh", "bh", "total"],
+        "headings": ["tot", "fh", "bh"],
         "players": [
             {
                 "name": "n. djokovic",
-                "values": [120, 106, 113]
+                "values": [113, 120, 106]
             },
             {
                 "name": "a. murray",
-                "values": [120, 106, 113]
+                "values": [113, 120, 106]
             }
         ]
     },
@@ -216,15 +216,15 @@
         "title": "avg serve speed",
         "detail": "mph",
         "subtitle": "fourth round",
-        "headings": ["1st", "2nd", "avg"],
+        "headings": ["avg", "1st", "2nd"],
         "players": [
             {
                 "name": "n. djokovic",
-                "values": [120, 106, 113]
+                "values": [113, 120, 106]
             },
             {
                 "name": "a. murray",
-                "values": [120, 106, 113]
+                "values": [113, 120, 106]
             }
         ]
     },
@@ -235,15 +235,15 @@
         "title": "winners",
         "detail": "fh/bh",
         "subtitle": "fourth round / first set",
-        "headings": ["fh", "bh", "total"],
+        "headings": ["tot", "fh", "bh"],
         "players": [
             {
                 "name": "n. djokovic",
-                "values": [15, 15, 30]
+                "values": [30, 15, 15]
             },
             {
                 "name": "a. murray",
-                "values": [20, 20, 40]
+                "values": [40, 20, 20]
             }
         ]
     },
@@ -251,18 +251,18 @@
         "type": "template-3",
         "background": "lime2.gif",
         "accent": "pink1",
-        "title": "total pts won",
+        "title": "tot pts won",
         "subtitle": "fourth round / first set",
         "detail": "fh/bh",
-        "headings": ["fh", "bh", "total"],
+        "headings": ["tot", "fh", "bh"],
         "players": [
             {
                 "name": "n. djokovic",
-                "values": [120, 106, 113]
+                "values": [113, 120, 106]
             },
             {
                 "name": "a. murray",
-                "values": [120, 106, 113]
+                "values": [113, 120, 106]
             }
         ]
     },
