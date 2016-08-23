@@ -1,13 +1,47 @@
 var INSIGHTS_2016 = (function() {
 
+    var dip_sizes = {
+        std: [300, 250],
+        p11: [300, 300],
+        p21: [620, 330],
+        p31: [940, 372],
+        p12: [300, 600]
+    };
+    
+    function get_format(data) {
+        if (data.type != 'personality')
+            return 'std';
+
+        switch (data.format) {
+            case '1:1': return 'p11';
+            case '2:1': return 'p21';
+            case '3:1': return 'p31';
+            case '1:2': return 'p12';
+            default:
+                console.assert('personality: incorrect format.');
+                return '?';
+        }
+    }
+
+    function load_image(src) {
+        var img = new Image;
+        img.src = src;
+        return img;
+    }
+
+    var images = {
+        by_watson: load_image('img/by-watson.png'),
+        pp_cta: load_image('img/pp-cta-600x500.png'),
+        //p21: load_image('guides/pp_2x1.png'),
+        //p31: load_image('guides/pp_3x1.png'),
+        //p12: load_image('guides/pp_1x2.png')
+    };
+
     function titlecase(s) {
         return s.substr(0,1).toUpperCase() + s.substr(1);
     }
 
-    var TILE_ASPECT = 6/5;
-    var TILE_H = 1000;
-    var TILE_W = TILE_H * TILE_ASPECT
-
+    // "logical" size
     var COLORS = {
         type_dark: '#033f68',
         type_light: '#ffffff',
@@ -79,7 +113,13 @@ var INSIGHTS_2016 = (function() {
     function init_tile(ctx, _data) {
 
         data = _data.data;
-        var format = INSIGHTS.parse_format(data.format);
+        var format = get_format(data);
+        var dip_size = dip_sizes[format];
+
+        var DESIGN_RATIO = 4.0;
+        var TILE_W = DESIGN_RATIO * dip_size[0];
+        var TILE_H = DESIGN_RATIO * dip_size[1];
+        var TILE_ASPECT = TILE_W / TILE_H;
 
         var gif = null;
         var bg_color = 'red';
@@ -368,112 +408,139 @@ var INSIGHTS_2016 = (function() {
             ctx.restore();
         }
 
-        function draw_personality_summary(ctx, time) {
+        function draw_personality_summary(ctx, time, cw, ch) {
             var d = data.summary;
             var tt = Math.min(1, time/1000);
-            var cw = TILE_W;
-            var ch = TILE_H;
 
+            // background
             ctx.fillStyle = COLORS.darkblue1;
             ctx.fillRect(0, 0, cw, ch);
 
+            // pink header bar
+            var pink_height = 350;
+            if (format == 'p21')
+                pink_height = 400;
+            else if (format == 'p31') {
+                //cw *= 1.02; // weird
+                pink_height = 490;
+            }
+
             ctx.fillStyle = COLORS.pink1;
-            ctx.fillRect(0, 0, cw, 250);
+            ctx.fillRect(0, 0, cw, pink_height);
 
             ctx.save()
-            ctx.textAlign = 'right';
-            ctx.translate(cw - 115, 125);
 
-            ctx.font = '700 96px helvneue';
-            ctx.fillStyle = COLORS.type_light;
-            ctx.fillText(d.player.name.toUpperCase(), 0, 0);
+                ctx.textAlign = 'right';
+                ctx.translate(cw - 115, pink_height - 165);
 
-            ctx.translate(0, 78);
-            ctx.font = '700 63px helvneue';
-            ctx.fillStyle = COLORS.type_light;
-            ctx.fillText('is your US OPEN alter ego.', 0, 0);
+                ctx.font = '700 96px helvneue';
+                ctx.fillStyle = COLORS.type_light;
+                ctx.fillText(d.player.name.toUpperCase(), 0, 0);
 
-            ctx.translate(0, 440);
-            ctx.font = '600 250px tungsten';
-            ctx.fillStyle = COLORS.type_light;
-            ctx.fillText('%', 0, 0);
+                ctx.translate(0, 78);
+                ctx.font = '700 63px helvneue';
+                ctx.fillStyle = COLORS.type_light;
+                ctx.fillText('is your US OPEN alter ego.', 0, 0);
 
-            // percent
-            var w = ctx.measureText('%').width;
-            ctx.font = '600 475px tungsten';
+            ctx.restore();
 
-            // value
-            var N = ~~lerp(0, 100 * d.score, Math.pow(tt, 0.25));
-            ctx.fillText(N, -w-14, 0);
+            ctx.save();
 
-            // underline
-            ctx.translate(0, 50);
-            ctx.fillStyle = COLORS.pink1;
-            var len = lerp(0, 690, smoothstep(tt));
-            ctx.fillRect(-len, 0, len, 50);
+                ctx.textAlign = 'right';
 
-            // of your personality traits are similar.
-            ctx.fillStyle = COLORS.type_light;
-            ctx.translate(0, 150);
-            ctx.font = '700 63px helvneue';
-            ctx.fillStyle = COLORS.type_light;
-            ctx.fillText('of your personality', 0, 0);
-            ctx.fillText('traits are similar.', 0, 70);
+                ctx.translate(cw - 115, pink_height + 480);
+                ctx.font = '600 340px tungsten';
+                ctx.fillStyle = COLORS.type_light;
+                ctx.fillText('%', 0, 0);
+
+                // percent
+                var w = ctx.measureText('%').width;
+                ctx.font = '600 600px tungsten';
+
+                // value
+                var N = ~~lerp(0, 100 * d.score, Math.pow(tt, 0.25));
+                ctx.fillText(N, -w-14, 0);
+
+                // underline
+                ctx.translate(0, 50);
+                ctx.fillStyle = COLORS.pink1;
+                tt = 1;
+                var len = lerp(0, 690, smoothstep(tt));
+                ctx.fillRect(-len, 0, len, 50);
+
+                // of your personality traits are similar.
+                ctx.fillStyle = COLORS.type_light;
+                ctx.translate(0, 150);
+                ctx.font = '700 63px helvneue';
+                ctx.fillStyle = COLORS.type_light;
+                ctx.fillText('of your personality', 0, 0);
+                ctx.fillText('traits are similar.', 0, 70);
 
             ctx.restore();
 
             // username
             ctx.save();
-            ctx.translate(40, 300);
-            ctx.rotate(0.5*Math.PI);
 
-            ctx.font = '700 75px helvneue';
-            ctx.fillStyle = COLORS.type_light;
-            ctx.fillText(d.player.username.toUpperCase(), 0, 0);
+                var tx = 50;
+                if (format == 'p21')
+                    tx += 25;
+                else if (format == 'p31')
+                    tx += 60;
+
+                ctx.translate(tx, pink_height + 40);
+                ctx.rotate(0.5*Math.PI);
+
+                ctx.font = '700 64px helvneue';
+                ctx.fillStyle = COLORS.type_light;
+                ctx.fillText(d.player.username.toUpperCase(), 0, 0);
 
             ctx.restore();
         }
 
-        function draw_personality_details(ctx, time, cols) {
-            cols = cols || 1;
+        function draw_personality_details(ctx, time, cw, ch) {
             var d = data.details;
             var tt = Math.min(1, time/1000);
-            //var cw = TILE_W;
-            var cw = cols * TILE_W;
-            var ch = TILE_H;
 
             ctx.fillStyle = COLORS.darkblue2;
             ctx.fillRect(0, 0, cw, ch);
 
             ctx.save();
-            ctx.translate(cw/2 - 12, 155);
+
+            var ty = 180;
+            if (format == 'p21')
+                ty += 60;
+            else if (format == 'p31')
+                ty += 150;
+
+            ctx.translate(cw/2 - 12, ty);
 
             ctx.textBaseline = 'middle';
 
-            ctx.font = '700 72px helvneue';
+            ctx.font = '700 40px helvneue';
             ctx.fillStyle = COLORS.type_light;
 
-            var pw = 115;
+            var pw = 48;            // circle tx
+            var pw2 = pw + 40;      // username tx
 
             var n = d.players[0].username.toUpperCase();
             ctx.textAlign = 'right';
-            ctx.fillText(n, -pw, 0);
+            ctx.fillText(n, -pw2, 0);
 
             var n = d.players[1].username.toUpperCase();
             ctx.textAlign = 'left';
-            ctx.fillText(n, pw, 0);
+            ctx.fillText(n, pw2, 0);
 
             // circles
             ctx.save();
                 ctx.strokeStyle = ctx.fillStyle = COLORS.type_light;
                 var r = 25;
                 ctx.lineWidth = 10;
-                draw_circle(ctx, -65, -10, r, true);
-                draw_circle(ctx,  65, -10, r, false);
+                draw_circle(ctx, -pw, -10, r, true);
+                draw_circle(ctx,  pw, -10, r, false);
             ctx.restore();
 
 
-            ctx.translate(0, 130);
+            ctx.translate(0, 180);
 
             var trait_colors = [
                 COLORS.blue1,
@@ -489,8 +556,12 @@ var INSIGHTS_2016 = (function() {
             ctx.font = '700 42px helvneue';
             ctx.fillStyle = COLORS.type_light;
 
+            var bar_width = 230;
+            if (format == 'p31')
+                bar_width = 610;
+
             _.each(d.traits, function(names, index) {
-                var w = 230 + ((cols-1) * 420);
+                var w = bar_width;
                 var tw = w + 90;
 
                 ctx.beginPath();
@@ -522,49 +593,70 @@ var INSIGHTS_2016 = (function() {
                     draw_circle(ctx,  1.3*r, 0, r, !fill);
                 ctx.restore();
 
-                ctx.translate(0, 132);
+                ctx.translate(0, 120);
             });
+
+            ctx.save();
+                var s = 1.20;
+                ctx.scale(s, s);
+                ctx.drawImage(images.by_watson, -images.by_watson.width/2, 0);
+            ctx.restore();
 
             ctx.restore();
         }
 
-        function draw_personality(ctx, time, loop_index) {
-            var cols = format[0];
-            var rows = format[1];
+        function draw_personality(ctx, time, loop_index, preview) {
+            if (preview) {
+                ctx.drawImage(images.pp_cta, 0, 0, TILE_W, TILE_H);
+                return;
+            }
+
+            function draw_guide(name, dy) {
+                var img = images[name];
+                ctx.save();
+                ctx.scale(DESIGN_RATIO, DESIGN_RATIO);
+                ctx.globalAlpha = 0.50;
+                ctx.globalCompositeOperation = 'darker';
+                ctx.drawImage(img, 0, dy || 0);
+                ctx.restore();
+            }
 
             ctx.save();
-            ctx.setTransform(1, 0, 0, 1, 0, 0);
-            ctx.scale((ctx.canvas.width/cols)/TILE_W, (ctx.canvas.height/rows)/TILE_H);
 
-            var cw = TILE_W;
-            var ch = TILE_H;
-
-            if (cols == 1 && rows == 1) {
-                if (loop_index & 1)
-                    draw_personality_details(ctx, time);
-                else
-                    draw_personality_summary(ctx, time);
+            if (format == 'p11') {
+                if ((loop_index & 1) == 0) {
+                    draw_personality_summary(ctx, time, TILE_W, TILE_H);
+                } else {
+                    draw_personality_details(ctx, time, TILE_W, TILE_H);
+                }
             }
-
-            if (cols == 2 && rows == 1) {
-                draw_personality_summary(ctx, time);
-                ctx.translate(cw, 0);
-                draw_personality_details(ctx, time);
+            else if (format == 'p21') {
+                draw_personality_summary(ctx, time, TILE_W/2, TILE_H);
+                ctx.translate(TILE_W/2, 0);
+                draw_personality_details(ctx, time, TILE_W/2, TILE_H);
             }
-
-            if (cols == 1 && rows == 2) {
-                draw_personality_summary(ctx, time);
-                ctx.translate(0, ch);
-                draw_personality_details(ctx, time);
+            else if (format == 'p31') {
+                draw_personality_summary(ctx, time, 4*320, TILE_H);
+                ctx.translate(4*320, 0);
+                draw_personality_details(ctx, time, 4*(940-320), TILE_H);
             }
-
-            if (cols == 3 && rows == 1) {
-                draw_personality_summary(ctx, time);
-                ctx.translate(cw, 0);
-                draw_personality_details(ctx, time, 2);
+            else if (format == 'p12') {
+                draw_personality_summary(ctx, time, TILE_W, TILE_H/2);
+                ctx.translate(0, TILE_H/2);
+                draw_personality_details(ctx, time, TILE_W, TILE_H/2);
             }
 
             ctx.restore();
+
+            // guides
+
+            if (0) {
+                if (format == 'p11') {
+                    draw_guide('p12', -300);
+                } else {
+                    draw_guide(format);
+                }
+            }
         }
 
         function draw(options) {
@@ -619,7 +711,7 @@ var INSIGHTS_2016 = (function() {
                 break;
 
             case 'personality':
-                draw_personality(ctx, time, loop_index);
+                draw_personality(ctx, time, loop_index, preview);
                 break;
 
             default:
@@ -635,7 +727,13 @@ var INSIGHTS_2016 = (function() {
     }
 
     return {
-        init_tile: init_tile
+        init_tile: init_tile,
+        get_dip_size: function(data, preview) {
+            if (preview)
+                return dip_sizes.std;
+            else
+                return dip_sizes[get_format(data)];
+        }
     };
 
 }());

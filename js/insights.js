@@ -1,11 +1,26 @@
 var INSIGHTS = (function() {
 
-    function parse_format(format) {
-        if (!format) return [1, 1];
-        var bits = format.split(':');
-        var cols = +bits[0];
-        var rows = +bits[1];
-        return [cols, rows];
+    function create_canvas_context(options) {
+        var data = options.data;
+        var canvas = options.canvas || document.createElement('canvas');
+
+        var ctx = canvas.getContext('2d');
+        var ratio = get_canvas_pixel_ratio(ctx);
+        var dip_size = INSIGHTS_2016.get_dip_size(data, !!options.preview);
+        var aspect = dip_size[0] / dip_size[1];
+
+        var w = options.width || dip_size[0];
+        var h = w / aspect;
+
+        var cw = Math.floor(ratio * w);
+        var ch = Math.floor(ratio * h);
+
+        canvas.width = cw;
+        canvas.height = ch;
+        canvas.style.width = w + 'px';
+        canvas.style.height = h + 'px';
+
+        return ctx;
     }
 
     var TILE_ASPECT = 300/250;
@@ -1952,10 +1967,6 @@ var INSIGHTS = (function() {
         var redraw = null;
         var start_time = 0;
 
-        // this is the original content of the canvas at the start of playback
-        // which we will restore on stopping.
-        var saved_image;
-
         function animation_callback(time) {
             if (!ctx) return;
             requestAnimationFrame(animation_callback);
@@ -1967,43 +1978,21 @@ var INSIGHTS = (function() {
             redraw({ time: time - start_time });
         }
 
-        return function(data, canvas) {
-            if (!data || !canvas) {
-                // stop animation
-                
-                // 1. restore image
-                if (ctx) {
-                    ctx.putImageData(saved_image, 0, 0);
-                    ctx = null;
-                    saved_image = null;
-                }
-
-                // 2. stop the loop
+        return function(data, new_ctx) {
+            if (!data || !new_ctx) {
+                // stops the animation loop
+                ctx = null;
                 redraw = null;
                 return;
             }
 
-            console.assert(canvas);
+            ctx = new_ctx;
 
-            if (ctx && ctx.canvas !== canvas) {
-                // new canvas: restore old
-                ctx.putImageData(saved_image, 0, 0);
-                saved_image = null;
-            }
-
-            var startup = !ctx;
-            ctx = canvas.getContext('2d');
-            ratio = get_canvas_pixel_ratio(ctx);
-
-
-            // save canvas content
-            saved_image = ctx.getImageData(0, 0, canvas.width, canvas.height);
-
-            redraw = init(ctx, data);
-            start_time = 0;
-
-            if (startup)
+            if (ctx) {
+                redraw = init(ctx, data);
+                start_time = 0;
                 animation_callback(0);
+            }
         };
 
     }());
@@ -2055,27 +2044,18 @@ var INSIGHTS = (function() {
             return data_url.substr(m[0].length);
         },
 
-        preview: function(data, width) {
-            var canvas = document.createElement('canvas');
-            var ctx = canvas.getContext('2d');
-            var ratio = get_canvas_pixel_ratio(ctx);
+        preview: function(data, arg) {
+            var o = {
+                data: data.data,
+                preview: true
+            };
 
-            // calculate logical tile size and set element dimensions
-            var cw = width;
-            var ch = Math.floor(width / TILE_ASPECT);
+            if (typeof arg == 'object' && arg.constructor == HTMLCanvasElement)
+                o.canvas = arg;
+            else if (_.isNumber(arg))
+                o.width = arg;
 
-            if (data.data.format) {
-                var f = parse_format(data.data.format);
-                cw *= f[0];
-                ch *= f[1];
-            }
-
-            canvas.style.width = cw + 'px';
-            canvas.style.height = ch + 'px';
-
-            // set physical tile size accounting for pixel ratio
-            canvas.width = Math.floor(ratio * cw);
-            canvas.height = Math.floor(ratio * ch);
+            var ctx = create_canvas_context(o);
 
             init(ctx, data)({
                 preview: true,
@@ -2085,12 +2065,12 @@ var INSIGHTS = (function() {
             // is this correct? what about ratio?
             if (previews_todo) {
                 previews_todo.push({
-                    canvas: canvas,
+                    canvas: ctx.canvas,
                     data: data
                 });
             }
 
-            return canvas;
+            return ctx.canvas;
         },
 
         preview_base64: function(data, size) {
@@ -2103,15 +2083,18 @@ var INSIGHTS = (function() {
             return data_url.substr(m[0].length);
         },
 
-        play: function(data, canvas) {
-            if (!canvas)
-                canvas = document.createElement('canvas');
-            animate(data, canvas);
-            return canvas;
+        play: function(data, canvas, width) {
+            var ctx = create_canvas_context({
+                data: data.data,
+                canvas: canvas,
+                width: width
+            });
+            animate(data, ctx);
+            return ctx.canvas;
         },
 
         stop: function() {
-            animate(null);
+            animate(null, null);
         },
 
         fonts_loaded: function() {
@@ -2136,7 +2119,6 @@ var INSIGHTS = (function() {
 
         TextRenderer: TextRenderer,
         get_canvas_pixel_ratio: get_canvas_pixel_ratio,
-        parse_format: parse_format
     };
 
 }());

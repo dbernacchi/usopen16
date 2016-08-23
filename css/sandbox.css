@@ -1,0 +1,57 @@
+body {
+    margin: 5px;
+    background-color: #333;
+}
+
+/* container for preview tiles */
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/* dimmed when playing */
+.grid.dimmed {
+    opacity: 0.25;
+}
+
+/* a preview tile */
+.preview {
+    margin: 3px;
+    box-shadow: 1px 1px 2px #000;
+}
+
+/* the big player */
+.player-container {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    pointer-events: none;
+}
+
+.player {
+    display: flex;
+    box-sizing: border-box;
+    box-shadow: 4px 4px 4px #333;
+}
+
+.player canvas {
+    flex: 1;
+}
+
+/* debug helper */
+.debug {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    color: white;
+    font-family: monospace;
+    font-size: 12px;
+    white-space: pre-line;
+}

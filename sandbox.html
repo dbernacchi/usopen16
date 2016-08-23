@@ -3,65 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>INSIGHTS|sandbox</title>
+
     <link rel="shortcut icon" href="favicon.ico">
+    <link rel="stylesheet" type="text/css" href="css/sandbox.css">
 
     <!--
-    <link rel="stylesheet" type="text/css" href="css/insights.css">
+    This page demonstrates the animations and how to call the animation API.
     -->
 
-    <style>
-        body {
-            margin: 5px;
-            background-color: #333;
-        }
-
-        .thumbnails {
-            display: flex;
-            flex-wrap: wrap;
-        }
-
-        .thumbnails.dimmed { opacity: 0.25; }
-        .thumbnails canvas {
-            margin: 3px;
-            box-shadow: 1px 1px 2px #000;
-        }
-
-        .player-container {
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            pointer-events: none;
-        }
-
-        .player {
-            display: flex;
-            box-sizing: border-box;
-            box-shadow: 4px 4px 4px #333;
-        }
-
-        .player canvas {
-            flex: 1;
-        }
-
-        .debug {
-            position: absolute;
-            left: 10px;
-            top: 10px;
-            color: white;
-            font-family: monospace;
-            font-size: 12px;
-            white-space: pre-line;
-        }
-    </style>
-
     <script>
+        // livereload script (only for dev)
         if (location.hostname == 'localhost') {
             document.write(
                 '<script src="http://' +
@@ -72,168 +23,168 @@
     </script>
 </head>
 <body>
-    <!-- containers for thumbnails and player -->
-    <div class="thumbnails"></div>
+    <!-- container for the preview tiles -->
+    <div class="grid"></div>
+
+    <!-- container for the big player -->
     <div class="player-container">
-        <div class="player"></div>
+        <div class="player"><canvas></canvas></div>
     </div>
+
+    <!-- debug helper element -->
     <div class="debug"></div>
 
     <script src="js/vendor/jquery-2.1.3.min.js"></script>
     <script src="js/vendor/lodash.min.js"></script>
     <script src="js/vendor/webfont.js"></script>
+
+    <!-- currently these three files make up the renderer, will be just one -->
     <script src="js/giflib.js"></script>
     <script src="js/insights.js"></script>
     <script src="js/insights-2016.js"></script>
 
     <script>
 
-        function main() {
+        $( main );
 
-            var debug = {
-                text: [],
-                $el: $('.debug'),
+        function main()
+        {
+            // grid and player elements
+            var $grid = $('.grid');
+            var $player = $('.player').hide();
 
-                print: function(text) {
-                    this.text.push(text);
-                    this.update();
-                },
+            // true when something animating in the player
+            var is_playing = false;
 
-                update: function() {
-                    this.$el.text(this.text.join('\n'));
-                },
+            // this is a small debug helper to print text
+            var debug = new Debug;
 
-                clear: function() {
-                    this.text = [];
-                    this.update();
-                }
-            };
+            // this array will contain the tile data
+            var tiles = [];
 
-            var insight_tiles = [];
-            function render_thumbnails(tiles) {
-                tiles.forEach(function(tile) {
-                    if (!tile) return;
+            // ensure fonts are loaded first, before creating preview tiles
+            debug.print('Loading fonts...');
 
-                    var canv = INSIGHTS.preview(tile.content, THUMBNAIL_SIZE);
-                    var ctx = canv.getContext('2d');
+            INSIGHTS.load_fonts(function() {
 
-                    insight_tiles.push(tile);
+                // now this callback has fired, fonts will be ready
+                debug.clear();
 
-                    var $el = $(canv).addClass('thumbnail');
-                    $thumbnails.append($el);
-                });
-            }
+                // fetch the tile data, create preview tiles and add to the grid
+                $.getJSON('2016-tiles.json').then(function(data) {
 
-            var THUMBNAIL_SIZE = 300;
-            var $thumbnails = $('.thumbnails');
-            var $player = $('.player');
-            $player.hide();
+                    // wrap each tile data into a CMS objects
+                    tiles = data.map(wrap_cms_data);
 
-            var logo_bar = new Image();
-            logo_bar.src = 'img/logo_bar_with_icons.png';
+                    // create preview tiles
+                    tiles.forEach(function(tile) {
 
-            var insight_tiles = [];
+                        // create a preview (returns a rendered canvas)
+                        var el = INSIGHTS.preview(tile.content);
 
-            function get_insight_tiles() {
-                return $.getJSON('2016-tiles.json').then(function(data) {
-                    return _.map(data, function(d) {
-                        return {
-                            type: 'insight',
-                            url: 'http://www.usopen.org/index.html',
-                            tags: [ 2 ],
-                            content: {
-                                id: 'A',
-                                version: '2016',
-                                data: d
-                            }
-                        };
+                        // add the preview element to the grid
+                        var $el = $(el).addClass('preview');
+                        $grid.append($el);
+
                     });
-                });
-            }
 
-            get_insight_tiles().then(function(tiles) {
-                insight_tiles = tiles;
-                debug.print('Loading fonts...');
-                INSIGHTS.load_fonts(function() {
-                    debug.clear();
-
-                    if (logo_bar.complete)
-                        render_thumbnails(tiles);
-                    else
-                        logo_bar.onload = function() {
-                            render_thumbnails(tiles);
-                        };
+                    // now the grid is ready
                 });
             });
 
-            var playing = false;
+            // click on thumbnail to open animation in the player
+            $grid.on('click', '.preview', function(e) {
+                // lookup the data for this tile
+                var tile_index = $(this).index();
+                var data = tiles[tile_index].content;
 
-            // click on thumbnail to open animation in player
-            $thumbnails.on('click', 'canvas', function(e) {
-                var tile = insight_tiles[ $(this).index() ];
-                var el = INSIGHTS.play(tile.content);
+                // create an element and start playback
+                var el = INSIGHTS.play(data);
 
-                // make player tile 2x, but respect window size
-                var tile_w = 2 * $(this).width();
-                var tile_h = 2 * $(this).height();
-                var tile_aspect = tile_w / tile_h;
+                // add the element to the player
+                $player.html(el).show();
 
-                if (tile_w > window.innerWidth) {
-                    tile_w = window.innerWidth;
-                    tile_h = tile_w / tile_aspect;
-                }
+                // dim the grid
+                $grid.addClass('dimmed');
+                is_playing = true;
 
-                if (tile_h > window.innerHeight) {
-                    tile_h = window.innerHeight;
-                    tile_w = tile_h * tile_aspect;
-                }
-
-                $player
-                    .html(el)
-                    .css({
-                        width: tile_w + 'px',
-                        height: tile_h + 'px'
-                    })
-                    .show();
-
-                $thumbnails.addClass('dimmed');
-                playing = true;
-                //e.preventDefault();
                 return false;
             });
 
             // click on animation to stop it
             $(document).on('click', function() {
+                // stop playback
                 INSIGHTS.stop();
+
                 $player.hide();
-                $thumbnails.removeClass('dimmed');
-                playing = false;
+                $grid.removeClass('dimmed');
+                is_playing = false;
             });
 
-            // hover/rollover to animate
-            $('.thumbnails').on('mouseenter mouseleave', '.thumbnail', function(e) {
-                var tile_index = $(this).index();
-                //console.log(tile_index, e.type, playing);
+            // hover/rollover a preview to animate
+            $('.grid').on('mouseenter mouseleave', '.preview', function(e) {
+                if (is_playing) {
+                    // don't start a rollover animation if playing big
+                    return;
+                }
 
-                if (playing) {
-                    // no rollover animation when playing
+                // lookup the rollover tile data
+                var tile_index = $(this).index();
+                var data = tiles[tile_index].content;
+
+                if (data.data.type == 'personality') {
+                    // don't play personality tiles
                     return;
                 }
 
                 if (e.type == 'mouseenter') {
-                    var tile_data = insight_tiles[tile_index];
-                    INSIGHTS.play(tile_data.content, this);
-                } else if (e.type == 'mouseleave') {
+                    // start the rollover animation
+                    INSIGHTS.play(data, this);
+                }
+                else if (e.type == 'mouseleave') {
+                    // stop the rollover animation
                     INSIGHTS.stop();
+                    // restore the preview image
+                    INSIGHTS.preview(data, this);
                 }
             });
 
-            // good but needs to return to preview image...
+            // wrap a 2016-tiles object into something that looks like
+            // an object that came from the CMS.
+            function wrap_cms_data(data) {
+                return {
+                    type: 'insight',
+                    url: 'http://www.usopen.org/index.html',
+                    tags: [ 2 ],
+                    content: {
+                        id: 'A',
+                        version: '2016',
+                        data: data
+                    }
+                };
+            }
+
+            // debug text helper
+            function Debug() {
+                this.text = [];
+                this.$el = $('.debug');
+
+                this.print = function(text) {
+                    this.text.push(text);
+                    this.update();
+                };
+
+                this.update = function() {
+                    this.$el.text(this.text.join('\n'));
+                };
+
+                this.clear = function() {
+                    this.text = [];
+                    this.update();
+                };
+            };
         }
 
-        $( main );
-
     </script>
-
 </body>
 </html>

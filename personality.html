@@ -10,26 +10,12 @@
             background-color: #333;
         }
 
-        .player {
-            display: none;
-            position: fixed;
-            box-shadow: 4px 4px 4px #333;
-            padding: 5px;
-
-            left: 50%;
-            top: 50%;
-            margin-left: -300px;
-            margin-top: -250px;
-            width: 600px;
-            height: 500px;
+        .container {
+            display: flex;
         }
 
-        .player canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+        .container canvas {
+            margin: 4px;
         }
     </style>
 
@@ -44,7 +30,7 @@
     </script>
 </head>
 <body>
-    <div class="player"></div>
+    <div class="container"></div>
 
     <script src="js/vendor/jquery-2.1.3.min.js"></script>
     <script src="js/vendor/lodash.min.js"></script>
@@ -54,61 +40,60 @@
     <script src="js/insights-2016.js"></script>
 
     <script>
-        // personality tile data
-        var tile_data ={
-            "type": "personality",
+        function main() {
+            function create_canvas_context(dip_size) {
+                var canvas = document.createElement('canvas');
+                var ctx = canvas.getContext('2d');
+                var ratio = INSIGHTS.get_canvas_pixel_ratio(ctx);
 
-            "summary": {
-                "player": {
-                    "name": "serena williams",
-                    "username": "@serena"
-                },
-                "score": 0.79
-            },
+                canvas.style.width = dip_size[0] + 'px';
+                canvas.style.height = dip_size[1] + 'px';
+                canvas.width = Math.floor(ratio * dip_size[0]);
+                canvas.height = Math.floor(ratio * dip_size[1]);
 
-            "details": {
-                "traits": [
-                    ["cautious", "curious"],
-                    ["organized", "easy going"],
-                    ["outgoing", "reserved"],
-                    ["sensitive", "confident"],
-                    ["resolutive", "analytical"]
-                ],
-                "players": [
-                {
-                    "username": "@akiko",
-                    "scores": [ -1, 1, -1, -1, -1 ]
-                },
-                {
-                    "username": "@serena",
-                    "scores": [ 1, -1, 1, 1, 1 ]
-                }
-                ],
-                "user": {
-                    "scores": [ -0.1, 0.4, 0.6, -0.2, 0.2 ]
-                }
+                // design size
+                /*
+                var DESIGN_RATIO = 4.0;
+
+                ctx.scale(
+                    canvas.width / (DESIGN_RATIO * dip_size[0]),
+                    canvas.height / (DESIGN_RATIO * dip_size[1]));
+
+                ctx.fillStyle = '#000';
+                ctx.fillRect(0, 0, DESIGN_RATIO*dip_size[0], DESIGN_RATIO*dip_size[1]);
+
+                ctx.strokeStyle = '#fff';
+                ctx.lineWidth = 8;
+                ctx.strokeRect(0, 0, DESIGN_RATIO*dip_size[0], DESIGN_RATIO*dip_size[1]);
+
+                ctx.fillStyle = '#fff';
+                ctx.font = '80px roboto';
+                ctx.fillText(dip_size, 20, 90);
+                */
+
+                return ctx;
             }
+
+            const wrap_cms = data => ({ version: '2016', data: data });
+            var $container = $('.container');
+
+            $.getJSON('2016-tiles.json').then(tiles => {
+                tiles = _.filter(tiles, {type: 'personality'});
+
+                tiles.forEach(data => {
+                    var dip_size = INSIGHTS_2016.get_dip_size(data);
+                    var ctx = create_canvas_context(dip_size);
+                    var draw = INSIGHTS_2016.init_tile(ctx, { data: data }).draw;
+                    draw({ time: 0 });
+
+                    $container.append(ctx.canvas);
+                });
+            });
         };
 
-        // the data wrapper from the cms (2015 format)
-        var cms_data = {
-            type: 'insight',
-            url: 'http://www.usopen.org/index.html',
-            tags: [ 2 ],
-            content: {
-                id: 'A',
-                version: '2016',
-                data: tile_data
-            }
+        window.onload = function() {
+            INSIGHTS.load_fonts(main);
         };
-
-        function play_tile() {
-            var el = INSIGHTS.play(cms_data.content);
-            $('.player').html(el).show();
-        }
-
-        // ensure fonts loaded and play the tile animation
-        INSIGHTS.load_fonts(play_tile);
     </script>
 </body>
 </html>
