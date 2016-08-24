@@ -29,6 +29,10 @@ var INSIGHTS_2016 = (function() {
         return img;
     }
 
+    var load_guide = _.memoize(function(name) {
+        return load_image('guides/' + name);
+    });
+
     var images = {
         by_watson: load_image('img/by-watson.png'),
         pp_cta: load_image('img/pp-cta-600x500.png'),
@@ -275,22 +279,32 @@ var INSIGHTS_2016 = (function() {
             ctx.translate(60, 0);
 
             // subtitle
-            ctx.translate(0, 360);
+            ctx.translate(0, 210);
             ctx.font = '700 60px helvneue';
             ctx.fillStyle = COLORS.type_dark;
             ctx.fillText(d.subtitle.toUpperCase(), 0, 0);
             
             // title
             ctx.translate(0, 90);
-            ctx.font = '700 92px helvneue';
+            ctx.font = '700 80px helvneue';
             ctx.fillStyle = COLORS.type_light;
-            ctx.fillText(d.title.toUpperCase(), 0, 0);
+            var title = d.title.toUpperCase();
+            ctx.fillText(title, 0, 0);
+
+            // detail
+            if (d.detail) {
+                var tw = ctx.measureText(title).width;
+                ctx.font = '700 60px helvneue';
+                ctx.fillText(d.detail.toUpperCase(), tw + 18, 0);
+            }
             
             // underline
             ctx.translate(0, 53);
             ctx.fillStyle = accent;
             var len = lerp(0, 430, smoothstep(tt));
             ctx.fillRect(0, 0, len, 50);
+
+            var column_w = 202;
 
             // headings
             ctx.save();
@@ -299,10 +313,9 @@ var INSIGHTS_2016 = (function() {
                 ctx.translate(505, 48);
                 _.each(d.headings, function(h) {
                     ctx.fillText(h.toUpperCase(), 0, 0);
-                    ctx.translate(190, 0);
+                    ctx.translate(column_w, 0);
                 });
             ctx.restore();
-
 
             // players
             ctx.translate(0, 80);
@@ -310,7 +323,7 @@ var INSIGHTS_2016 = (function() {
             _.each(d.players, function(player, index) {
                 ctx.save();
 
-                ctx.translate(0, index * 190);
+                ctx.translate(0, index * column_w);
 
                 var bar_h = 170;
                 ctx.fillStyle = accent;
@@ -331,7 +344,7 @@ var INSIGHTS_2016 = (function() {
                         ctx.font = '700 160px tungsten';
                         var N = ~~lerp(0, v, Math.pow(tt, 0.25));
                         ctx.fillText(N, 0, 0);
-                        ctx.translate(190, 0);
+                        ctx.translate(column_w, 0);
                     });
                 ctx.restore();
 
@@ -351,12 +364,12 @@ var INSIGHTS_2016 = (function() {
             ctx.translate(68, 0);
 
             ctx.translate(0, 135);
-            ctx.font = '700 77px helvneue';
+            ctx.font = '400 80px helvneue';
             ctx.fillStyle = COLORS.type_light;
             var text = text_template4 || (text_template4 = new INSIGHTS.TextRenderer(ctx, {
                 text: d.text,
                 rect: { x: 0, y: 0, w: TILE_W - 145, h: 1000 },
-                line_height: 95
+                line_height: 96
             }));
             text.render(ctx, tt);
 
@@ -381,7 +394,7 @@ var INSIGHTS_2016 = (function() {
             // underline + title
             //ctx.translate(5, text.bottom + 68);
 
-            ctx.font = '700 60px helvneue';
+            ctx.font = '400 60px helvneue';
             var title = d.title.toUpperCase();
             var tw = ctx.measureText(title).width;
 
@@ -481,7 +494,7 @@ var INSIGHTS_2016 = (function() {
                 ctx.fillText(d.player.toUpperCase(), 0, 0);
 
                 ctx.translate(0, 78);
-                ctx.font = '700 63px helvneue';
+                ctx.font = '400 63px helvneue';
                 ctx.fillStyle = COLORS.type_light;
                 ctx.fillText('is your US OPEN alter ego.', 0, 0);
 
@@ -535,10 +548,10 @@ var INSIGHTS_2016 = (function() {
 
                 if (format == 'p11') {
                     ctx.translate(0, 120);
-                    ctx.font = '700 53px helvneue';
+                    ctx.font = '400 53px helvneue';
                 } else {
                     ctx.translate(0, 150);
-                    ctx.font = '700 63px helvneue';
+                    ctx.font = '400 63px helvneue';
                 }
 
                 ctx.fillStyle = COLORS.type_light;
@@ -635,7 +648,7 @@ var INSIGHTS_2016 = (function() {
             ctx.lineWidth = 108;
             ctx.lineCap = 'round';
             
-            ctx.font = '700 42px helvneue';
+            ctx.font = '400 42px helvneue';
             ctx.fillStyle = COLORS.type_light;
 
             var bar_width = 230;
@@ -808,6 +821,13 @@ var INSIGHTS_2016 = (function() {
                 break;
             }
             ctx.restore();
+
+            if (0 && data.guide) {
+                var guide = load_guide(data.guide);
+                ctx.globalCompositeOperation = 'source-over';
+                ctx.globalAlpha = 0.5;
+                ctx.drawImage(guide, 0, 0, cw, ch);
+            }
 
             ctx.restore();
         }

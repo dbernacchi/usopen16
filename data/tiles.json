@@ -90,7 +90,7 @@
         "background": "02-2x-ball-net-green.gif",
         "accent": "pink1",
         "title": "avg serve speed",
-        "detail": "mph",
+        "detail": "(mph)",
         "subtitle": "fourth round",
         "headings": [
             "avg",
@@ -165,7 +165,7 @@
         "background": "03-rebound-blue.gif",
         "accent": "yellow2",
         "title": "unforced errors",
-        "detail": "fh/bh",
+        "detail": "(fh/bh)",
         "subtitle": "fourth round / first set",
         "headings": [
             "tot",
@@ -198,7 +198,7 @@
         "accent": "pink1",
         "title": "fastest serve speed",
         "subtitle": "fourth round",
-        "detail": "mph",
+        "detail": "(mph)",
         "headings": [
             "1st",
             "2nd"
@@ -227,7 +227,7 @@
         "accent": "pink1",
         "title": "tot pts won",
         "subtitle": "fourth round / first set",
-        "detail": "fh/bh",
+        "detail": "(fh/bh)",
         "headings": [
             "tot",
             "fh",
@@ -320,7 +320,7 @@
         "accent": "lime2",
         "title": "winners",
         "subtitle": "fourth round / first set",
-        "detail": "fh/bh",
+        "detail": "(fh/bh)",
         "headings": [
             "tot",
             "fh",
@@ -351,7 +351,7 @@
         "background": "03-serve-yellow.gif",
         "accent": "blue2",
         "title": "winners",
-        "detail": "fh/bh",
+        "detail": "(fh/bh)",
         "subtitle": "fourth round / first set",
         "headings": [
             "tot",
@@ -437,7 +437,8 @@
         "background": "04-lob-pink.gif",
         "accent": "green1",
         "text": "Bigger, faster and stronger players = shorter rallies. On average, a point in men's 2015 Grand Slam matches lasted 4.89 strokes.",
-        "batch": 3
+        "batch": 3,
+        "guide": "scores-more-dev-15.png"
     },
     {
         "type": "template-4",
@@ -519,7 +520,7 @@
         "background": "07-slomo-ball-blue.gif",
         "accent": "yellow2",
         "title": "unforced errors",
-        "detail": "fh/bh",
+        "detail": "(fh/bh)",
         "subtitle": "fourth round / first set",
         "headings": [
             "tot",
@@ -551,7 +552,7 @@
         "background": "07-slomo-ball-green.gif",
         "accent": "pink1",
         "title": "avg serve speed",
-        "detail": "mph",
+        "detail": "(mph)",
         "subtitle": "fourth round",
         "headings": [
             "avg",
@@ -584,7 +585,7 @@
         "accent": "pink1",
         "title": "tot pts won",
         "subtitle": "fourth round / first set",
-        "detail": "fh/bh",
+        "detail": "(fh/bh)",
         "headings": [
             "tot",
             "fh",
@@ -670,7 +671,7 @@
         "accent": "pink1",
         "title": "fastest serve speed",
         "subtitle": "fourth round",
-        "detail": "mph",
+        "detail": "(mph)",
         "headings": [
             "1st",
             "2nd"
@@ -717,7 +718,7 @@
         "accent": "lime2",
         "title": "winners",
         "subtitle": "fourth round / first set",
-        "detail": "fh/bh",
+        "detail": "(fh/bh)",
         "headings": [
             "tot",
             "fh",
@@ -725,30 +726,23 @@
         ],
         "players": [
             {
-                "name": "n. djokovic",
-                "values": [
-                    40,
-                    10,
-                    30
-                ]
+                "name": "djokovic",
+                "values": [ 10, 30, 40 ]
             },
             {
-                "name": "a. murray",
-                "values": [
-                    100,
-                    40,
-                    60
-                ]
+                "name": "murray",
+                "values": [ 40, 60, 100 ]
             }
         ],
-        "batch": 4
+        "batch": 4,
+        "guide": "scores-more-dev-09.png"
     },
     {
         "type": "template-3",
         "background": "08-ball-bounce-yellow.gif",
         "accent": "blue2",
         "title": "winners",
-        "detail": "fh/bh",
+        "detail": "(fh/bh)",
         "subtitle": "fourth round / first set",
         "headings": [
             "tot",
