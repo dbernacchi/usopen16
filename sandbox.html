@@ -71,10 +71,16 @@
                 debug.clear();
 
                 // fetch the tile data, create preview tiles and add to the grid
-                $.getJSON('2016-tiles.json').then(function(data) {
+                $.getJSON('data/tiles.json').then(function(data) {
+
+                    tiles = data;
+
+                    // temp hack: only pick some tiles to avoid overloading the gif loader
+                    var batch = parseInt(location.hash.substr(1)) || 1;
+                    tiles = _.filter(tiles, {batch: batch});
 
                     // wrap each tile data into a CMS objects
-                    tiles = data.map(wrap_cms_data);
+                    tiles = _.map(tiles, wrap_cms_data);
 
                     // create preview tiles
                     tiles.forEach(function(tile) {
