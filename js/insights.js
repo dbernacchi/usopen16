@@ -383,13 +383,21 @@ var INSIGHTS = (function() {
             if (tx > tx0 && (tx + tw > tx1)) {
                 ty += line_height;
                 tx = tx0;
+
+                // XXX hack to stop space at start of line
+                if (chunk == ' ')
+                    tw = 0;
             }
 
-            blocks.push({
-                text: chunk.trim(),
-                x: tx,
-                y: ty
-            });
+            chunk = chunk.trim();
+
+            if (chunk) {
+                blocks.push({
+                    text: chunk.trim(),
+                    x: tx,
+                    y: ty
+                });
+            }
 
             tx += tw;
         });

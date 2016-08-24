@@ -992,5 +992,21 @@
             ]
         },
         "batch": 1
+    },
+    {
+        "type": "news-analyzer",
+        "background": "news-analyzer-yellow.gif",
+        "accent": "blue1",
+        "title": "news analyzer",
+        "text": "According to our mood analysis, the sports media aren't loving this US Open matchup.",
+        "batch": 5
+    },
+    {
+        "type": "news-analyzer",
+        "background": "news-analyzer-green.gif",
+        "accent": "yellow1",
+        "title": "news analyzer",
+        "text": "According to our mood analysis, the sports media aren't loving this US Open matchup.",
+        "batch": 5
     }
 ]

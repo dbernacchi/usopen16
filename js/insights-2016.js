@@ -339,6 +339,8 @@ var INSIGHTS_2016 = (function() {
             });
         }
 
+        var text_template4 = null;
+
         function draw_template4(ctx, time) {
             var d = data;
             var tt = Math.min(1, time/1000);
@@ -351,11 +353,11 @@ var INSIGHTS_2016 = (function() {
             ctx.translate(0, 135);
             ctx.font = '700 77px helvneue';
             ctx.fillStyle = COLORS.type_light;
-            var text = new INSIGHTS.TextRenderer(ctx, {
+            var text = text_template4 || (text_template4 = new INSIGHTS.TextRenderer(ctx, {
                 text: d.text,
                 rect: { x: 0, y: 0, w: TILE_W - 145, h: 1000 },
                 line_height: 95
-            });
+            }));
             text.render(ctx, tt);
 
             // underline
@@ -363,6 +365,42 @@ var INSIGHTS_2016 = (function() {
             ctx.fillStyle = accent;
             var len = lerp(0, 430, smoothstep(tt));
             ctx.fillRect(0, 0, len, 50);
+        }
+
+        var text_news_analyzer = null;
+
+        function draw_news_analyzer(ctx, time) {
+            var d = data;
+            var tt = Math.min(1, time/1000);
+            var cw = TILE_W;
+            var ch = TILE_H;
+
+            ctx.textAlign = 'left';
+            ctx.translate(130, 150);
+
+            // underline + title
+            //ctx.translate(5, text.bottom + 68);
+
+            ctx.font = '700 60px helvneue';
+            var title = d.title.toUpperCase();
+            var tw = ctx.measureText(title).width;
+
+            ctx.fillStyle = accent;
+            var len = lerp(0, tw + 40, smoothstep(tt));
+            ctx.fillRect(0, 0, len, 72);
+
+            ctx.fillStyle = COLORS.type_light;
+            ctx.globalAlpha = saturate(tt*2);
+            ctx.fillText(title, 20, 56);
+            ctx.globalAlpha = 1.0;
+
+            ctx.translate(0, 155);
+            var text = text_news_analyzer || (text_news_analyzer = new INSIGHTS.TextRenderer(ctx, {
+                text: d.text,
+                rect: { x: 0, y: 0, w: TILE_W - 300, h: 1000 },
+                line_height: 75
+            }));
+            text.render(ctx, tt);
 
         }
 
@@ -755,6 +793,10 @@ var INSIGHTS_2016 = (function() {
 
             case 'template-4':
                 draw_template4(ctx, time);
+                break;
+
+            case 'news-analyzer':
+                draw_news_analyzer(ctx, time);
                 break;
 
             case 'personality':
