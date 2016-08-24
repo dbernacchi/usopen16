@@ -55,3 +55,23 @@ body {
     font-size: 12px;
     white-space: pre-line;
 }
+
+.pages {
+    margin-bottom: 10px;
+    float: right;
+}
+
+.page-link {
+    font: 300 20px helvneue;
+    color: #fff;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+.page-link:hover {
+    text-decoration: underline;
+}
+
+.page-link:visited {
+    color: #fff;
+}

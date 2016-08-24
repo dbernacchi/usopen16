@@ -77,7 +77,7 @@
             const wrap_cms = data => ({ version: '2016', data: data });
             var $container = $('.container');
 
-            $.getJSON('2016-tiles.json').then(tiles => {
+            $.getJSON('data/tiles.json').then(tiles => {
                 tiles = _.filter(tiles, {type: 'personality'});
 
                 tiles.forEach(data => {

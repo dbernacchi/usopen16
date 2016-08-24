@@ -23,6 +23,8 @@
     </script>
 </head>
 <body>
+    <div class="pages"></div>
+
     <!-- container for the preview tiles -->
     <div class="grid"></div>
 
@@ -189,6 +191,18 @@
                     this.update();
                 };
             };
+
+            // add links for each batch
+            _.range(1, 6).forEach(function(batch) {
+                $('.pages').append(
+                    $('<a>')
+                        .addClass('page-link')
+                        .attr({ href: (location.origin + location.pathname + '#'+batch) })
+                        .text(batch)
+                        .click(function() { location.reload() })
+                );
+            });
+
         }
 
     </script>

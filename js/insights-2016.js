@@ -440,7 +440,7 @@ var INSIGHTS_2016 = (function() {
 
                 ctx.font = '700 96px helvneue';
                 ctx.fillStyle = COLORS.type_light;
-                ctx.fillText(d.player.name.toUpperCase(), 0, 0);
+                ctx.fillText(d.player.toUpperCase(), 0, 0);
 
                 ctx.translate(0, 78);
                 ctx.font = '700 63px helvneue';
@@ -531,7 +531,7 @@ var INSIGHTS_2016 = (function() {
                 ctx.rotate(0.5*Math.PI);
 
                 ctx.fillStyle = COLORS.type_light;
-                ctx.fillText(d.player.username.toUpperCase(), 0, 0);
+                ctx.fillText(d.username.toUpperCase(), 0, 0);
 
             ctx.restore();
         }
@@ -563,11 +563,11 @@ var INSIGHTS_2016 = (function() {
             var pw = 48;            // circle tx
             var pw2 = pw + 40;      // username tx
 
-            var n = d.players[0].username.toUpperCase();
+            var n = d.players[0].name.toUpperCase();
             ctx.textAlign = 'right';
             ctx.fillText(n, -pw2, 0);
 
-            var n = d.players[1].username.toUpperCase();
+            var n = d.players[1].name.toUpperCase();
             ctx.textAlign = 'left';
             ctx.fillText(n, pw2, 0);
 
@@ -625,16 +625,16 @@ var INSIGHTS_2016 = (function() {
                 ctx.save();
                     ctx.strokeStyle = ctx.fillStyle = COLORS.type_light;
 
-                    var u = d.user.scores[index] * tt;
-                    var x = u * (w - 30);
-                    ctx.translate(x, 0);
-
                     var r = 25;
                     ctx.lineWidth = 10;
 
-                    var fill = d.players[0].scores[index] < 0;
-                    draw_circle(ctx, -1.3*r, 0, r, fill);
-                    draw_circle(ctx,  1.3*r, 0, r, !fill);
+                    var u = d.players[0].scores[index] * tt;
+                    var x = u * (w - 30);
+                    draw_circle(ctx, x, 0, r, false);
+
+                    var u = d.players[1].scores[index] * tt;
+                    var x = u * (w - 30);
+                    draw_circle(ctx, x, 0, r, true);
                 ctx.restore();
 
                 ctx.translate(0, 120);

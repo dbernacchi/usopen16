@@ -904,66 +904,30 @@
         "type": "personality",
         "format": "1:1",
         "summary": {
-            "player": {
-                "name": "serena williams",
-                "username": "@SERENAXXXXXXXXXX"
-            },
+            "player": "s. williams",
+            "username": "@USERXXXXXXXXXXXX",
             "score": 0.79
         },
         "details": {
             "traits": [
-                [
-                    "cautious",
-                    "curious"
-                ],
-                [
-                    "organized",
-                    "easy going"
-                ],
-                [
-                    "outgoing",
-                    "reserved"
-                ],
-                [
-                    "sensitive",
-                    "confident"
-                ],
-                [
-                    "resolutive",
-                    "analytical"
-                ]
+                [ "cautious", "curious" ],
+                [ "organized", "easy going" ],
+                [ "outgoing", "reserved" ],
+                [ "sensitive", "confident" ],
+                [ "resolutive", "analytical" ]
             ],
+
             "players": [
                 {
-                    "username": "@SERENAXXXXXXXXXX",
-                    "scores": [
-                        -1,
-                        1,
-                        -1,
-                        -1,
-                        -1
-                    ]
+                    "name": "@userxxxxxxxxxxxx",
+                    "scores": [ -0.1, 0.4, 0.6, -0.2, 0.2 ]
                 },
+
                 {
-                    "username": "S.WILLIAMSXXXXXXX",
-                    "scores": [
-                        1,
-                        -1,
-                        1,
-                        1,
-                        1
-                    ]
+                    "name": "s. williams",
+                    "scores": [ 1.0, -1.0, 0.45, 0.68, -0.35 ]
                 }
-            ],
-            "user": {
-                "scores": [
-                    -0.1,
-                    0.4,
-                    0.6,
-                    -0.2,
-                    0.2
-                ]
-            }
+            ]
         },
         "batch": 1
     },
@@ -971,66 +935,30 @@
         "type": "personality",
         "format": "2:1",
         "summary": {
-            "player": {
-                "name": "serena williams",
-                "username": "@SERENAXXXXXXXXXX"
-            },
+            "player": "s. williams",
+            "username": "@USERXXXXXXXXXXXX",
             "score": 0.79
         },
         "details": {
             "traits": [
-                [
-                    "cautious",
-                    "curious"
-                ],
-                [
-                    "organized",
-                    "easy going"
-                ],
-                [
-                    "outgoing",
-                    "reserved"
-                ],
-                [
-                    "sensitive",
-                    "confident"
-                ],
-                [
-                    "resolutive",
-                    "analytical"
-                ]
+                [ "cautious", "curious" ],
+                [ "organized", "easy going" ],
+                [ "outgoing", "reserved" ],
+                [ "sensitive", "confident" ],
+                [ "resolutive", "analytical" ]
             ],
+
             "players": [
                 {
-                    "username": "S.WILLIAMSXXXXXXX",
-                    "scores": [
-                        -1,
-                        1,
-                        -1,
-                        -1,
-                        -1
-                    ]
+                    "name": "@userxxxxxxxxxxxx",
+                    "scores": [ -0.1, 0.4, 0.6, -0.2, 0.2 ]
                 },
+
                 {
-                    "username": "@SERENAXXXXXXXXXX",
-                    "scores": [
-                        1,
-                        -1,
-                        1,
-                        1,
-                        1
-                    ]
+                    "name": "s. williams",
+                    "scores": [ 1.0, -1.0, 0.45, 0.68, -0.35 ]
                 }
-            ],
-            "user": {
-                "scores": [
-                    -0.1,
-                    0.4,
-                    0.6,
-                    -0.2,
-                    0.2
-                ]
-            }
+            ]
         },
         "batch": 1
     },
@@ -1038,133 +966,30 @@
         "type": "personality",
         "format": "3:1",
         "summary": {
-            "player": {
-                "name": "serena williams",
-                "username": "@SERENAXXXXXXXXXX"
-            },
+            "player": "s. williams",
+            "username": "@USERXXXXXXXXXXXX",
             "score": 0.79
         },
         "details": {
             "traits": [
-                [
-                    "cautious",
-                    "curious"
-                ],
-                [
-                    "organized",
-                    "easy going"
-                ],
-                [
-                    "outgoing",
-                    "reserved"
-                ],
-                [
-                    "sensitive",
-                    "confident"
-                ],
-                [
-                    "resolutive",
-                    "analytical"
-                ]
+                [ "cautious", "curious" ],
+                [ "organized", "easy going" ],
+                [ "outgoing", "reserved" ],
+                [ "sensitive", "confident" ],
+                [ "resolutive", "analytical" ]
             ],
+
             "players": [
                 {
-                    "username": "S.WILLIAMSXXXXXXX",
-                    "scores": [
-                        -1,
-                        1,
-                        -1,
-                        -1,
-                        -1
-                    ]
+                    "name": "@userxxxxxxxxxxxx",
+                    "scores": [ -0.1, 0.4, 0.6, -0.2, 0.2 ]
                 },
+
                 {
-                    "username": "@SERENAXXXXXXXXXX",
-                    "scores": [
-                        1,
-                        -1,
-                        1,
-                        1,
-                        1
-                    ]
+                    "name": "s. williams",
+                    "scores": [ 1.0, -1.0, 0.45, 0.68, -0.35 ]
                 }
-            ],
-            "user": {
-                "scores": [
-                    -0.1,
-                    0.4,
-                    0.6,
-                    -0.2,
-                    0.2
-                ]
-            }
-        },
-        "batch": 1
-    },
-    {
-        "type": "personality",
-        "format": "1:2",
-        "summary": {
-            "player": {
-                "name": "serena williams",
-                "username": "@SERENAXXXXXXXXXX"
-            },
-            "score": 0.79
-        },
-        "details": {
-            "traits": [
-                [
-                    "cautious",
-                    "curious"
-                ],
-                [
-                    "organized",
-                    "easy going"
-                ],
-                [
-                    "outgoing",
-                    "reserved"
-                ],
-                [
-                    "sensitive",
-                    "confident"
-                ],
-                [
-                    "resolutive",
-                    "analytical"
-                ]
-            ],
-            "players": [
-                {
-                    "username": "S.WILLIAMSXXXXXXX",
-                    "scores": [
-                        -1,
-                        1,
-                        -1,
-                        -1,
-                        -1
-                    ]
-                },
-                {
-                    "username": "@SERENAXXXXXXXXXX",
-                    "scores": [
-                        1,
-                        -1,
-                        1,
-                        1,
-                        1
-                    ]
-                }
-            ],
-            "user": {
-                "scores": [
-                    -0.1,
-                    0.4,
-                    0.6,
-                    -0.2,
-                    0.2
-                ]
-            }
+            ]
         },
         "batch": 1
     }
