@@ -661,6 +661,9 @@ var INSIGHTS_2016 = (function() {
 
             ctx.save();
 
+            // some tiles should play only once
+            var time2 = loop_index ? 5000 : time;
+
             if (format == 'p11') {
                 if ((loop_index & 1) == 0) {
                     draw_personality_summary(ctx, time, TILE_W, TILE_H);
@@ -669,19 +672,14 @@ var INSIGHTS_2016 = (function() {
                 }
             }
             else if (format == 'p21') {
-                draw_personality_summary(ctx, time, TILE_W/2, TILE_H);
+                draw_personality_summary(ctx, time2, TILE_W/2, TILE_H);
                 ctx.translate(TILE_W/2, 0);
-                draw_personality_details(ctx, time, TILE_W/2, TILE_H);
+                draw_personality_details(ctx, time2, TILE_W/2, TILE_H);
             }
             else if (format == 'p31') {
-                draw_personality_summary(ctx, time, 4*320, TILE_H);
+                draw_personality_summary(ctx, time2, 4*320, TILE_H);
                 ctx.translate(4*320, 0);
-                draw_personality_details(ctx, time, 4*(940-320), TILE_H);
-            }
-            else if (format == 'p12') {
-                draw_personality_summary(ctx, time, TILE_W, TILE_H/2);
-                ctx.translate(0, TILE_H/2);
-                draw_personality_details(ctx, time, TILE_W, TILE_H/2);
+                draw_personality_details(ctx, time2, 4*(940-320), TILE_H);
             }
 
             ctx.restore();
