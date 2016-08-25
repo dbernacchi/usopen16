@@ -2021,12 +2021,21 @@ var INSIGHTS = (function() {
         return img;
     }());
 
+    // remove the extension
+    function get_basename(url) {
+        var idx = url.lastIndexOf('.');
+        if (idx > 0)
+            return url.substring(0, idx);
+        else
+            return url;
+    }
+
     function create_insights_tile(canvas, background) {
         var $el = $('<div>').addClass('insights-tile');
         $el.css({ width: canvas.style.width, height: canvas.style.height });
 
         if (background) {
-            var basename = background.split('.')[0];
+            var basename = get_basename(background);
             var img = new Image;
             img.src = 'media/' + basename + '.png';
             $el.append($(img).addClass('insights-tile-layer'));
@@ -2064,7 +2073,7 @@ var INSIGHTS = (function() {
         if (!img)
             return;
 
-        var basename = img.src.split('.')[0];
+        var basename = get_basename(img.src);
         var png = basename + '.png';
         var gif = basename + '.gif';
         img.src = play ? gif : png;
