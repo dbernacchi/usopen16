@@ -30,7 +30,7 @@
 
     <!-- container for the big player -->
     <div class="player-container">
-        <div class="player"><canvas></canvas></div>
+        <div class="player"></div>
     </div>
 
     <!-- debug helper element -->
@@ -41,7 +41,6 @@
     <script src="js/vendor/webfont.js"></script>
 
     <!-- currently these three files make up the renderer, will be just one -->
-    <script src="js/giflib.js"></script>
     <script src="js/insights.js"></script>
     <script src="js/insights-2016.js"></script>
 
@@ -75,19 +74,13 @@
                 // fetch the tile data, create preview tiles and add to the grid
                 $.getJSON('data/tiles.json').then(function(data) {
 
-                    tiles = data;
-
-                    // temp hack: only pick some tiles to avoid overloading the gif loader
-                    var batch = parseInt(location.hash.substr(1)) || 1;
-                    tiles = _.filter(tiles, {batch: batch});
-
                     // wrap each tile data into a CMS objects
-                    tiles = _.map(tiles, wrap_cms_data);
+                    tiles = _.map(data, wrap_cms_data);
 
                     // create preview tiles
                     tiles.forEach(function(tile) {
 
-                        // create a preview (returns a rendered canvas)
+                        // create a preview
                         var el = INSIGHTS.preview(tile.content);
 
                         // add the preview element to the grid
@@ -97,6 +90,7 @@
                     });
 
                     // now the grid is ready
+
                 });
             });
 

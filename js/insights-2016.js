@@ -36,14 +36,6 @@ var INSIGHTS_2016 = (function() {
     var images = {
         by_watson: load_image('img/by-watson.png'),
         pp_cta: load_image('img/pp-cta-600x500.png'),
-
-        // guide images
-        //p21: load_image('guides/pp_2x1.png'),
-        //p31: load_image('guides/pp_3x1.png'),
-        //p12: load_image('guides/pp_1x2.png')
-        //p11a: load_image('guides/pp_1x1a_320x250.png'),
-        //p11b: load_image('guides/pp_1x1b_320x250.png'),
-        //p11c: load_image('guides/pp_1x1c_320x250.png'),
     };
 
     function titlecase(s) {
@@ -69,21 +61,6 @@ var INSIGHTS_2016 = (function() {
         darkblue2: '#1956c6'
     };
 
-    var GIF_COLORS = {
-        blue2: COLORS.blue2,
-        green2: COLORS.green2,
-        lime2: COLORS.lime2,
-        racket: COLORS.lime2,
-        pink1: COLORS.pink1,
-        yellow2: COLORS.yellow2,
-        '01-ace-blue': COLORS.blue2,
-        '01-ace-pink': COLORS.pink1,
-        '03-rebound-green': COLORS.green2,
-        '03-rebound-pink': COLORS.pink1,
-        '08-unforcederrors-lime': COLORS.lime2,
-        '08-unforcederrors-yellow': COLORS.yellow2
-    };
-
     var PI = Math.PI;
     var TWO_PI = 2 * Math.PI;
     var HALF_PI = Math.PI / 2;
@@ -98,8 +75,6 @@ var INSIGHTS_2016 = (function() {
     function random_uniform(a, b) { return lerp(a, b, random()) }
     function random_distribute(a, b, exp) { return lerp(a, b, Math.pow(random(), exp)) }
 
-    // XXX make a gif cache, but seperate players??
-
     function get_color(color) {
         if (COLORS[color])
             return COLORS[color];
@@ -107,20 +82,7 @@ var INSIGHTS_2016 = (function() {
             return '#f00';
     }
     
-    function get_gif_url(background) {
-        var i = background.toLowerCase().indexOf('.gif');
-        if (i < 0)
-            return null;
-        else
-            return 'media/' + background;
-    }
-
-    var get_gif_player = _.memoize(function(url) {
-        return new giflib.Player(url);
-    });
-
     function init_tile(ctx, _data) {
-
         data = _data.data;
         var format = get_format(data);
         var dip_size = dip_sizes[format];
@@ -132,31 +94,8 @@ var INSIGHTS_2016 = (function() {
 
         var gif = null;
         var bg_color = 'red';
-
         if (data.background) {
-            var gif_url = get_gif_url(data.background);
-            if (gif_url) {
-                // FIXME don't start play every time (non-preview)
-                // FIXME cache the gifs
-                gif = get_gif_player(gif_url);
-                //gif.play();
-                bg_color = GIF_COLORS[data.background.split('.')[0]];
-
-                if (!gif.frames[0]) {
-                    gif.on_first_frame(function() {
-                        // revisit the tile and redraw when first frame is available
-                        var draw = init_tile(ctx, _data).draw;
-                        // need to scale to avoid retina issues
-                        // XXX why is this context in a weird transform state?
-                        ctx.setTransform(1, 0, 0, 1, 0, 0);
-                        draw({ preview: true });
-                    });
-                    // continue drawing with bg color...
-                    //return { draw: function() {} };
-                }
-            } else {
-                bg_color = data.background;
-            }
+            // XXX
         }
 
         var accent = get_color(data.accent);
@@ -775,20 +714,7 @@ var INSIGHTS_2016 = (function() {
             var ch = TILE_H;
 
             // background
-
-            if (!preview && gif) {
-                var frame_index = Math.floor(time / 40);
-                gif.draw_frame(frame_index);
-                ctx.drawImage(gif.el, 0, 0, cw, ch);
-            } else {
-                if (gif && gif.frames[0]) {
-                    gif.draw_frame(0);
-                    ctx.drawImage(gif.el, 0, 0, cw, ch);
-                } else {
-                    ctx.fillStyle = bg_color;
-                    ctx.fillRect(0, 0, cw, ch);
-                }
-            }
+            ctx.clearRect(0, 0, cw, ch);
 
             ctx.save();
             switch (data.type) {

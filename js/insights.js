@@ -2021,10 +2021,65 @@ var INSIGHTS = (function() {
         return img;
     }());
 
+    function create_insights_tile(canvas, background) {
+        var $el = $('<div>').addClass('insights-tile');
+        $el.css({ width: canvas.style.width, height: canvas.style.height });
+
+        if (background) {
+            var basename = background.split('.')[0];
+            var img = new Image;
+            img.src = 'media/' + basename + '.png';
+            $el.append($(img).addClass('insights-tile-layer'));
+        }
+
+        $el.append($(canvas).addClass('insights-tile-layer'));
+        return $el[0];
+    }
+
+    // only one tile can animate at one time
+    var animating_tile = null;
+
+    function play_insights_tile_background_image(el) {
+        if (el === animating_tile)
+            return;
+
+        // stop the old tile
+        if (animating_tile) {
+            set_insights_tile_background_image_play_state(animating_tile, false);
+            animating_tile = null;
+        }
+
+        // start the new tile
+        if (el) {
+            animating_tile = el;
+            set_insights_tile_background_image_play_state(el, true);
+        }
+    }
+
+    function set_insights_tile_background_image_play_state(el, play) {
+        if (!el)
+            return;
+
+        var img = $(el).find('img.insights-tile-layer')[0];
+        if (!img)
+            return;
+
+        var basename = img.src.split('.')[0];
+        var png = basename + '.png';
+        var gif = basename + '.gif';
+        img.src = play ? gif : png;
+    }
+
     return {
         is_supported: true,
 
         shareable: function(data) {
+            // FIXME
+
+            var ctx = create_canvas_context({ data: data, preview: true });
+            init(ctx, data)({ preview: true });
+
+            /*
             var tile = (function() {
                 var ctx = get_canvas_context(null, 600);
                 init(ctx, data)({ preview: true });
@@ -2040,7 +2095,7 @@ var INSIGHTS = (function() {
                 ctx.drawImage(shareable_logo, 300, 600-shareable_logo.height);
             else
                 console.warn('INSIGHTS: logo not ready');
-
+            */
            
             return ctx.canvas;
         },
@@ -2058,10 +2113,14 @@ var INSIGHTS = (function() {
                 preview: true
             };
 
-            if (typeof arg == 'object' && arg.constructor == HTMLCanvasElement)
-                o.canvas = arg;
-            else if (_.isNumber(arg))
+            var canvas, el;
+            if (_.isNumber(arg)) {
                 o.width = arg;
+            }
+            else if ($(arg).hasClass('insights-tile')) {
+                el = arg;
+                o.canvas = $(el).find('canvas.insights-tile-layer')[0];
+            }
 
             var ctx = create_canvas_context(o);
 
@@ -2078,30 +2137,44 @@ var INSIGHTS = (function() {
                 });
             }
 
-            return ctx.canvas;
+            if (!el)
+                el = create_insights_tile(ctx.canvas, data.data.background);
+
+            return el;
         },
 
         preview_base64: function(data, size) {
             console.assert(!previews_todo, 'fonts not loaded');
 
-            var canvas = this.preview(data, size);
+            var canvas = this.shareable(data, size);
             var data_url = canvas.toDataURL('png');
             var m = data_url.match(/^data:(.*?);base64,/);
             console.assert(m);
             return data_url.substr(m[0].length);
         },
 
-        play: function(data, canvas, width) {
+        play: function(data, el, width) {
+            var canvas;
+            if (el && $(el).hasClass('insights-tile')) {
+                canvas = $(el).find('canvas.insights-tile-layer')[0];
+            }
+
             var ctx = create_canvas_context({
                 data: data.data,
                 canvas: canvas,
                 width: width
             });
+
+            if (!el)
+                el = create_insights_tile(ctx.canvas, data.data.background);
+
+            play_insights_tile_background_image(el);
             animate(data, ctx);
-            return ctx.canvas;
+            return el;
         },
 
         stop: function() {
+            play_insights_tile_background_image(null);
             animate(null, null);
         },
 

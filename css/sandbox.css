@@ -41,7 +41,7 @@ body {
     box-shadow: 4px 4px 4px #333;
 }
 
-.player canvas {
+.player .insights-tile {
     flex: 1;
 }
 
@@ -74,4 +74,17 @@ body {
 
 .page-link:visited {
     color: #fff;
+}
+
+/* insights tile composite */
+.insights-tile {
+    position: relative;
+}
+
+.insights-tile-layer {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
 }
