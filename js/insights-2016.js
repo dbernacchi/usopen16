@@ -310,7 +310,7 @@ var INSIGHTS_2016 = (function() {
                 rect: { x: 0, y: 0, w: TILE_W - 145, h: 1000 },
                 line_height: 96
             }));
-            text.render(ctx, tt);
+            text.render(ctx, 1);    // no fade
 
             // underline
             ctx.translate(5, text.bottom + 68);
