@@ -67,7 +67,18 @@ var INSIGHTS = (function() {
 
                 ctx.translate(index * 435, 0);
                 ctx.font = '700 65px helvneue';
+
+                var fontsize = player.fontsize;
+                if (fontsize) {
+                    ctx.save();
+                    ctx.scale(fontsize, fontsize);
+                }
+
                 ctx.fillText(player.name.toUpperCase(), 0, 0);
+
+                if (fontsize) {
+                    ctx.restore();
+                }
 
                 ctx.translate(0, 350);
                 ctx.font = '600 450px tungsten';
@@ -115,7 +126,18 @@ var INSIGHTS = (function() {
 
                 ctx.translate(index * 400, 0);
                 ctx.font = '700 65px helvneue';
+
+                var fontsize = player.fontsize;
+                if (fontsize) {
+                    ctx.save();
+                    ctx.scale(fontsize, fontsize);
+                }
+
                 ctx.fillText(player.name.toUpperCase(), 0, 0);
+
+                if (fontsize) {
+                    ctx.restore();
+                }
 
                 ctx.translate(0, 225);
                 ctx.font = '600 290px tungsten';
@@ -195,7 +217,18 @@ var INSIGHTS = (function() {
                     ctx.fillStyle = COLORS.type_light;
                     ctx.translate(40, 115);
                     ctx.font = '700 57px helvneue';
+
+                    var fontsize = player.fontsize;
+                    if (fontsize) {
+                        ctx.save();
+                        ctx.scale(fontsize, fontsize);
+                    }
+
                     ctx.fillText(player.name.toUpperCase(), 0, 0);
+
+                    if (fontsize) {
+                        ctx.restore();
+                    }
                 ctx.restore();
 
                 ctx.font = '600 90px tungsten';
