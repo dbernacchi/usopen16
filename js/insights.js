@@ -1210,9 +1210,7 @@ var INSIGHTS = (function() {
                     callback();
                 }
             });
-        },
-
-        get_dip_size: get_dip_size
+        }
     };
 
 }());
