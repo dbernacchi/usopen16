@@ -1,5 +1,9 @@
 var INSIGHTS = (function() {
 
+    function make_url(url_path) {
+        return INSIGHTS.prefix + url_path;
+    }
+
     function init_tile(ctx, _data) {
         data = _data.data;
         var format = get_format(data);
@@ -13,6 +17,11 @@ var INSIGHTS = (function() {
         var gif = null;
         var bg_color = 'red';
         var accent = get_color(data.accent);
+
+        var images = {
+            by_watson: load_image('img/by-watson.png'),
+            pp_cta: load_image('img/pp-cta-600x500.png')
+        };
 
         // for personality details
         function draw_circle(ctx, x, y, r, fill) {
@@ -664,7 +673,7 @@ var INSIGHTS = (function() {
             ctx.restore();
 
             if (0 && data.guide) {
-                var guide = load_guide(data.guide);
+                var guide = load_image('guides/' + data.guide);
                 ctx.globalCompositeOperation = 'source-over';
                 ctx.globalAlpha = 0.5;
                 ctx.drawImage(guide, 0, 0, cw, ch);
@@ -938,12 +947,6 @@ var INSIGHTS = (function() {
         previews_todo = null;
     }
 
-    var shareable_logo = (function() {
-        var img = new Image();
-        img.src = 'img/logo_bar_only.png';
-        return img;
-    }());
-
     // remove the extension
     function get_basename(url) {
         var idx = url.lastIndexOf('.');
@@ -960,7 +963,7 @@ var INSIGHTS = (function() {
         if (background) {
             var basename = get_basename(background);
             var img = new Image;
-            img.src = 'media/' + basename + '.png';
+            img.src = make_url('media/' + basename + '.png');
             $el.append($(img).addClass('insights-tile-layer'));
         }
 
@@ -1033,22 +1036,11 @@ var INSIGHTS = (function() {
             return dip_sizes[get_format(data)];
     }
 
-    function load_image(src) {
+    var load_image = _.memoize(function(src_path) {
         var img = new Image;
-        img.src = src;
+        img.src = make_url(src_path);
+        //console.log('load_image:', img.src);
         return img;
-    }
-
-    var load_guide = _.memoize(function(name) {
-        return load_image('guides/' + name);
-    });
-
-    var images = _.mapValues({
-        by_watson: 'by-watson.png',
-        pp_cta: 'pp-cta-600x500.png',
-        shareable_logo: 'logo_bar_only.png'
-    }, function(filename) {
-        return load_image('img/' + filename);
     });
 
     function titlecase(s) {
@@ -1086,6 +1078,8 @@ var INSIGHTS = (function() {
     return {
         is_supported: true,
 
+        prefix: '',
+
         shareable: function(data, width) {
             // FIXME
 
@@ -1104,8 +1098,8 @@ var INSIGHTS = (function() {
             ctx.fillRect(0, 0, 1200, 600);
             ctx.drawImage(tile, 300, 0);
 
-            if (shareable_logo.complete)
-                ctx.drawImage(shareable_logo, 300, 600-shareable_logo.height);
+            var img = load_image('imgs/logo_bar_only.png');
+            ctx.drawImage(img, 300, 600 - img.height);
             else
                 console.warn('INSIGHTS: logo not ready');
             */
@@ -1157,8 +1151,8 @@ var INSIGHTS = (function() {
             if (!data.background)
                 callback_with_canvas(canvas);
 
-            var url = 'media/' + get_basename(data.background) + '.png';
-            var background_image = load_image(url);
+            var src_path = 'media/' + get_basename(data.background) + '.png';
+            var background_image = load_image(src_path);
             background_image.onload = function() {
                 var c = document.createElement('canvas');
                 c.width = canvas.width;
@@ -1225,7 +1219,7 @@ var INSIGHTS = (function() {
                         'helvneue:n2,n4,n7',
                         'tungsten:n6'
                     ],
-                    urls: [ 'css/fonts.css' ]
+                    urls: [ make_url('css/fonts.css') ]
                 },
                 active: function() {
                     INSIGHTS.fonts_loaded();
