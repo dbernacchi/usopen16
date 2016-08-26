@@ -12,10 +12,6 @@ var INSIGHTS = (function() {
 
         var gif = null;
         var bg_color = 'red';
-        if (data.background) {
-            // XXX
-        }
-
         var accent = get_color(data.accent);
 
         // for personality details
@@ -616,7 +612,10 @@ var INSIGHTS = (function() {
             var preview = !!options.preview;
             var PREVIEW_TIME = 4125 * 1.5;
             var time = preview ? PREVIEW_TIME : options.time;
-            var background_only = options.background_only;
+
+            if (options.background) {
+                // blah
+            }
 
             // loop 5 secs
             var t = time / 5000;
@@ -1087,10 +1086,10 @@ var INSIGHTS = (function() {
     return {
         is_supported: true,
 
-        shareable: function(data) {
+        shareable: function(data, width) {
             // FIXME
 
-            var ctx = create_canvas_context({ data: data, preview: true });
+            var ctx = create_canvas_context({ data: data, width: width, preview: true });
             init(ctx, data)({ preview: true });
 
             /*
@@ -1112,13 +1111,6 @@ var INSIGHTS = (function() {
             */
            
             return ctx.canvas;
-        },
-
-        shareable_base64: function(data) {
-            var image = this.shareable(data);
-            var data_url = image.toDataURL('png');
-            var m = data_url.match(/^data:(.*?);base64,/);
-            return data_url.substr(m[0].length);
         },
 
         preview: function(data, arg) {
@@ -1157,14 +1149,44 @@ var INSIGHTS = (function() {
             return el;
         },
 
-        preview_base64: function(data, size) {
+        render: function(options) {
             console.assert(!previews_todo, 'fonts not loaded');
+            var canvas = this.shareable(options.data, options.width);
 
-            var canvas = this.shareable(data, size);
-            var data_url = canvas.toDataURL('png');
-            var m = data_url.match(/^data:(.*?);base64,/);
-            console.assert(m);
-            return data_url.substr(m[0].length);
+            var data = options.data.data;
+            if (!data.background)
+                callback_with_canvas(canvas);
+
+            var url = 'media/' + get_basename(data.background) + '.png';
+            var background_image = load_image(url);
+            background_image.onload = function() {
+                var c = document.createElement('canvas');
+                c.width = canvas.width;
+                c.height = canvas.height;
+                var ctx = c.getContext('2d');
+                ctx.drawImage(background_image, 0, 0, c.width, c.height);
+                ctx.drawImage(canvas, 0, 0);
+                callback_with_canvas(c);
+            };
+
+            function callback_with_canvas(c) {
+                var result = c;
+
+                if (options.base64) {
+                    var data_url = c.toDataURL('png');
+                    var m = data_url.match(/^data:(.*?);base64,/);
+                    console.assert(m);
+                    result = data_url.substr(m[0].length);
+                }
+
+                if (options.callback)
+                    options.callback(result);
+            }
+
+            //var data_url = canvas.toDataURL('png');
+            //var m = data_url.match(/^data:(.*?);base64,/);
+            //console.assert(m);
+            //return data_url.substr(m[0].length);
         },
 
         play: function(data, el, width) {
