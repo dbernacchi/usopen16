@@ -1069,12 +1069,22 @@ var INSIGHTS = (function() {
             return dip_sizes[get_format(data)];
     }
 
+    // memoized version for animation
     var load_image = _.memoize(function(src_path) {
         var img = new Image;
         img.src = make_url(src_path);
         //console.log('load_image:', img.src);
         return img;
     });
+
+    // callback version for render
+    function load_image_async(src_path, callback) {
+        console.assert(callback);
+        var img = new Image;
+        img.onload = function() { callback(img) };
+        img.src = make_url(src_path);
+        return img;
+    }
 
     function titlecase(s) {
         return s.substr(0,1).toUpperCase() + s.substr(1);
@@ -1185,8 +1195,7 @@ var INSIGHTS = (function() {
                 callback_with_canvas(canvas);
 
             var src_path = 'media/' + get_basename(data.background) + '.png';
-            var background_image = load_image(src_path);
-            background_image.onload = function() {
+            load_image_async(src_path, function(background_image) {
                 var c = document.createElement('canvas');
                 c.width = canvas.width;
                 c.height = canvas.height;
@@ -1194,7 +1203,7 @@ var INSIGHTS = (function() {
                 ctx.drawImage(background_image, 0, 0, c.width, c.height);
                 ctx.drawImage(canvas, 0, 0);
                 callback_with_canvas(c);
-            };
+            });
 
             function callback_with_canvas(c) {
                 var result = c;
