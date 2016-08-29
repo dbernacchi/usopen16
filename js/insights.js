@@ -1190,8 +1190,10 @@ var INSIGHTS = (function() {
             var canvas = this.shareable(options.data, options.width);
 
             var data = options.data.data;
-            if (!data.background)
+            if (!data.background) {
                 callback_with_canvas(canvas);
+                return;
+            }
 
             var src_path = 'media/' + get_basename(data.background) + '.png';
             load_image_async(src_path, function(background_image) {
@@ -1217,11 +1219,6 @@ var INSIGHTS = (function() {
                 if (options.callback)
                     options.callback(result);
             }
-
-            //var data_url = canvas.toDataURL('png');
-            //var m = data_url.match(/^data:(.*?);base64,/);
-            //console.assert(m);
-            //return data_url.substr(m[0].length);
         },
 
         play: function(data, el, width) {
