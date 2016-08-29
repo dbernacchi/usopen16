@@ -1124,10 +1124,9 @@ var INSIGHTS = (function() {
         prefix: '',
 
         shareable: function(data, width) {
-            // FIXME
-
-            var ctx = create_canvas_context({ data: data, width: width, preview: true });
-            init(ctx, data)({ preview: true });
+            var ctx = create_canvas_context({ data: data.data, width: width, preview: false });
+            var PREVIEW_TIME = 4125 * 1.5;
+            init(ctx, data)({ preview: false, time: PREVIEW_TIME });
 
             /*
             var tile = (function() {
