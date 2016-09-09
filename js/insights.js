@@ -8,6 +8,7 @@ var INSIGHTS = (function() {
         data = _data.data;
         var format = get_format(data);
         var dip_size = dip_sizes[format];
+        var trophy = !!data.type.match(/template-\df/);
 
         var DESIGN_RATIO = 4.0;
         var TILE_W = DESIGN_RATIO * dip_size[0];
@@ -31,6 +32,60 @@ var INSIGHTS = (function() {
             fill ? ctx.fill() : ctx.stroke();
         }
 
+        function draw_trophy(ctx) {
+            if (!trophy)
+                return 0;
+
+            ctx.save();
+
+            var s = 0.18;
+            ctx.translate(-20, -80);
+            ctx.scale(s, s);
+
+            ctx.moveTo(408.40, 120.00);
+            ctx.lineTo(414.60, 73.00);
+            ctx.lineTo(85.10, 73.00);
+            ctx.lineTo(90.10, 120.00);
+            ctx.lineTo(19.00, 120.00);
+            ctx.lineTo(19.00, 134.70);
+            ctx.bezierCurveTo(19.00, 192.40, 59.30, 241.10, 112.10, 256.50);
+            ctx.bezierCurveTo(133.30, 300.50, 176.00, 332.60, 227.00, 340.20);
+            ctx.lineTo(227.00, 379.00);
+            ctx.lineTo(226.70, 379.00);
+            ctx.lineTo(152.30, 447.00);
+            ctx.lineTo(347.40, 447.00);
+            ctx.lineTo(272.00, 379.00);
+            ctx.lineTo(272.00, 339.70);
+            ctx.bezierCurveTo(323.00, 331.40, 362.00, 300.20, 383.00, 257.70);
+            ctx.bezierCurveTo(437.90, 243.70, 480.00, 193.90, 480.00, 134.70);
+            ctx.lineTo(480.00, 120.00);
+            ctx.closePath();
+            ctx.moveTo(48.70, 148.00);
+            ctx.lineTo(92.90, 148.00);
+            ctx.lineTo(97.50, 191.10);
+            ctx.bezierCurveTo(97.50, 202.00, 98.70, 212.70, 100.90, 223.00);
+            ctx.bezierCurveTo(73.10, 208.10, 53.10, 180.00, 48.70, 148.00);
+            ctx.closePath();
+            ctx.moveTo(395.20, 225.00);
+            ctx.bezierCurveTo(397.70, 214.10, 399.10, 202.70, 399.10, 191.00);
+            ctx.lineTo(404.80, 148.00);
+            ctx.lineTo(451.40, 148.00);
+            ctx.bezierCurveTo(446.80, 183.00, 425.10, 210.70, 395.20, 225.00);
+            ctx.closePath();
+
+            ctx.fill();
+
+            ctx.restore();
+            return 90;
+        }
+
+        function draw_subtitle(ctx, d) {
+            ctx.font = '700 60px helvneue';
+            ctx.fillStyle = COLORS.type_dark;
+            var subx = draw_trophy(ctx);
+            ctx.fillText(d.subtitle.toUpperCase(), subx, 0);
+        }
+
         function draw_template1(ctx, time) {
             var d = data;
             var tt = Math.min(1, time/1000);
@@ -42,10 +97,8 @@ var INSIGHTS = (function() {
 
             // subtitle
             ctx.translate(0, 180);
-            ctx.font = '700 60px helvneue';
-            ctx.fillStyle = COLORS.type_dark;
-            ctx.fillText(d.subtitle.toUpperCase(), 0, 0);
-            
+            draw_subtitle(ctx, d);
+
             // title
             ctx.translate(0, 90);
             ctx.font = '700 92px helvneue';
@@ -101,9 +154,7 @@ var INSIGHTS = (function() {
 
             // subtitle
             ctx.translate(0, 180);
-            ctx.font = '700 60px helvneue';
-            ctx.fillStyle = COLORS.type_dark;
-            ctx.fillText(d.subtitle.toUpperCase(), 0, 0);
+            draw_subtitle(ctx, d);
             
             // title
             ctx.translate(0, 90);
@@ -164,9 +215,7 @@ var INSIGHTS = (function() {
 
             // subtitle
             ctx.translate(0, 210);
-            ctx.font = '700 60px helvneue';
-            ctx.fillStyle = COLORS.type_dark;
-            ctx.fillText(d.subtitle.toUpperCase(), 0, 0);
+            draw_subtitle(ctx, d);
             
             // title
             ctx.translate(0, 90);
@@ -676,14 +725,17 @@ var INSIGHTS = (function() {
             ctx.save();
             switch (data.type) {
             case 'template-1':
+            case 'template-1f':
                 draw_template1(ctx, time);
                 break;
 
             case 'template-2':
+            case 'template-2f':
                 draw_template2(ctx, time);
                 break;
 
             case 'template-3':
+            case 'template-3f':
                 draw_template3(ctx, time);
                 break;
 
